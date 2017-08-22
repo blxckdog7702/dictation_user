@@ -100,6 +100,7 @@ public class MainPage extends AppCompatActivity {
                     tvTeacherSchoolName.setText("한국초등학교");
                 }
                 else {
+                    etTeacherId.setPadding(20, 5, 20, 5);
                     tvTeacherSchoolName.setText("해당 아이디가 없습니다.");
                     tvTeacherSchoolName.setPadding(20, 5, 20, 5);
                     tvTeacherName.setText("아이디를 다시 입력해주세요.");

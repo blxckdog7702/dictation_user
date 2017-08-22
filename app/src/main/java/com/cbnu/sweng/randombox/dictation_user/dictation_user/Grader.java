@@ -14,7 +14,6 @@ public class Grader {
     ArrayList<Grade> result;
     NaverSpellChecker naverSpellCheckParser;
     private int score = 100;
-    private String SubmittedAnswer;
 
     public ArrayList<Grade> excute(ArrayList<String[]> qnas)
     {

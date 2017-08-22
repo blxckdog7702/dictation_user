@@ -346,26 +346,28 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
             arr.add(str);
         }
 
-        Grader grader = new Grader();
-        ArrayList<Grade> grades = grader.excute(arr);
-        QuizResult quizResult = new QuizResult();
+//        Grader grader = new Grader();
+//        ArrayList<Grade> grades = grader.excute(arr);
+//        QuizResult quizResult = new QuizResult();
+//
+//        for(Grade grade : grades){
+//            QuestionResult questionResult = new QuestionResult();
+//            questionResult.setCorrect(grade.getCorrect());
+//            questionResult.setRectify(grade.getRectify());
+//            questionResult.setQuestionNumber(grade.getQuestionNumber());
+//            questionResult.setSubmittedAnswer(grade.getSubmittedAnswer());
+//            questionResults.add(questionResult);
+//            if (questionResult.getQuestionNumber() == 10){
+//                quizResult.setScore(grade.getScore());
+//            }
+//        }
+//        quizResult.setQuestionResult(questionResults);
+//        quizResult.setQuizNumber(Integer.parseInt(quizNumber));
+//        quizResult.setStudentName("반상민");
 
-        for(Grade grade : grades){
-            QuestionResult questionResult = new QuestionResult();
-            questionResult.setCorrect(grade.getCorrect());
-            questionResult.setRectify(grade.getRectify());
-            questionResult.setQuestionNumber(grade.getQuestionNumber());
-            questionResult.setSubmittedAnswer(grade.getSubmittedAnswer());
-            questionResults.add(questionResult);
-            if (questionResult.getQuestionNumber() == 10){
-                quizResult.setScore(grade.getScore());
-            }
-        }
-        quizResult.setQuestionResult(questionResults);
-        quizResult.setQuizNumber(Integer.parseInt(quizNumber));
-        quizResult.setStudentName("반상민");
 
-        Util.getInstance().moveAcitivity(this, ExamResultPage.class, quizResult);
+//        Util.getInstance().moveAcitivity(this, ExamResultPage.class, quizResult);
+        Util.getInstance().moveAcitivity(this, ExamResultPage.class);
 
     }
 
