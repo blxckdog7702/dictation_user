@@ -17,6 +17,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
     String keyword;
     String quizHistoryId;
+    String quizNumber;
     public static final String START_INTENT = "START_INTENT";
     public static final String QUIZ_CONTROL_INTENT = "QUIZ_CONTROL_INTENT";
 
@@ -45,7 +46,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             if (remoteMessage.getData().get("quizHistoryId") != null) {
                 quizHistoryId = remoteMessage.getData().get("quizHistoryId");
             } else {
-                quizHistoryId = "뀨뀨까까";
+                quizHistoryId = "null";
+            }
+
+            if (remoteMessage.getData().get("quizNumber") != null) {
+                quizNumber = remoteMessage.getData().get("quizNumber");
+            } else {
+                quizNumber = "뀨뀨까까";
             }
 
             Handler handler = new Handler(Looper.getMainLooper());
@@ -60,6 +67,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             if (keyword.equals("start")) {
                 Intent intent = new Intent(START_INTENT);
+                intent.putExtra("quizHistoryId",quizHistoryId);
+                intent.putExtra("quizNumber",quizNumber);
                 sendBroadcast(intent);
             } else if (keyword.equals("next")) {
                 Intent intent = new Intent(QUIZ_CONTROL_INTENT);

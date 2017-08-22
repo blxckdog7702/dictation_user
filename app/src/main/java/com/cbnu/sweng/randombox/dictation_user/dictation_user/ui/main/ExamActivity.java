@@ -57,14 +57,27 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
     private int isCorrectionMode;
     String SubmittedAnswer;
     ArrayList<QuizResult> info;
-    //String answer[] = new String[10];
+    String answer[] = new String[10];
     int count = 0;
-    String number;
-    String question;
-
+    //String number;
+    //String question;
+    Quiz quiz;
+    String quizHitoryID;
+    String quizNumber;
+    int number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Intent i = getIntent();
+        quizHitoryID = i.getStringExtra("quizHistoryId");
+        quizNumber = i.getStringExtra("quizNumber");
+
+
+
+
+
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_exam);
@@ -124,13 +137,23 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
         try {
             apiRequester.getTeachersQuizzes(new ApiRequester.UserCallback<List<Quiz>>() {
                 @Override
-                public void onSuccess(List<Quiz> result) {
-                    for (Quiz quiz : result) {
-                        for (Question ques : quiz.getQuestions()) {
-                            String number = String.valueOf(ques.getNumber());
-                            String question = ques.getSentence();
+                public void onSuccess(List<Quiz> quizs) {
+                    //quiz에 quizNumber에 맞는 quiz넣기
+                    for(Quiz temp : quizs)
+                    {
+                        if(quizNumber.equals(temp.getNumber()))
+                        {
+                            quiz = temp;
                         }
                     }
+
+
+//                    for (Quiz quiz : result) {
+//                        for (Question ques : quiz.getQuestions()) {
+//                            String number = String.valueOf(ques.getNumber());
+//                            String question = ques.getSentence();
+//                        }
+//                    }
                 }
 
                 @Override
@@ -143,44 +166,6 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
         }
 
     }
-
-
-//    public void onClearButtonClick(ArrayList<String[]> testRes) {
-//
-//        ArrayList<String[]> arr= new ArrayList<String[]>();
-//
-//        String[] str = new String[10];
-//
-//        str[0] = question;
-//        str[1] = num;
-//        str[2] = answer;
-//
-//                arr.add(str);
-//
-//
-//        SubmittedAnswer = mTextField.getText().toString();
-//        QR.setSubmittedAnswer(SubmittedAnswer);
-//
-//        widget.clear();
-//
-//    }
-
-    //public void EndExam(ArrayList<String[]> testRes) {
-//        info= new ArrayList<QuizResult>();
-//
-//        QuizResult quizResult = new QuizResult();
-//
-//        for (String[] result : testRes) {
-//            quizResult.setQuizNumber(Integer.parseInt(result[0])); // 문제번호
-//            quizResult.set(result[1]); // 문제
-//            quizResult.setSubmittedanswer(SubmittedAnswer); // 작성답안
-//
-//
-//            info.add(quizResult);
-//        }
-//
-//        Intent intent = new Intent(ExamActivity.this, ExamResultPage.class);
-//        intent.putExtra("OBJECT", info);
 
 
     @Override
@@ -211,8 +196,8 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
     }
 
     public void onCheckButtonClick(View v) {
-        SubmittedAnswer = mTextField.getText().toString(); // 텍스트 변수 저장 // 서버에 의해서 화면 전환 될 때마다 배열로 답안 저장
-        Toast.makeText(getApplicationContext(), SubmittedAnswer, Toast.LENGTH_LONG).show();
+//        SubmittedAnswer = mTextField.getText().toString(); // 텍스트 변수 저장 // 서버에 의해서 화면 전환 될 때마다 배열로 답안 저장
+//        Toast.makeText(getApplicationContext(), SubmittedAnswer, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -300,16 +285,68 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
     //선생님으로부터 다음 문제 신호를 받았을 때 실행되는 메서드.
     public void moveToNextQuestion() {
         Toast.makeText(getApplicationContext(), "다음문제로!!", Toast.LENGTH_LONG).show();
+        SubmittedAnswer = mTextField.getText().toString();
+
+        Log.d("TAG:1", SubmittedAnswer);
+        answer[count] = SubmittedAnswer;
+        Log.d("TAG:2", answer[count]);
+
+        count++;
+
+        widget.clear();
+
+        if(answer[count] == null || answer[count].isEmpty())
+            return;
+        Log.d("TAG:3", answer[count]);
+        mTextField.setText(answer[count]);
     }
 
     //선생님으로부터 이전 문제 신호를 받았을 때 실행되는 메서드.
     public void moveToPreviousQuestion() {
         Toast.makeText(getApplicationContext(), "이전문제로!!", Toast.LENGTH_LONG).show();
+//        if(count != 0) {
+            SubmittedAnswer = mTextField.getText().toString();
+        Log.d("TAG:4", SubmittedAnswer);
+
+        answer[count] = SubmittedAnswer;
+        Log.d("TAG:5", answer[count]);
+
+        count--;
+
+        widget.clear();
+
+
+            if(answer[count] == null || answer[count].isEmpty())
+                return;
+        Log.d("TAG:6", answer[count]);
+// TODO: 2017-08-23 이전 문제로 되돌아가면 써놨던 내용 안나옴
+        mTextField.setText(answer[count]);
+//        }
     }
 
     //선생님으로부터 받아쓰기 종료 신호를 받았을 때 실행되는 메서드.
     public void endDictation() {
         Toast.makeText(getApplicationContext(), "시험끝!!", Toast.LENGTH_LONG).show();
+
+        ArrayList<String[]> arr= new ArrayList<String[]>();
+        String[] str = new String[10];
+        List<Question> questions = quiz.getQuestions();
+
+        for(int i=0; i<10; i++)
+        {
+            str[1] = questions.get(i).getSentence();
+            str[0] = questions.get(i).getNumber().toString();
+            str[2] = answer[i];
+
+            arr.add(str);
+        }
+
+        Intent intent = new Intent(ExamActivity.this, ExamResultPage.class);
+        intent.putExtra("OBJECT", arr);
+
+
+
+
     }
 
 }
