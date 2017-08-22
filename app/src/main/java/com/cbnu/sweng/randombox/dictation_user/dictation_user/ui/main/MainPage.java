@@ -114,19 +114,15 @@ public class MainPage extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-//            Util.getInstance().moveAcitivity(MainPage.this, ExamActivity.class);
             String historyId = intent.getStringExtra("quizHistoryId");
             String quizNumber = intent.getStringExtra("quizNumber");
 
-
-            Intent intent2 = new Intent(MainPage.this, ExamActivity.class);
-            intent2.putExtra("quizHistoryId", historyId);
-            intent2.putExtra("quizNumber", quizNumber);
-            startActivity(intent2);
-
             if(isReceiveKey){
                 btExamReady.setProgress(100);
-                Util.getInstance().moveAcitivity(MainPage.this, ExamActivity.class);
+                Intent intent2 = new Intent(MainPage.this, ExamActivity.class);
+                intent2.putExtra("quizHistoryId", historyId);
+                intent2.putExtra("quizNumber", quizNumber);
+                startActivity(intent2);
             }
         }
     };

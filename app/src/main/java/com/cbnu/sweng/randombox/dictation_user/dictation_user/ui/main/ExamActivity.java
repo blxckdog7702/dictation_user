@@ -21,6 +21,7 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.BuildConfig;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.Grader;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.NaverSpellChecker;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.Util;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.BeforeCheck;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Grade;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Question;
@@ -65,6 +66,7 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
     String quizHitoryID;
     String quizNumber;
     int number;
+    private List<QuestionResult> questionResults = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +143,7 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
                     //quiz에 quizNumber에 맞는 quiz넣기
                     for(Quiz temp : quizs)
                     {
-                        if(quizNumber.equals(temp.getNumber()))
+                        if(quizNumber.equals(temp.getNumber().toString()))
                         {
                             quiz = temp;
                         }
@@ -271,11 +273,14 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
     private BroadcastReceiver myReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
             if (intent.getExtras().getString("keyword").equals("next")) {
                 moveToNextQuestion();
-            } else if (intent.getExtras().getString("keyword").equals("previous")) {
+            }
+            else if (intent.getExtras().getString("keyword").equals("previous")) {
                 moveToPreviousQuestion();
-            } else if (intent.getExtras().getString("keyword").equals("end")) {
+            }
+            else if (intent.getExtras().getString("keyword").equals("end")) {
                 endDictation();
             }
 
@@ -326,26 +331,41 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
 
     //선생님으로부터 받아쓰기 종료 신호를 받았을 때 실행되는 메서드.
     public void endDictation() {
-        Toast.makeText(getApplicationContext(), "시험끝!!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "시험끝!!", Toast.LENGTH_SHORT).show();
 
-        ArrayList<String[]> arr= new ArrayList<String[]>();
+        ArrayList<String[]> arr= new ArrayList<>();
         String[] str = new String[10];
         List<Question> questions = quiz.getQuestions();
 
         for(int i=0; i<10; i++)
         {
-            str[1] = questions.get(i).getSentence();
             str[0] = questions.get(i).getNumber().toString();
+            str[1] = questions.get(i).getSentence();
             str[2] = answer[i];
 
             arr.add(str);
         }
 
-        Intent intent = new Intent(ExamActivity.this, ExamResultPage.class);
-        intent.putExtra("OBJECT", arr);
+        Grader grader = new Grader();
+        ArrayList<Grade> grades = grader.excute(arr);
+        QuizResult quizResult = new QuizResult();
 
+        for(Grade grade : grades){
+            QuestionResult questionResult = new QuestionResult();
+            questionResult.setCorrect(grade.getCorrect());
+            questionResult.setRectify(grade.getRectify());
+            questionResult.setQuestionNumber(grade.getQuestionNumber());
+            questionResult.setSubmittedAnswer(grade.getSubmittedAnswer());
+            questionResults.add(questionResult);
+            if (questionResult.getQuestionNumber() == 10){
+                quizResult.setScore(grade.getScore());
+            }
+        }
+        quizResult.setQuestionResult(questionResults);
+        quizResult.setQuizNumber(Integer.parseInt(quizNumber));
+        quizResult.setStudentName("반상민");
 
-
+        Util.getInstance().moveAcitivity(this, ExamResultPage.class, quizResult);
 
     }
 

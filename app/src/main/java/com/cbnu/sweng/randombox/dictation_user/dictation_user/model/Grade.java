@@ -14,6 +14,7 @@ public class Grade implements Serializable {
     private int score;
     private ArrayList<String[]> rectify;
     private String question;
+    private String SubmittedAnswer;
 
     public boolean getCorrect() {
         return correct;
@@ -53,5 +54,13 @@ public class Grade implements Serializable {
 
     public void setQuestionNumber(int questionNumber) {
         this.questionNumber = questionNumber;
+    }
+
+    public String getSubmittedAnswer() {
+        return SubmittedAnswer;
+    }
+
+    public void setSubmittedAnswer(String submittedAnswer) {
+        SubmittedAnswer = submittedAnswer;
     }
 }

@@ -82,124 +82,124 @@ public class ExamResultPage extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        Intent intent = getIntent();
-        quizResult = (QuizResult) intent.getSerializableExtra("OBJECT");
-
-        if(quizResult.getScore() == 0){
-            ivScore.setImageResource(R.drawable.score0);
-        }
-        else if(quizResult.getScore() == 10){
-            ivScore.setImageResource(R.drawable.score10);
-        }
-        else if(quizResult.getScore() == 20){
-            ivScore.setImageResource(R.drawable.score10);
-        }
-        else if(quizResult.getScore() == 30){
-            ivScore.setImageResource(R.drawable.score10);
-        }
-        else if(quizResult.getScore() == 40){
-            ivScore.setImageResource(R.drawable.score10);
-        }
-        else if(quizResult.getScore() == 50){
-            ivScore.setImageResource(R.drawable.score10);
-        }
-        else if(quizResult.getScore() == 60){
-            ivScore.setImageResource(R.drawable.score10);
-        }
-        else if(quizResult.getScore() == 70){
-            ivScore.setImageResource(R.drawable.score10);
-        }
-        else if(quizResult.getScore() == 80){
-            ivScore.setImageResource(R.drawable.score10);
-        }
-        else if(quizResult.getScore() == 90){
-            ivScore.setImageResource(R.drawable.score10);
-        }
-        else if(quizResult.getScore() == 100){
-            ivScore.setImageResource(R.drawable.score100);
-        }
-
-        for (QuestionResult questionResult : quizResult.getQuestionResult()) {
-            if(questionResult.getQuestionNumber() == 1){
-                if(questionResult.getCorrect()){
-                    ivGradeOne.setImageResource(R.drawable.ic_check_ok);
-                }
-                else{
-                    ivGradeOne.setImageResource(R.drawable.ic_check_no);
-                }
-            }
-            else if(questionResult.getQuestionNumber() == 2){
-                if(questionResult.getCorrect()){
-                    ivGradeTwo.setImageResource(R.drawable.ic_check_ok);
-                }
-                else{
-                    ivGradeTwo.setImageResource(R.drawable.ic_check_no);
-                }
-            }
-            else if(questionResult.getQuestionNumber() == 3){
-                if(questionResult.getCorrect()){
-                    ivGradeThree.setImageResource(R.drawable.ic_check_ok);
-                }
-                else{
-                    ivGradeThree.setImageResource(R.drawable.ic_check_no);
-                }
-            }
-            else if(questionResult.getQuestionNumber() == 4){
-                if(questionResult.getCorrect()){
-                    ivGradeFour.setImageResource(R.drawable.ic_check_ok);
-                }
-                else{
-                    ivGradeFour.setImageResource(R.drawable.ic_check_no);
-                }
-            }
-            else if(questionResult.getQuestionNumber() == 5){
-                if(questionResult.getCorrect()){
-                    ivGradeFive.setImageResource(R.drawable.ic_check_ok);
-                }
-                else{
-                    ivGradeFive.setImageResource(R.drawable.ic_check_no);
-                }
-            }
-            else if(questionResult.getQuestionNumber() == 6){
-                if(questionResult.getCorrect()){
-                    ivGradeSix.setImageResource(R.drawable.ic_check_ok);
-                }
-                else{
-                    ivGradeSix.setImageResource(R.drawable.ic_check_no);
-                }
-            }
-            else if(questionResult.getQuestionNumber() == 7){
-                if(questionResult.getCorrect()){
-                    ivGradeSeven.setImageResource(R.drawable.ic_check_ok);
-                }
-                else{
-                    ivGradeSeven.setImageResource(R.drawable.ic_check_no);
-                }
-            }
-            else if(questionResult.getQuestionNumber() == 8){
-                if(questionResult.getCorrect()){
-                    ivGradeEight.setImageResource(R.drawable.ic_check_ok);
-                }
-                else{
-                    ivGradeEight.setImageResource(R.drawable.ic_check_no);
-                }
-            }
-            else if(questionResult.getQuestionNumber() == 9){
-                if(questionResult.getCorrect()){
-                    ivGradeNine.setImageResource(R.drawable.ic_check_ok);
-                }
-                else{
-                    ivGradeNine.setImageResource(R.drawable.ic_check_no);
-                }
-            }
-            else if(questionResult.getQuestionNumber() == 10){
-                if(questionResult.getCorrect()){
-                    ivGradeTen.setImageResource(R.drawable.ic_check_ok);
-                }
-                else{
-                    ivGradeTen.setImageResource(R.drawable.ic_check_no);
-                }
-            }
-        }
+//        Intent intent = getIntent();
+//        quizResult = (QuizResult) intent.getSerializableExtra("OBJECT");
+//
+//        if(quizResult.getScore() == 0){
+//            ivScore.setImageResource(R.drawable.score0);
+//        }
+//        else if(quizResult.getScore() == 10){
+//            ivScore.setImageResource(R.drawable.score10);
+//        }
+//        else if(quizResult.getScore() == 20){
+//            ivScore.setImageResource(R.drawable.score10);
+//        }
+//        else if(quizResult.getScore() == 30){
+//            ivScore.setImageResource(R.drawable.score10);
+//        }
+//        else if(quizResult.getScore() == 40){
+//            ivScore.setImageResource(R.drawable.score10);
+//        }
+//        else if(quizResult.getScore() == 50){
+//            ivScore.setImageResource(R.drawable.score10);
+//        }
+//        else if(quizResult.getScore() == 60){
+//            ivScore.setImageResource(R.drawable.score10);
+//        }
+//        else if(quizResult.getScore() == 70){
+//            ivScore.setImageResource(R.drawable.score10);
+//        }
+//        else if(quizResult.getScore() == 80){
+//            ivScore.setImageResource(R.drawable.score10);
+//        }
+//        else if(quizResult.getScore() == 90){
+//            ivScore.setImageResource(R.drawable.score10);
+//        }
+//        else if(quizResult.getScore() == 100){
+//            ivScore.setImageResource(R.drawable.score100);
+//        }
+//
+//        for (QuestionResult questionResult : quizResult.getQuestionResult()) {
+//            if(questionResult.getQuestionNumber() == 1){
+//                if(questionResult.getCorrect()){
+//                    ivGradeOne.setImageResource(R.drawable.ic_check_ok);
+//                }
+//                else{
+//                    ivGradeOne.setImageResource(R.drawable.ic_check_no);
+//                }
+//            }
+//            else if(questionResult.getQuestionNumber() == 2){
+//                if(questionResult.getCorrect()){
+//                    ivGradeTwo.setImageResource(R.drawable.ic_check_ok);
+//                }
+//                else{
+//                    ivGradeTwo.setImageResource(R.drawable.ic_check_no);
+//                }
+//            }
+//            else if(questionResult.getQuestionNumber() == 3){
+//                if(questionResult.getCorrect()){
+//                    ivGradeThree.setImageResource(R.drawable.ic_check_ok);
+//                }
+//                else{
+//                    ivGradeThree.setImageResource(R.drawable.ic_check_no);
+//                }
+//            }
+//            else if(questionResult.getQuestionNumber() == 4){
+//                if(questionResult.getCorrect()){
+//                    ivGradeFour.setImageResource(R.drawable.ic_check_ok);
+//                }
+//                else{
+//                    ivGradeFour.setImageResource(R.drawable.ic_check_no);
+//                }
+//            }
+//            else if(questionResult.getQuestionNumber() == 5){
+//                if(questionResult.getCorrect()){
+//                    ivGradeFive.setImageResource(R.drawable.ic_check_ok);
+//                }
+//                else{
+//                    ivGradeFive.setImageResource(R.drawable.ic_check_no);
+//                }
+//            }
+//            else if(questionResult.getQuestionNumber() == 6){
+//                if(questionResult.getCorrect()){
+//                    ivGradeSix.setImageResource(R.drawable.ic_check_ok);
+//                }
+//                else{
+//                    ivGradeSix.setImageResource(R.drawable.ic_check_no);
+//                }
+//            }
+//            else if(questionResult.getQuestionNumber() == 7){
+//                if(questionResult.getCorrect()){
+//                    ivGradeSeven.setImageResource(R.drawable.ic_check_ok);
+//                }
+//                else{
+//                    ivGradeSeven.setImageResource(R.drawable.ic_check_no);
+//                }
+//            }
+//            else if(questionResult.getQuestionNumber() == 8){
+//                if(questionResult.getCorrect()){
+//                    ivGradeEight.setImageResource(R.drawable.ic_check_ok);
+//                }
+//                else{
+//                    ivGradeEight.setImageResource(R.drawable.ic_check_no);
+//                }
+//            }
+//            else if(questionResult.getQuestionNumber() == 9){
+//                if(questionResult.getCorrect()){
+//                    ivGradeNine.setImageResource(R.drawable.ic_check_ok);
+//                }
+//                else{
+//                    ivGradeNine.setImageResource(R.drawable.ic_check_no);
+//                }
+//            }
+//            else if(questionResult.getQuestionNumber() == 10){
+//                if(questionResult.getCorrect()){
+//                    ivGradeTen.setImageResource(R.drawable.ic_check_ok);
+//                }
+//                else{
+//                    ivGradeTen.setImageResource(R.drawable.ic_check_no);
+//                }
+//            }
+//        }
     }
 }
