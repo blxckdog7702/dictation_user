@@ -14,8 +14,9 @@ public class Grader {
     ArrayList<Grade> result;
     NaverSpellChecker naverSpellCheckParser;
     private int score = 100;
+    private String SubmittedAnswer;
 
-    public void excute(ArrayList<String[]> qnas)
+    public ArrayList<Grade> excute(ArrayList<String[]> qnas)
     {
         result = new ArrayList<Grade>();
         naverSpellCheckParser = new NaverSpellChecker();
@@ -36,11 +37,13 @@ public class Grader {
                      }
                 });
                 gradeResult.setQuestion(question);
+                gradeResult.setSubmittedAnswer(answer);
             }
             else{
                 gradeResult.setQuestionNumber(Integer.parseInt(questionNumber));
                 gradeResult.setCorrect(false);
                 gradeResult.setQuestion(question);
+                gradeResult.setSubmittedAnswer(answer);
 
                 try {
                     gradeResult.setRectify((naverSpellCheckParser.execute(answer).get()));
@@ -57,5 +60,6 @@ public class Grader {
             }
             result.add(gradeResult);
         }
+        return result;
     }
 }
