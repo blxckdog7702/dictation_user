@@ -48,15 +48,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 quizHistoryId = "뀨뀨까까";
             }
 
-            Handler handler = new Handler(Looper.getMainLooper());
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getApplicationContext(),
-                            keyword + quizHistoryId,
-                            Toast.LENGTH_LONG).show();
-                }
-            });
+//            Handler handler = new Handler(Looper.getMainLooper());
+//            handler.post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Toast.makeText(getApplicationContext(),
+//                            keyword + quizHistoryId,
+//                            Toast.LENGTH_LONG).show();
+//                }
+//            });
 
             if (keyword.equals("start")) {
                 Intent intent = new Intent(START_INTENT);

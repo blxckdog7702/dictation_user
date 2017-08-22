@@ -9,8 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.Util;
@@ -24,6 +26,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainPage extends AppCompatActivity {
+
+    private Boolean isReceiveKey = false;
+    private Boolean isTeacherInfo = false;
     @BindView(R.id.tvTeacherSchoolName)
     TextView tvTeacherSchoolName;
     @BindView(R.id.tvTeacherName)
@@ -35,12 +40,17 @@ public class MainPage extends AppCompatActivity {
 
     @OnClick(R.id.btExamReady)
     void onClickBtExamReady() {
-        if (btExamReady.getProgress() < 100) { // LOADING
-            btExamReady.setProgress(btExamReady.getProgress() + 25);
-        } else if (btExamReady.getProgress() == 100) { // SUCCESS
-            //Util.getInstance().moveAcitivity(this, ExamActivity.class);
-        } else {
-            btExamReady.setProgress(-1); // ERROR
+        if(isTeacherInfo){
+            if (btExamReady.getProgress() < 100) { // LOADING
+                btExamReady.setProgress(btExamReady.getProgress() + 25);
+                isReceiveKey = true;
+            }
+            else if (btExamReady.getProgress() == 100) { // SUCCESS
+
+            }
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "선생님 정보가 올바르지 않습니다.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -75,11 +85,22 @@ public class MainPage extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 //TODO 서버에서 교사정보 가져와서 설정하기
-                if (false) { // 교사정보 있으면
-                    tvTeacherSchoolName.setText("OK");
-                    tvTeacherName.setText("OK");
-                } else { // 없으면
-                    tvTeacherSchoolName.setText("아이디를 다시 입력해주세요.");
+//                if (false) { // 교사정보 있으면
+//                    tvTeacherSchoolName.setText("OK");
+//                    tvTeacherName.setText("OK");
+//                } else { // 없으면
+//                    tvTeacherSchoolName.setText("아이디를 다시 입력해주세요.");
+//                    tvTeacherSchoolName.setPadding(20, 5, 20, 5);
+//                    tvTeacherName.setText("아이디를 다시 입력해주세요.");
+//                    tvTeacherName.setPadding(20, 5, 20, 5);
+//                }
+                if(etTeacherId.getText().toString().equals("test")){
+                    isTeacherInfo = true;
+                    tvTeacherName.setText("손의범");
+                    tvTeacherSchoolName.setText("한국초등학교");
+                }
+                else {
+                    tvTeacherSchoolName.setText("해당 아이디가 없습니다.");
                     tvTeacherSchoolName.setPadding(20, 5, 20, 5);
                     tvTeacherName.setText("아이디를 다시 입력해주세요.");
                     tvTeacherName.setPadding(20, 5, 20, 5);
@@ -92,7 +113,10 @@ public class MainPage extends AppCompatActivity {
     private BroadcastReceiver myReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Util.getInstance().moveAcitivity(MainPage.this, ExamActivity.class);
+            if(isReceiveKey){
+                btExamReady.setProgress(100);
+                Util.getInstance().moveAcitivity(MainPage.this, ExamActivity.class);
+            }
         }
     };
 }
