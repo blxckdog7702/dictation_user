@@ -125,8 +125,8 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
             apiRequester.getTeachersQuizzes(new ApiRequester.UserCallback<List<Quiz>>() {
                 @Override
                 public void onSuccess(List<Quiz> result) {
-                    for(Quiz quiz : result){
-                        for(Question ques : quiz.getQuestions()) {
+                    for (Quiz quiz : result) {
+                        for (Question ques : quiz.getQuestions()) {
                             String number = String.valueOf(ques.getNumber());
                             String question = ques.getSentence();
                         }
@@ -143,7 +143,6 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
         }
 
     }
-
 
 
 //    public void onClearButtonClick(ArrayList<String[]> testRes) {
@@ -182,7 +181,6 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
 //
 //        Intent intent = new Intent(ExamActivity.this, ExamResultPage.class);
 //        intent.putExtra("OBJECT", info);
-
 
 
     @Override
@@ -290,23 +288,28 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
         public void onReceive(Context context, Intent intent) {
             if (intent.getExtras().getString("keyword").equals("next")) {
                 moveToNextQuestion();
-            }
-            else if (intent.getExtras().getString("keyword").equals("previous")) {
+            } else if (intent.getExtras().getString("keyword").equals("previous")) {
                 moveToPreviousQuestion();
+            } else if (intent.getExtras().getString("keyword").equals("end")) {
+                endDictation();
             }
+
         }
     };
 
     //선생님으로부터 다음 문제 신호를 받았을 때 실행되는 메서드.
     public void moveToNextQuestion() {
-//        Toast.makeText(getApplicationContext(), "다음문제로!!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "다음문제로!!", Toast.LENGTH_LONG).show();
     }
 
     //선생님으로부터 이전 문제 신호를 받았을 때 실행되는 메서드.
     public void moveToPreviousQuestion() {
-//        Toast.makeText(getApplicationContext(), "이전문제로!!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "이전문제로!!", Toast.LENGTH_LONG).show();
     }
 
-
+    //선생님으로부터 받아쓰기 종료 신호를 받았을 때 실행되는 메서드.
+    public void endDictation() {
+        Toast.makeText(getApplicationContext(), "시험끝!!", Toast.LENGTH_LONG).show();
+    }
 
 }

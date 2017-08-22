@@ -69,7 +69,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Intent intent = new Intent(QUIZ_CONTROL_INTENT);
                 intent.putExtra("keyword", "previous");
                 sendBroadcast(intent);
+            } else if (keyword.equals("end")) {
+                Intent intent = new Intent(QUIZ_CONTROL_INTENT);
+                intent.putExtra("keyword", "end");
+                sendBroadcast(intent);
             }
+
 
 //            if (/* Check if data needs to be processed by long running job */ true) {
 //                // For long-running tasks (10 seconds or more) use Firebase Job Dispatcher.
