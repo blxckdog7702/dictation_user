@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "738167943907",
+    "firebase_url": "https://dictationuser.firebaseio.com",
+    "project_id": "dictationuser",
+    "storage_bucket": "dictationuser.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:738167943907:android:e315ea8d77aba60d",
+        "android_client_info": {
+          "package_name": "com.cbnu.sweng.randombox.dictation_user.dictation_user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "738167943907-esn2ipl4aoi49co5hjdtpu62fh38ua59.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHMwocrdcODIFuCgKhkb-DxMNZdd9KDn8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

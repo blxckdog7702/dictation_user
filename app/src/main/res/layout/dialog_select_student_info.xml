@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:gravity="fill_vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:weightSum="9"
+            android:layout_marginTop="20dp">
+
+                <TextView
+                    android:id="@+id/tvGrade"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="학년"
+                    android:layout_weight="3"
+                    android:textSize="@dimen/text_size"
+                    android:textColor="@color/colorPrimary"
+                    android:gravity="center_horizontal"/>
+
+                <TextView
+                    android:id="@+id/tvClass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="반"
+                    android:layout_weight="3"
+                    android:textSize="@dimen/text_size"
+                    android:textColor="@color/colorPrimary"
+                    android:gravity="center_horizontal"/>
+
+                <TextView
+                    android:id="@+id/tvAttendenceNum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="출석번호"
+                    android:layout_weight="3"
+                    android:textSize="@dimen/text_size"
+                    android:textColor="@color/colorPrimary"
+                    android:gravity="center_horizontal"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:weightSum="9">
+                <com.shawnlin.numberpicker.NumberPicker
+                    android:id="@+id/npGrade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    app:np_width="54dp"
+                    app:np_height="160dp"
+                    app:np_dividerColor="@color/colorPrimary"
+                    app:np_formatter="@string/number_picker_formatter"
+                    app:np_max="6"
+                    app:np_min="1"
+                    app:np_selectedTextColor="@color/colorPrimary"
+                    app:np_selectedTextSize="@dimen/selected_text_size"
+                    app:np_textColor="@color/colorPrimary"
+                    app:np_textSize="@dimen/text_size"
+                    app:np_typeface="@string/roboto_light"
+                    app:np_value="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="3"/>
+
+                <com.shawnlin.numberpicker.NumberPicker
+                    android:id="@+id/npClass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    app:np_width="54dp"
+                    app:np_height="160dp"
+                    app:np_dividerColor="@color/colorPrimary"
+                    app:np_formatter="@string/number_picker_formatter"
+                    app:np_max="20"
+                    app:np_min="1"
+                    app:np_selectedTextColor="@color/colorPrimary"
+                    app:np_selectedTextSize="@dimen/selected_text_size"
+                    app:np_textColor="@color/colorPrimary"
+                    app:np_textSize="@dimen/text_size"
+                    app:np_typeface="@string/roboto_light"
+                    app:np_value="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="3"/>
+
+                <com.shawnlin.numberpicker.NumberPicker
+                    android:id="@+id/npAttendenceNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    app:np_width="54dp"
+                    app:np_height="160dp"
+                    app:np_dividerColor="@color/colorPrimary"
+                    app:np_formatter="@string/number_picker_formatter"
+                    app:np_max="50"
+                    app:np_min="1"
+                    app:np_selectedTextColor="@color/colorPrimary"
+                    app:np_selectedTextSize="@dimen/selected_text_size"
+                    app:np_textColor="@color/colorPrimary"
+                    app:np_textSize="@dimen/text_size"
+                    app:np_typeface="@string/roboto_light"
+                    app:np_value="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="3"/>
+
+        </LinearLayout>
+</LinearLayout>

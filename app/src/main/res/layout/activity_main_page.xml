@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    tools:context="com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.main.MainPage"
+    android:orientation="vertical"
+    android:background="@drawable/splashportrait">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_layout_main"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:text="선생님 정보"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/rounded_layout_main1_text_view"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/rounded_layout_dark_gray">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:text="아이디"
+                    android:textSize="@dimen/text_size"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/rounded_layout_main_text_view"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+                </TextView>
+
+                <EditText
+                    android:id="@+id/etTeacherId"
+                    android:textSize="@dimen/text_size"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:maxLength="10"
+                    android:background="#FFFFFF"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:text="학교"
+                    android:textSize="@dimen/text_size"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/rounded_layout_main_text_view"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"/>
+
+                <TextView
+                    android:id="@+id/tvTeacherSchoolName"
+                    android:textSize="@dimen/text_size"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:background="#FFFFFF"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:text="이름"
+                    android:textSize="@dimen/text_size"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/rounded_layout_main_text_view"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"/>
+
+                <TextView
+                    android:id="@+id/tvTeacherName"
+                    android:textSize="@dimen/text_size"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:background="#FFFFFF"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.dd.processbutton.iml.ActionProcessButton
+        android:id="@+id/btExamReady"
+        android:layout_width="150dp"
+        android:layout_height="40.0dip"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="16dp"
+        android:text="시험 준비 완료"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size"
+        custom:pb_colorComplete="@color/green_complete"
+        custom:pb_colorNormal="@color/blue_normal"
+        custom:pb_colorPressed="@color/blue_pressed"
+        custom:pb_colorProgress="@color/purple_progress"
+        custom:pb_textComplete="Success"
+        custom:pb_textProgress="시험 준비중....."
+        custom:pb_textError="Error"
+        custom:pb_colorError="@color/red_error"
+        android:layout_gravity="center_horizontal"/>
+
+
+
+
+</LinearLayout>
