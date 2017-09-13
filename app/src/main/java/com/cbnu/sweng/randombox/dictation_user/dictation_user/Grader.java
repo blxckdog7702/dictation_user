@@ -12,13 +12,13 @@ import java.util.concurrent.ExecutionException;
 public class Grader {
 
     ArrayList<Grade> result;
-    NaverSpellChecker naverSpellCheckParser;
+    PusanSpellChecker naverSpellCheckParser;
     private int score = 100;
 
     public ArrayList<Grade> excute(ArrayList<String[]> qnas)
     {
         result = new ArrayList<Grade>();
-        naverSpellCheckParser = new NaverSpellChecker();
+        //naverSpellCheckParser = new PusanSpellChecker();
 
         for(String[] qna : qnas){
             String questionNumber = qna[0];
@@ -44,13 +44,13 @@ public class Grader {
                 gradeResult.setQuestion(question);
                 gradeResult.setSubmittedAnswer(answer);
 
-                try {
-                    gradeResult.setRectify((naverSpellCheckParser.execute(answer).get()));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    gradeResult.setRectify((naverSpellCheckParser.execute(answer).get()));
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                } catch (ExecutionException e) {
+//                    e.printStackTrace();
+//                }
                 score -= 10;
             }
 
