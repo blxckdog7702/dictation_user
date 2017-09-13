@@ -50,10 +50,7 @@ public class PusanSpellChecker {
                 e.printStackTrace();
             }
 
-            @Override
-            public void onResponse(Call call, Response r) throws IOException {
-                String response = r.body().string();
-                /*
+            /*
                   <PnuNlpSpeller> : 최상위 노드, Root의 역할만 함
                   <PnuErrorWordList> : 오류어 리스트 노드,
                       Attribute { [repeat: 반복교정 여부, 값은 yes/no] }
@@ -79,7 +76,10 @@ public class PusanSpellChecker {
                                       9-복합명사 언더바 오류,
                                       10-오류 형태에 따라 붙여쓰기] }
                   <Error> : 검사 도중 오류가 발생했을 때 나타나는 노드. 오류 내용을 msg Attribute를 통해 표현함. 오류가 없으면 나타나지 않음.
-			       */
+			*/
+            @Override
+            public void onResponse(Call call, Response r) throws IOException {
+                String response = r.body().string();
 
                 Log.e("response ", "onResponse(): " + response );
 
@@ -90,11 +90,9 @@ public class PusanSpellChecker {
                 NodeList PnuErrorWordList = doc.getElementsByTagName("PnuErrorWordList");
                 for(int i = 0; i< PnuErrorWordList.getLength()-1; i++){
                     ArrayMap<String, String> map = new ArrayMap<String, String>();
-                    String repeat = xmlParser.getAttribute(PnuErrorWordList, "repeat");
-                    map.put("repeat", repeat);
-                    System.out.println("repeat : " + repeat);
-                    NodeList PnuErrorWord = doc.getElementsByTagName("PnuErrorWord");
+                    map.put("repeat", xmlParser.getAttribute(PnuErrorWordList, "repeat"));
 
+                    NodeList PnuErrorWord = doc.getElementsByTagName("PnuErrorWord");
                     for(int j = 0; j< PnuErrorWord.getLength(); j++){
                         Node node = PnuErrorWord.item(j);
                         Element fstElmnt = (Element) node;
@@ -103,49 +101,27 @@ public class PusanSpellChecker {
                         NodeList helpList  = fstElmnt.getElementsByTagName("Help");
                         NodeList ErrorList  = fstElmnt.getElementsByTagName("Error");
 
-                        String nErrorIdx = xmlParser.getAttribute(node, "nErrorIdx");
-                        String m_nStart = xmlParser.getAttribute(node, "m_nStart");
-                        String m_nEnd = xmlParser.getAttribute(node, "m_nEnd");
-                        String m_nCount = xmlParser.getAttribute(CandWordList, "m_nCount");
-                        map.put("nErrorIdx", nErrorIdx);
-                        map.put("m_nStart", m_nStart);
-                        map.put("m_nEnd", m_nEnd);
-                        map.put("m_nCount", m_nCount);
-
-                        System.out.println("nErrorIdx : " + nErrorIdx);
-                        System.out.println("m_nStart : " + m_nStart);
-                        System.out.println("m_nEnd : " + m_nEnd);
-                        System.out.println("m_nCount : " + m_nCount);
+                        map.put("nErrorIdx", xmlParser.getAttribute(node, "nErrorIdx"));
+                        map.put("m_nStart", xmlParser.getAttribute(node, "m_nStart"));
+                        map.put("m_nEnd", xmlParser.getAttribute(node, "m_nEnd"));
+                        map.put("m_nCount", xmlParser.getAttribute(CandWordList, "m_nCount"));
 
                         for(int k = 0; k< CandWordList.getLength(); k++){
-                            Node node1 = CandWordList.item(j);
+                            Node node1 = CandWordList.item(k);
                             Element fstElmnt1 = (Element) node1;
-                            NodeList CandWord  = fstElmnt.getElementsByTagName("CandWord");
-                            String CandWordStr = CandWord.item(0).getChildNodes().item(0).getNodeValue();
-                            map.put("CandWordStr", CandWordStr);
-                            System.out.println("CandWord : " + CandWordStr);
+                            NodeList CandWord  = fstElmnt1.getElementsByTagName("CandWord");
+
+                            map.put("CandWord", CandWord.item(0).getChildNodes().item(0).getNodeValue());
                         }
 
-
-                        String orgStr = orgStrList.item(0).getChildNodes().item(0).getNodeValue();
-                        String Help = helpList.item(0).getChildNodes().item(0).getNodeValue();
-                        String nCorrectMethod = xmlParser.getAttribute(helpList, "nCorrectMethod");
-
-                        map.put("orgStr", orgStr);
-                        map.put("Help", Help);
-                        map.put("nCorrectMethod", nCorrectMethod);
-
-                        System.out.println("orgStr : " + orgStr);
-                        System.out.println("Help : " + Help);
-                        System.out.println("nCorrectMethod : " + nCorrectMethod);
+                        map.put("orgStr", orgStrList.item(0).getChildNodes().item(0).getNodeValue());
+                        map.put("Help", helpList.item(0).getChildNodes().item(0).getNodeValue());
+                        map.put("nCorrectMethod", xmlParser.getAttribute(helpList, "nCorrectMethod"));
                         if(ErrorList.item(0) != null){
-                            String Error = ErrorList.item(0).getChildNodes().item(0).getNodeValue();
-                            System.out.println("Error : " + ErrorList.item(0).getChildNodes().item(0).getNodeValue());
-                            map.put("Error", Error);
+                            map.put("Error", ErrorList.item(0).getChildNodes().item(0).getNodeValue());
                         }
                     }
                     result.add(map);
-
                 }
             }
         });
