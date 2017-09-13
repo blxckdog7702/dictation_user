@@ -1,6 +1,8 @@
 
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.model;
 
+import android.util.ArrayMap;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -17,7 +19,7 @@ public class QuestionResult implements Serializable {
     private Boolean correct;
     @SerializedName("rectify")
     @Expose
-    private ArrayList<String[]> rectify; //틀린부분
+    private ArrayList<ArrayMap<String, String>> rectify; //틀린부분
     @SerializedName("submitted_answer")
     @Expose
     private String submittedAnswer;
@@ -38,14 +40,6 @@ public class QuestionResult implements Serializable {
         this.submittedAnswer = submittedAnswer;
     }
 
-    public ArrayList<String[]> getRectify() {
-        return rectify;
-    }
-
-    public void setRectify(ArrayList<String[]> rectify) {
-        this.rectify = rectify;
-    }
-
     public Boolean getCorrect() {
         return correct;
     }
@@ -54,4 +48,11 @@ public class QuestionResult implements Serializable {
         this.correct = correct;
     }
 
+    public ArrayList<ArrayMap<String, String>> getRectify() {
+        return rectify;
+    }
+
+    public void setRectify(ArrayList<ArrayMap<String, String>> rectify) {
+        this.rectify = rectify;
+    }
 }

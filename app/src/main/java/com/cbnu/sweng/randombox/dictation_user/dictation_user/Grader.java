@@ -12,13 +12,13 @@ import java.util.concurrent.ExecutionException;
 public class Grader {
 
     ArrayList<Grade> result;
-    PusanSpellChecker naverSpellCheckParser;
+    PusanSpellChecker pusanSpellChecker;
     private int score = 100;
 
-    public ArrayList<Grade> excute(ArrayList<String[]> qnas)
+    public ArrayList<Grade> execute(ArrayList<String[]> qnas)
     {
         result = new ArrayList<Grade>();
-        //naverSpellCheckParser = new PusanSpellChecker();
+        pusanSpellChecker = new PusanSpellChecker();
 
         for(String[] qna : qnas){
             String questionNumber = qna[0];
@@ -29,12 +29,7 @@ public class Grader {
             if(question.equals(answer)){
                 gradeResult.setQuestionNumber(Integer.parseInt(questionNumber));
                 gradeResult.setCorrect(true);
-                gradeResult.setRectify(new ArrayList<String[]>()
-                {
-                    {
-                       add(new String[]{"black", answer});
-                     }
-                });
+                gradeResult.setRectify(null);
                 gradeResult.setQuestion(question);
                 gradeResult.setSubmittedAnswer(answer);
             }
@@ -44,13 +39,12 @@ public class Grader {
                 gradeResult.setQuestion(question);
                 gradeResult.setSubmittedAnswer(answer);
 
-//                try {
-//                    gradeResult.setRectify((naverSpellCheckParser.execute(answer).get()));
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                } catch (ExecutionException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    gradeResult.setRectify(pusanSpellChecker.execute("아 버지가 안 방에 들어가쉰다."));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 score -= 10;
             }
 

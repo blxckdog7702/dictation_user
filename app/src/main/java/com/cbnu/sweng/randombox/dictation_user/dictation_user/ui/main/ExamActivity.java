@@ -15,8 +15,10 @@ import android.widget.Toast;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ApiRequester;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.BuildConfig;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.Grader;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.Util;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Grade;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Question;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuestionResult;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Quiz;
@@ -336,28 +338,28 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
             arr.add(str);
         }
 
-//        Grader grader = new Grader();
-//        ArrayList<Grade> grades = grader.excute(arr);
-//        QuizResult quizResult = new QuizResult();
-//
-//        for(Grade grade : grades){
-//            QuestionResult questionResult = new QuestionResult();
-//            questionResult.setCorrect(grade.getCorrect());
-//            questionResult.setRectify(grade.getRectify());
-//            questionResult.setQuestionNumber(grade.getQuestionNumber());
-//            questionResult.setSubmittedAnswer(grade.getSubmittedAnswer());
-//            questionResults.add(questionResult);
-//            if (questionResult.getQuestionNumber() == 10){
-//                quizResult.setScore(grade.getScore());
-//            }
-//        }
-//        quizResult.setQuestionResult(questionResults);
-//        quizResult.setQuizNumber(Integer.parseInt(quizNumber));
-//        quizResult.setStudentName("반상민");
+        Grader grader = new Grader();
+        ArrayList<Grade> grades = grader.execute(arr);
+        QuizResult quizResult = new QuizResult();
+
+        for(Grade grade : grades){
+            QuestionResult questionResult = new QuestionResult();
+            questionResult.setCorrect(grade.getCorrect());
+            questionResult.setRectify(grade.getRectify());
+            questionResult.setQuestionNumber(grade.getQuestionNumber());
+            questionResult.setSubmittedAnswer(grade.getSubmittedAnswer());
+            questionResults.add(questionResult);
+            if (questionResult.getQuestionNumber() == 10){
+                quizResult.setScore(grade.getScore());
+            }
+        }
+        quizResult.setQuestionResult(questionResults);
+        quizResult.setQuizNumber(Integer.parseInt(quizNumber));
+        quizResult.setStudentName("반상민");
 
 
-//        Util.getInstance().moveAcitivity(this, ExamResultPage.class, quizResult);
-        Util.getInstance().moveAcitivity(this, ExamResultPage.class);
+        Util.getInstance().moveAcitivity(this, ExamResultPage.class, quizResult);
+        //Util.getInstance().moveAcitivity(this, ExamResultPage.class);
 
     }
 

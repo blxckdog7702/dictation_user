@@ -27,7 +27,7 @@ public class PusanSpellChecker {
     private final OkHttpClient client = new OkHttpClient();
     private ArrayList<ArrayMap<String, String>> result = new ArrayList<>();
 
-    public void execute(String text1) throws Exception{
+    public ArrayList<ArrayMap<String, String>> execute(String text1) throws Exception{
 
         RequestBody formBody = new FormBody.Builder()
                 .add("id", "text1")
@@ -125,5 +125,6 @@ public class PusanSpellChecker {
                 }
             }
         });
+        return result;
     }
 }

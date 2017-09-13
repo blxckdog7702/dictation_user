@@ -12,8 +12,7 @@ public class TestAcitivity extends AppCompatActivity {
 
         PusanSpellChecker pusanSpellChecker = new PusanSpellChecker();
         try {
-            pusanSpellChecker.execute("맞춤뻡 검사기를 통해 빠르고 간편하게 틀린 맞춤법을 수정할수있습니다." +
-                    "카카오톡 전숑기능이 있습니다.누규든지 쉽게 이용할수 있슴니다.");
+            pusanSpellChecker.execute("아 버지가 안 방에 들어가쉰다.");
         } catch (Exception e) {
             e.printStackTrace();
         }

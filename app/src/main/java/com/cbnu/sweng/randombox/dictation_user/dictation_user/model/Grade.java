@@ -1,5 +1,7 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.model;
 
+import android.util.ArrayMap;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -12,7 +14,7 @@ public class Grade implements Serializable {
     private int questionNumber;
     private boolean correct;
     private int score;
-    private ArrayList<String[]> rectify;
+    private ArrayList<ArrayMap<String, String>> rectify;
     private String question;
     private String SubmittedAnswer;
 
@@ -30,14 +32,6 @@ public class Grade implements Serializable {
 
     public void setScore(int score) {
         this.score = score;
-    }
-
-    public ArrayList<String[]> getRectify() {
-        return rectify;
-    }
-
-    public void setRectify(ArrayList<String[]> rectify) {
-        this.rectify = rectify;
     }
 
     public String getQuestion() {
@@ -62,5 +56,13 @@ public class Grade implements Serializable {
 
     public void setSubmittedAnswer(String submittedAnswer) {
         SubmittedAnswer = submittedAnswer;
+    }
+
+    public ArrayList<ArrayMap<String, String>> getRectify() {
+        return rectify;
+    }
+
+    public void setRectify(ArrayList<ArrayMap<String, String>> rectify) {
+        this.rectify = rectify;
     }
 }
