@@ -8,6 +8,8 @@ import android.content.IntentFilter;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -33,53 +35,39 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExamActivity extends AppCompatActivity implements // 답안, 문제, 문제번호 넘김
-        SingleLineWidgetApi.OnConfiguredListener,
-        SingleLineWidgetApi.OnTextChangedListener,
-        CustomEditText.OnSelectionChanged,
-        SingleLineWidgetApi.OnUserScrollBeginListener,
-        SingleLineWidgetApi.OnUserScrollEndListener,
-        SingleLineWidgetApi.OnUserScrollListener
-
-{
-
+public class ExamActivity extends AppCompatActivity implements SingleLineWidgetApi.OnConfiguredListener,
+                                                                SingleLineWidgetApi.OnTextChangedListener,
+                                                                CustomEditText.OnSelectionChanged,
+                                                                SingleLineWidgetApi.OnUserScrollBeginListener,
+                                                                SingleLineWidgetApi.OnUserScrollEndListener,
+                                                                SingleLineWidgetApi.OnUserScrollListener {
     private static final String TAG = "SingleLineDemo";
-
     private SingleLineWidgetApi widget;
     private CustomEditText mTextField;
     private int isCorrectionMode;
-    String SubmittedAnswer;
-    ArrayList<QuizResult> info;
-    String answer[] = new String[10];
-    int count = 0;
-    //String number;
-    //String question;
-    Quiz quiz;
-    String quizHitoryID;
-    String quizNumber;
-    int number;
-    private List<QuestionResult> questionResults = null;
+
+    private String SubmittedAnswer;
+    private String SubmittedAnswers[] = new String[10];
+    private String quizHitoryID;
+    private String quizNumber;
+    private int questionNumber = 1;
+
+    private Quiz quiz = null;
+    private List<Question> questions = null;
+    private ArrayList<ArrayMap<String, String>> qnas = new ArrayList<>();
+    private ArrayList<QuestionResult> questionResults = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        Intent i = getIntent();
-        quizHitoryID = i.getStringExtra("quizHistoryId");
-        quizNumber = i.getStringExtra("quizNumber");
-
-
-
-
-
-
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_exam);
 
+        Intent intent = getIntent();
+        quizHitoryID = intent.getStringExtra("quizHistoryId");
+        quizNumber = intent.getStringExtra("quizNumber");
         registerReceiver(myReceiver, new IntentFilter(MyFirebaseMessagingService.QUIZ_CONTROL_INTENT));
 
         mTextField = (CustomEditText) findViewById(R.id.textField);
-
         mTextField.setOnSelectionChangedListener(this);
         widget = (SingleLineWidget) findViewById(R.id.widget);
         if (!widget.registerCertificate(MyCertificate.getBytes())) {
@@ -101,7 +89,6 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
         widget.setOnUserScrollBeginListener(this);
         widget.setOnUserScrollEndListener(this);
         widget.setOnUserScrollListener(this);
-
         widget.setBaselinePosition(getResources().getDimension(R.dimen.baseline_position));
         widget.setWritingAreaBackgroundResource(R.drawable.sltw_bg_pattern);
         widget.setScrollbarResource(R.drawable.sltw_scrollbar_xml);
@@ -110,63 +97,39 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
         widget.setLeftScrollArrowResource(R.drawable.sltw_arrowleft_xml);
         widget.setRightScrollArrowResource(R.drawable.sltw_arrowright_xml);
         widget.setCursorResource(R.drawable.sltw_text_cursor_holo_light);
-
-        // references assets directly from the APK to avoid extraction in application
-        // file system
         widget.addSearchDir("zip://" + getPackageCodePath() + "!/assets/conf");
-
-        // The configuration is an asynchronous operation. Callbacks are provided to
-        // monitor the beginning and end of the configuration process and update the UI
-        // of the input method accordingly.
-        //
-        // "en_US" references the en_US bundle name in conf/en_US.conf file in your assets.
-        // "cur_text" references the configuration name in en_US.conf
         widget.configure("ko_KR", "cur_text");
-
         widget.setText(mTextField.getText().toString());
         isCorrectionMode = 0;
 
         ApiRequester apiRequester = new ApiRequester();
-
         try {
             apiRequester.getTeachersQuizzes(new ApiRequester.UserCallback<List<Quiz>>() {
                 @Override
                 public void onSuccess(List<Quiz> quizs) {
-                    //quiz에 quizNumber에 맞는 quiz넣기
                     for(Quiz temp : quizs)
                     {
                         if(quizNumber.equals(temp.getNumber().toString()))
                         {
                             quiz = temp;
+                            questions = quiz.getQuestions();
                         }
                     }
-
-
-//                    for (Quiz quiz : result) {
-//                        for (Question ques : quiz.getQuestions()) {
-//                            String number = String.valueOf(ques.getNumber());
-//                            String question = ques.getSentence();
-//                        }
-//                    }
                 }
-
                 @Override
                 public void onFail() {
-
+                    //Fail
                 }
             });
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
 
     @Override
     protected void onDestroy() {
         widget.setOnTextChangedListener(null);
         widget.setOnConfiguredListener(null);
-
         super.onDestroy();
     }
 
@@ -190,8 +153,7 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
     }
 
     public void onCheckButtonClick(View v) {
-//        SubmittedAnswer = mTextField.getText().toString(); // 텍스트 변수 저장 // 서버에 의해서 화면 전환 될 때마다 배열로 답안 저장
-//        Toast.makeText(getApplicationContext(), SubmittedAnswer, Toast.LENGTH_LONG).show();
+        //
     }
 
     @Override
@@ -201,18 +163,13 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
             Log.e(TAG, "Unable to configure the Single Line Widget: " + widget.getErrorString());
             return;
         }
-        //Toast.makeText(getApplicationContext(), "Single Line Widget Configured", Toast.LENGTH_SHORT).show();
         if (BuildConfig.DEBUG)
             Log.d(TAG, "Single Line Widget configured!");
     }
 
     @Override
     public void onTextChanged(SingleLineWidgetApi widget, String text, boolean intermediate) {
-//        Toast.makeText(getApplicationContext(), "Recognition update", Toast.LENGTH_SHORT).show();
-//        if(BuildConfig.DEBUG)
-//        {
-//            Log.d(TAG, "Single Line Widget recognition: " + widget.getText());
-//        }
+
         Log.d(TAG, "Text changed to \"" + text + "\" (" + (intermediate ? "intermediate" : "stable") + ")");
         // temporarily disable selection changed listener to prevent spurious cursor jumps
         mTextField.setOnSelectionChangedListener(null);
@@ -265,7 +222,6 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
     private BroadcastReceiver myReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
             if (intent.getExtras().getString("keyword").equals("next")) {
                 moveToNextQuestion();
             }
@@ -281,65 +237,67 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
 
     //선생님으로부터 다음 문제 신호를 받았을 때 실행되는 메서드.
     public void moveToNextQuestion() {
-        Toast.makeText(getApplicationContext(), "다음문제로!!", Toast.LENGTH_LONG).show();
         SubmittedAnswer = mTextField.getText().toString();
-
-        Log.d("TAG:1", SubmittedAnswer);
-        answer[count] = SubmittedAnswer;
-        Log.d("TAG:2", answer[count]);
-
-        count++;
+        SubmittedAnswers[(questionNumber++) - 1] = SubmittedAnswer;
 
         widget.clear();
+        Toast.makeText(getApplicationContext(),
+                Integer.toString(questionNumber) + "번 문제입니다.",
+                Toast.LENGTH_SHORT).show();
 
-        if(answer[count] == null || answer[count].isEmpty())
-            return;
-        Log.d("TAG:3", answer[count]);
-        mTextField.setText(answer[count]);
+        if(!TextUtils.isEmpty(SubmittedAnswers[questionNumber - 1])){
+            mTextField.postDelayed(new Runnable()
+            {
+                @Override
+                public void run() {
+                    mTextField.setText(SubmittedAnswers[questionNumber - 1]);
+                }
+            }, 500);
+        }
+
     }
 
     //선생님으로부터 이전 문제 신호를 받았을 때 실행되는 메서드.
     public void moveToPreviousQuestion() {
-        Toast.makeText(getApplicationContext(), "이전문제로!!", Toast.LENGTH_LONG).show();
-//        if(count != 0) {
-            SubmittedAnswer = mTextField.getText().toString();
-        Log.d("TAG:4", SubmittedAnswer);
-
-        answer[count] = SubmittedAnswer;
-        Log.d("TAG:5", answer[count]);
-
-        count--;
+        SubmittedAnswer = mTextField.getText().toString();
+        SubmittedAnswers[(questionNumber--) - 1] = SubmittedAnswer;
 
         widget.clear();
+        Toast.makeText(getApplicationContext(),
+                Integer.toString(questionNumber) + "번 문제입니다.",
+                Toast.LENGTH_SHORT).show();
 
-
-            if(answer[count] == null || answer[count].isEmpty())
-                return;
-        Log.d("TAG:6", answer[count]);
-// TODO: 2017-08-23 이전 문제로 되돌아가면 써놨던 내용 안나옴
-        mTextField.setText(answer[count]);
-//        }
+        if(!TextUtils.isEmpty(SubmittedAnswers[questionNumber - 1])){
+            mTextField.postDelayed(new Runnable()
+            {
+                @Override
+                public void run() {
+                    mTextField.setText(SubmittedAnswers[questionNumber - 1]);
+                }
+            }, 500);
+        }
     }
 
     //선생님으로부터 받아쓰기 종료 신호를 받았을 때 실행되는 메서드.
     public void endDictation() {
-        Toast.makeText(getApplicationContext(), "시험끝!!", Toast.LENGTH_SHORT).show();
+        SubmittedAnswer = mTextField.getText().toString();
+        SubmittedAnswers[(questionNumber) - 1] = SubmittedAnswer;
 
-        ArrayList<String[]> arr= new ArrayList<>();
-        String[] str = new String[10];
-        List<Question> questions = quiz.getQuestions();
+        Toast.makeText(getApplicationContext(),
+                "시험이 종료되었습니다.",
+                Toast.LENGTH_SHORT).show();
 
-        for(int i=0; i<10; i++)
-        {
-            str[0] = questions.get(i).getNumber().toString();
-            str[1] = questions.get(i).getSentence();
-            str[2] = answer[i];
-
-            arr.add(str);
+        for(int i=0; i<10; i++) {
+            ArrayMap<String, String> qna = new ArrayMap<>();
+            qna.put("questionNumber", Integer.toString(questions.get(i).getNumber()));
+            qna.put("question", questions.get(i).getSentence());
+            qna.put("SubmittedAnswer", SubmittedAnswers[i]);
+            System.out.println(qna.get("questionNumber") + "  " + qna.get("question") + "  " + qna.get("SubmittedAnswer") );
+            qnas.add(qna);
         }
 
         Grader grader = new Grader();
-        ArrayList<Grade> grades = grader.execute(arr);
+        ArrayList<Grade> grades = grader.execute(qnas);
         QuizResult quizResult = new QuizResult();
 
         for(Grade grade : grades){
@@ -357,10 +315,6 @@ public class ExamActivity extends AppCompatActivity implements // 답안, 문제
         quizResult.setQuizNumber(Integer.parseInt(quizNumber));
         quizResult.setStudentName("반상민");
 
-
         Util.getInstance().moveAcitivity(this, ExamResultPage.class, quizResult);
-        //Util.getInstance().moveAcitivity(this, ExamResultPage.class);
-
     }
-
 }

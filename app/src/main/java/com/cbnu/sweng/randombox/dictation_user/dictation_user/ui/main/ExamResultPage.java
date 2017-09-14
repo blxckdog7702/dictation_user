@@ -35,8 +35,7 @@ public class ExamResultPage extends AppCompatActivity {
     }
     @OnClick(R.id.btResultTwo)
     void onClickBtResultTwo(){
-        //Util.getInstance().moveAcitivity(this, ExamResultDetailedPage.class, quizResult, 2);
-        Util.getInstance().moveAcitivity(this, ExamResultDetailedPage.class);
+        Util.getInstance().moveAcitivity(this, ExamResultDetailedPage.class, quizResult, 2);
     }
     @OnClick(R.id.btResultThree)
     void onClickBtResultThree(){

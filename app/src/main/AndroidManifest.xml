@@ -24,6 +24,11 @@
         <activity
             android:name=".ui.main.MainPage"
             android:theme="@style/Theme.AppCompat.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity android:name=".ui.sign.SignUpActivity" />
@@ -43,11 +48,7 @@
         </service>
 
         <activity android:name=".TestAcitivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

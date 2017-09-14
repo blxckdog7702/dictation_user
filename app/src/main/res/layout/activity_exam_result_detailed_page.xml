@@ -44,23 +44,9 @@
                 android:layout_height="wrap_content"
                 android:textColor="#FF0000"
                 android:textSize="40sp"
-                android:text="휘파람"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#1DDB16"
-                android:textSize="40sp"
-                android:text="을"
-                android:layout_marginTop="20dp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#5F00FF"
-                android:textSize="40sp"
-                android:text=" 불었습니다."
-                android:layout_marginTop="20dp" />
+
         </LinearLayout>
 
     </LinearLayout>
@@ -89,10 +75,9 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"/>
         <TextView
-            android:id="@+id/tvAnswerSheet"
+            android:id="@+id/tvCorrectAnswer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="휫파람 을 부렀습니다."
             android:textColor="#000000"
             android:textSize="40sp"
             android:layout_marginTop="20dp"

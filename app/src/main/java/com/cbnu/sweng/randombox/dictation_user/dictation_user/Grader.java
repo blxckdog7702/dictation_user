@@ -1,5 +1,7 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user;
 
+import android.util.ArrayMap;
+
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Grade;
 
 import java.util.ArrayList;
@@ -15,32 +17,32 @@ public class Grader {
     PusanSpellChecker pusanSpellChecker;
     private int score = 100;
 
-    public ArrayList<Grade> execute(ArrayList<String[]> qnas)
+    public ArrayList<Grade> execute(ArrayList<ArrayMap<String, String>> qnas)
     {
         result = new ArrayList<Grade>();
         pusanSpellChecker = new PusanSpellChecker();
 
-        for(String[] qna : qnas){
-            String questionNumber = qna[0];
-            final String question = qna[1];
-            final String answer = qna[2];
+        for(ArrayMap<String, String> qna : qnas){
+            String questionNumber = qna.get("questionNumber");
+            final String question = qna.get("question");
+            final String SubmittedAnswer = qna.get("SubmittedAnswer");
             Grade gradeResult = new Grade();
 
-            if(question.equals(answer)){
+            if(question.equals(SubmittedAnswer)){
                 gradeResult.setQuestionNumber(Integer.parseInt(questionNumber));
                 gradeResult.setCorrect(true);
                 gradeResult.setRectify(null);
                 gradeResult.setQuestion(question);
-                gradeResult.setSubmittedAnswer(answer);
+                gradeResult.setSubmittedAnswer(SubmittedAnswer);
             }
             else{
                 gradeResult.setQuestionNumber(Integer.parseInt(questionNumber));
                 gradeResult.setCorrect(false);
                 gradeResult.setQuestion(question);
-                gradeResult.setSubmittedAnswer(answer);
+                gradeResult.setSubmittedAnswer(SubmittedAnswer);
 
                 try {
-                    gradeResult.setRectify(pusanSpellChecker.execute("아 버지가 안 방에 들어가쉰다."));
+                    gradeResult.setRectify(pusanSpellChecker.execute(SubmittedAnswer));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

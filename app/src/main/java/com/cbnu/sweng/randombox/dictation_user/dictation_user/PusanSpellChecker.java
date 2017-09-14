@@ -28,7 +28,7 @@ public class PusanSpellChecker {
     private ArrayList<ArrayMap<String, String>> result = new ArrayList<>();
 
     public ArrayList<ArrayMap<String, String>> execute(String text1) throws Exception{
-
+        System.out.println("qweqwe" + text1);
         RequestBody formBody = new FormBody.Builder()
                 .add("id", "text1")
                 .add("name", "text1")
