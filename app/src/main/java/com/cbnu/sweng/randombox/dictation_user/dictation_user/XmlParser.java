@@ -18,7 +18,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 public class XmlParser {
 
-    //메쏘드 [String 받을시 사용]
+    // String 받을시 사용
     public static Document loadXmlString(String xmlData) {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory .newInstance();

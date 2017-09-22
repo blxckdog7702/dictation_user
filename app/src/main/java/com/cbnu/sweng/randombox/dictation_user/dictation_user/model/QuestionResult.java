@@ -7,7 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 public class QuestionResult implements Serializable {
 
@@ -19,7 +19,7 @@ public class QuestionResult implements Serializable {
     private Boolean correct;
     @SerializedName("rectify")
     @Expose
-    private ArrayList<ArrayMap<String, String>> rectify; //틀린부분
+    private List<ArrayMap<String, String>> rectify; //틀린부분
     @SerializedName("submitted_answer")
     @Expose
     private String submittedAnswer;
@@ -48,11 +48,11 @@ public class QuestionResult implements Serializable {
         this.correct = correct;
     }
 
-    public ArrayList<ArrayMap<String, String>> getRectify() {
+    public List<ArrayMap<String, String>> getRectify() {
         return rectify;
     }
 
-    public void setRectify(ArrayList<ArrayMap<String, String>> rectify) {
+    public void setRectify(List<ArrayMap<String, String>> rectify) {
         this.rectify = rectify;
     }
 }

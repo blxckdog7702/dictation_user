@@ -28,7 +28,6 @@ public class PusanSpellChecker {
     private ArrayList<ArrayMap<String, String>> result = new ArrayList<>();
 
     public ArrayList<ArrayMap<String, String>> execute(String text1) throws Exception{
-        System.out.println("qweqwe" + text1);
         RequestBody formBody = new FormBody.Builder()
                 .add("id", "text1")
                 .add("name", "text1")
@@ -46,7 +45,6 @@ public class PusanSpellChecker {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("HttpService", "onFailure() Request was: " + request);
-
                 e.printStackTrace();
             }
 
@@ -82,7 +80,6 @@ public class PusanSpellChecker {
                 String response = r.body().string();
 
                 Log.e("response ", "onResponse(): " + response );
-
 
                 XmlParser xmlParser = new XmlParser();
                 Document doc = xmlParser.loadXmlString(response);

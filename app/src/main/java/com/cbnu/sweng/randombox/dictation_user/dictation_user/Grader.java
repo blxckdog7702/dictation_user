@@ -1,11 +1,11 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user;
 
 import android.util.ArrayMap;
+import android.util.Log;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Grade;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by user on 2017-08-21.
@@ -13,36 +13,38 @@ import java.util.concurrent.ExecutionException;
 
 public class Grader {
 
-    ArrayList<Grade> result;
+    ArrayList<Grade> grades;
     PusanSpellChecker pusanSpellChecker;
     private int score = 100;
 
     public ArrayList<Grade> execute(ArrayList<ArrayMap<String, String>> qnas)
     {
-        result = new ArrayList<Grade>();
+        grades = new ArrayList<Grade>();
         pusanSpellChecker = new PusanSpellChecker();
 
         for(ArrayMap<String, String> qna : qnas){
             String questionNumber = qna.get("questionNumber");
             final String question = qna.get("question");
             final String SubmittedAnswer = qna.get("SubmittedAnswer");
-            Grade gradeResult = new Grade();
+            Grade grade = new Grade();
 
             if(question.equals(SubmittedAnswer)){
-                gradeResult.setQuestionNumber(Integer.parseInt(questionNumber));
-                gradeResult.setCorrect(true);
-                gradeResult.setRectify(null);
-                gradeResult.setQuestion(question);
-                gradeResult.setSubmittedAnswer(SubmittedAnswer);
+                grade.setQuestionNumber(Integer.parseInt(questionNumber));
+                grade.setCorrect(true);
+                grade.setRectify(null);
+                grade.setQuestion(question);
+                grade.setSubmittedAnswer(SubmittedAnswer);
             }
             else{
-                gradeResult.setQuestionNumber(Integer.parseInt(questionNumber));
-                gradeResult.setCorrect(false);
-                gradeResult.setQuestion(question);
-                gradeResult.setSubmittedAnswer(SubmittedAnswer);
+                grade.setQuestionNumber(Integer.parseInt(questionNumber));
+                grade.setCorrect(false);
+                grade.setQuestion(question);
+                grade.setSubmittedAnswer(SubmittedAnswer);
 
                 try {
-                    gradeResult.setRectify(pusanSpellChecker.execute(SubmittedAnswer));
+                    grade.setRectify(pusanSpellChecker.execute(SubmittedAnswer));
+                    Log.d("Grader/R", String.valueOf(grade.getRectify().size()));
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -50,11 +52,11 @@ public class Grader {
                 score -= 10;
             }
 
-            if(gradeResult.getQuestionNumber() == 10){
-                gradeResult.setScore(score);
+            if(grade.getQuestionNumber() == 10){
+                grade.setScore(score);
             }
-            result.add(gradeResult);
+            grades.add(grade);
         }
-        return result;
+        return grades;
     }
 }

@@ -11,8 +11,11 @@ import android.os.Build;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Question;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizResult;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Util {
@@ -34,16 +37,21 @@ public class Util {
         Intent intent = new Intent(context, ActivityToOpen);
         context.startActivity(intent);
     }
-    public void moveAcitivity(Context context, final Class<? extends Activity> ActivityToOpen, QuizResult quizResult) {
+    public void moveAcitivity(Context context, final Class<? extends Activity> ActivityToOpen,
+                                QuizResult quizResult, ArrayList<Question> questionsList) {
         Intent intent = new Intent(context, ActivityToOpen);
-        intent.putExtra("OBJECT", quizResult);
+        intent.putExtra("quizResult", quizResult);
+        intent.putExtra("questionsList", questionsList);
         context.startActivity(intent);
     }
 
-    public void moveAcitivity(Context context, final Class<? extends Activity> ActivityToOpen, QuizResult quizResult, int questionNumber) {
+    public void moveAcitivity(Context context, final Class<? extends Activity> ActivityToOpen,
+                                QuizResult quizResult, ArrayList<Question> questionsList,
+                                int questionNumber) {
         Intent intent = new Intent(context, ActivityToOpen);
-        intent.putExtra("OBJECT", quizResult);
+        intent.putExtra("quizResult", quizResult);
         intent.putExtra("questionNumber", questionNumber);
+        intent.putExtra("questionsList", questionsList);
         context.startActivity(intent);
     }
 

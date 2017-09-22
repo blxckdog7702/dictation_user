@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExamActivity extends AppCompatActivity implements SingleLineWidgetApi.OnConfiguredListener,
+public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.OnConfiguredListener,
                                                                 SingleLineWidgetApi.OnTextChangedListener,
                                                                 CustomEditText.OnSelectionChanged,
                                                                 SingleLineWidgetApi.OnUserScrollBeginListener,
@@ -304,6 +304,7 @@ public class ExamActivity extends AppCompatActivity implements SingleLineWidgetA
             QuestionResult questionResult = new QuestionResult();
             questionResult.setCorrect(grade.getCorrect());
             questionResult.setRectify(grade.getRectify());
+            Log.d("ExamPage/R", String.valueOf(grade.getRectify().size()));
             questionResult.setQuestionNumber(grade.getQuestionNumber());
             questionResult.setSubmittedAnswer(grade.getSubmittedAnswer());
             questionResults.add(questionResult);
@@ -315,6 +316,6 @@ public class ExamActivity extends AppCompatActivity implements SingleLineWidgetA
         quizResult.setQuizNumber(Integer.parseInt(quizNumber));
         quizResult.setStudentName("반상민");
 
-        Util.getInstance().moveAcitivity(this, ExamResultPage.class, quizResult);
+        Util.getInstance().moveAcitivity(this, ExamResultPage.class, quizResult, (ArrayList<Question>) questions);
     }
 }

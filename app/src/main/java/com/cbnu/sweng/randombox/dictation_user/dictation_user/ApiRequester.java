@@ -103,6 +103,4 @@ public class ApiRequester {
 		Call<QuizHistory> call = dictationServerApi.endQuiz(parser.parse(gson.toJson(endedQuiz)).getAsJsonObject());
 		call.enqueue(new CustomCallback<QuizHistory>(userCallback));
 	}
-	
-	//
 }

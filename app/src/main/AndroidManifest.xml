@@ -33,7 +33,7 @@
         </activity>
         <activity android:name=".ui.sign.SignUpActivity" />
         <activity
-            android:name=".ui.main.ExamActivity"
+            android:name=".ui.main.ExamPage"
             android:screenOrientation="landscape"></activity>
 
         <service android:name=".service.MyFirebaseMessagingService">

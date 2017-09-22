@@ -9,13 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.Util;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.service.MyFirebaseMessagingService;
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -120,7 +118,7 @@ public class MainPage extends AppCompatActivity {
 
             if(isReceiveKey){
                 btExamReady.setProgress(100);
-                Intent intent2 = new Intent(MainPage.this, ExamActivity.class);
+                Intent intent2 = new Intent(MainPage.this, ExamPage.class);
                 intent2.putExtra("quizHistoryId", historyId);
                 intent2.putExtra("quizNumber", quizNumber);
                 startActivity(intent2);
