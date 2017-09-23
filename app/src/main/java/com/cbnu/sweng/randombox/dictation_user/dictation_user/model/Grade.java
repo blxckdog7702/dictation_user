@@ -4,6 +4,7 @@ import android.util.ArrayMap;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by user on 2017-08-21.
@@ -14,7 +15,7 @@ public class Grade implements Serializable {
     private int questionNumber;
     private boolean correct;
     private int score;
-    private ArrayList<ArrayMap<String, String>> rectify;
+    private List<List<ArrayMap<String, String>>> rectify;
     private String question;
     private String SubmittedAnswer;
 
@@ -58,11 +59,11 @@ public class Grade implements Serializable {
         SubmittedAnswer = submittedAnswer;
     }
 
-    public ArrayList<ArrayMap<String, String>> getRectify() {
+    public List<List<ArrayMap<String, String>>> getRectify() {
         return rectify;
     }
 
-    public void setRectify(ArrayList<ArrayMap<String, String>> rectify) {
+    public void setRectify(List<List<ArrayMap<String, String>>> rectify) {
         this.rectify = rectify;
     }
 }

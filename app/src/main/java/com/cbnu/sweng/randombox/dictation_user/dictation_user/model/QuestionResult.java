@@ -19,7 +19,7 @@ public class QuestionResult implements Serializable {
     private Boolean correct;
     @SerializedName("rectify")
     @Expose
-    private List<ArrayMap<String, String>> rectify; //틀린부분
+    private List<List<ArrayMap<String, String>>> rectify; //틀린부분
     @SerializedName("submitted_answer")
     @Expose
     private String submittedAnswer;
@@ -48,11 +48,11 @@ public class QuestionResult implements Serializable {
         this.correct = correct;
     }
 
-    public List<ArrayMap<String, String>> getRectify() {
+    public List<List<ArrayMap<String, String>>> getRectify() {
         return rectify;
     }
 
-    public void setRectify(List<ArrayMap<String, String>> rectify) {
+    public void setRectify(List<List<ArrayMap<String, String>>> rectify) {
         this.rectify = rectify;
     }
 }

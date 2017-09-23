@@ -6,6 +6,7 @@ import android.util.Log;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Grade;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by user on 2017-08-21.
@@ -42,8 +43,7 @@ public class Grader {
                 grade.setSubmittedAnswer(SubmittedAnswer);
 
                 try {
-                    grade.setRectify(pusanSpellChecker.execute(SubmittedAnswer));
-                    Log.d("Grader/R", String.valueOf(grade.getRectify().size()));
+                    grade.setRectify((List) pusanSpellChecker.execute(SubmittedAnswer));
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -55,6 +55,7 @@ public class Grader {
             if(grade.getQuestionNumber() == 10){
                 grade.setScore(score);
             }
+            Log.d("Grader/R", String.valueOf(grade.getRectify().size()));
             grades.add(grade);
         }
         return grades;

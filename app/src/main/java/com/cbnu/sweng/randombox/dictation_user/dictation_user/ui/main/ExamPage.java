@@ -316,6 +316,6 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
         quizResult.setQuizNumber(Integer.parseInt(quizNumber));
         quizResult.setStudentName("반상민");
 
-        Util.getInstance().moveAcitivity(this, ExamResultPage.class, quizResult, (ArrayList<Question>) questions);
+        Util.getInstance().moveActivity(this, ExamResultPage.class, quizResult, (ArrayList<Question>) questions);
     }
 }

@@ -23,8 +23,11 @@ public class TestAcitivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        SpannableStringBuilder ssb = new SpannableStringBuilder("가나다라마바사아자차카타파하");
-        ssb.setSpan(new ForegroundColorSpan(Color.parseColor("#FF0000")), 1, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        test.setText(ssb);
+        PusanSpellChecker pusanSpellChecker = new PusanSpellChecker();
+        try {
+            pusanSpellChecker.execute("아 버지가");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

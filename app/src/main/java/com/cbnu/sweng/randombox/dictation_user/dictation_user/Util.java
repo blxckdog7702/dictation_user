@@ -8,11 +8,24 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
+import android.util.ArrayMap;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.CandWordList;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.Error;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.Help;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuErrorWord;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuErrorWordList;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuNlpSpeller;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Question;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,26 +46,25 @@ public class Util {
         finally {}
     }
 
-    public void moveAcitivity(Context context, final Class<? extends Activity> ActivityToOpen) {
+    public void moveActivity(Context context, final Class<? extends Activity> ActivityToOpen) {
         Intent intent = new Intent(context, ActivityToOpen);
         context.startActivity(intent);
     }
-    public void moveAcitivity(Context context, final Class<? extends Activity> ActivityToOpen,
-                                QuizResult quizResult, ArrayList<Question> questionsList) {
+    public void moveActivity(Context context, final Class<? extends Activity> ActivityToOpen,
+                             QuizResult quizResult, ArrayList<Question> questionsList) {
         Intent intent = new Intent(context, ActivityToOpen);
         intent.putExtra("quizResult", quizResult);
         intent.putExtra("questionsList", questionsList);
         context.startActivity(intent);
     }
 
-    public void moveAcitivity(Context context, final Class<? extends Activity> ActivityToOpen,
-                                QuizResult quizResult, ArrayList<Question> questionsList,
-                                int questionNumber) {
+    public void moveActivity(Context context, final Class<? extends Activity> ActivityToOpen,
+                             QuizResult quizResult, ArrayList<Question> questionsList,
+                             int questionNumber) {
         Intent intent = new Intent(context, ActivityToOpen);
         intent.putExtra("quizResult", quizResult);
         intent.putExtra("questionNumber", questionNumber);
         intent.putExtra("questionsList", questionsList);
         context.startActivity(intent);
     }
-
 }

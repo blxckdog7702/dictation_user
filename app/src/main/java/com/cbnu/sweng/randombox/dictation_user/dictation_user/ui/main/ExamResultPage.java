@@ -14,7 +14,6 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuestionResu
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizResult;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,6 +23,7 @@ public class ExamResultPage extends AppCompatActivity {
 
     QuizResult quizResult;
     ArrayList<Question> questions;
+    ArrayList<ArrayMap<String, String>> rectifies;
     @BindView(R.id.ivGradeOne) ImageView ivGradeOne;
     @BindView(R.id.ivGradeTwo) ImageView ivGradeTwo;
     @BindView(R.id.ivGradeThree) ImageView ivGradeThree;
@@ -39,56 +39,56 @@ public class ExamResultPage extends AppCompatActivity {
     @OnClick(R.id.btResultOne)
     void onClickBtResultOne(){
         for(QuestionResult questionResult : quizResult.getQuestionResult()){
-            List<ArrayMap<String, String>> rectifies = questionResult.getRectify();
+            rectifies = (ArrayList) questionResult.getRectify();
             Log.d("ExamResultPage/R : ", String.valueOf(rectifies.size()));
         }
 
-        Util.getInstance().moveAcitivity(this, ExamResultDetailedPage.class, quizResult,
+        Util.getInstance().moveActivity(this, ExamResultDetailedPage.class, quizResult,
                                             questions, 1);
     }
     @OnClick(R.id.btResultTwo)
     void onClickBtResultTwo(){
-        Util.getInstance().moveAcitivity(this, ExamResultDetailedPage.class, quizResult,
+        Util.getInstance().moveActivity(this, ExamResultDetailedPage.class, quizResult,
                                             questions, 2);
     }
     @OnClick(R.id.btResultThree)
     void onClickBtResultThree(){
-        Util.getInstance().moveAcitivity(this, ExamResultDetailedPage.class, quizResult,
+        Util.getInstance().moveActivity(this, ExamResultDetailedPage.class, quizResult,
                                             questions, 3);
     }
     @OnClick(R.id.btResultFour)
     void onClickBtResultFour(){
-        Util.getInstance().moveAcitivity(this, ExamResultDetailedPage.class, quizResult,
+        Util.getInstance().moveActivity(this, ExamResultDetailedPage.class, quizResult,
                                             questions, 4);
     }
     @OnClick(R.id.btResultFive)
     void onClickBtResultFive(){
-        Util.getInstance().moveAcitivity(this, ExamResultDetailedPage.class, quizResult,
+        Util.getInstance().moveActivity(this, ExamResultDetailedPage.class, quizResult,
                                             questions, 5);
     }
     @OnClick(R.id.btResultSix)
     void onClickBtResultSix(){
-        Util.getInstance().moveAcitivity(this, ExamResultDetailedPage.class, quizResult,
+        Util.getInstance().moveActivity(this, ExamResultDetailedPage.class, quizResult,
                                             questions, 6);
     }
     @OnClick(R.id.btResultSeven)
     void onClickBtResultSeven(){
-        Util.getInstance().moveAcitivity(this, ExamResultDetailedPage.class, quizResult,
+        Util.getInstance().moveActivity(this, ExamResultDetailedPage.class, quizResult,
                                             questions, 7);
     }
     @OnClick(R.id.btResultEight)
     void onClickBtResultEight(){
-        Util.getInstance().moveAcitivity(this, ExamResultDetailedPage.class, quizResult,
+        Util.getInstance().moveActivity(this, ExamResultDetailedPage.class, quizResult,
                                             questions, 8);
     }
     @OnClick(R.id.btResultNine)
     void onClickBtResultNine(){
-        Util.getInstance().moveAcitivity(this, ExamResultDetailedPage.class, quizResult,
+        Util.getInstance().moveActivity(this, ExamResultDetailedPage.class, quizResult,
                                             questions, 9);
     }
     @OnClick(R.id.btResultTen)
     void onClickBtResultTen(){
-        Util.getInstance().moveAcitivity(this, ExamResultDetailedPage.class, quizResult,
+        Util.getInstance().moveActivity(this, ExamResultDetailedPage.class, quizResult,
                                             questions, 10);
     }
 
