@@ -15,7 +15,7 @@ public class PnuErrorWord
     private String orgStr;
     @SerializedName("m_nStart")
     @Expose
-    private String mNStart;
+    private String m_nStart;
     @SerializedName("nErrorIdx")
     @Expose
     private String nErrorIdx;
