@@ -1,14 +1,14 @@
+
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-
-/**
- * Created by son on 2017-09-23.
- */
+import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class PnuNlpSpeller
 {
+    @SerializedName("pnuErrorWordList")
+    @Expose
     private PnuErrorWordList[] pnuErrorWordList;
 
     public PnuErrorWordList[] getPnuErrorWordList ()
@@ -21,9 +21,4 @@ public class PnuNlpSpeller
         this.pnuErrorWordList = PnuErrorWordList;
     }
 
-    @Override
-    public String toString()
-    {
-        return "ClassPojo [PnuErrorWordList = "+pnuErrorWordList+"]";
-    }
 }

@@ -1,31 +1,39 @@
+
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller;
 
-/**
- * Created by son on 2017-09-23.
- */
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class PnuErrorWord
 {
-    private Help Help;
 
+    @SerializedName("Help")
+    @Expose
+    private Help help;
+    @SerializedName("orgStr")
+    @Expose
     private String orgStr;
-
-    private String m_nStart;
-
+    @SerializedName("m_nStart")
+    @Expose
+    private String mNStart;
+    @SerializedName("nErrorIdx")
+    @Expose
     private String nErrorIdx;
-
+    @SerializedName("candWordList")
+    @Expose
     private CandWordList candWordList;
-
+    @SerializedName("m_nEnd")
+    @Expose
     private String m_nEnd;
 
     public Help getHelp ()
     {
-        return Help;
+        return help;
     }
 
-    public void setHelp (Help Help)
+    public void setHelp (Help help)
     {
-        this.Help = Help;
+        this.help = help;
     }
 
     public String getOrgStr ()
@@ -33,9 +41,9 @@ public class PnuErrorWord
         return orgStr;
     }
 
-    public void setOrgStr (String OrgStr)
+    public void setOrgStr (String orgStr)
     {
-        this.orgStr = OrgStr;
+        this.orgStr = orgStr;
     }
 
     public String getM_nStart ()
@@ -63,9 +71,9 @@ public class PnuErrorWord
         return candWordList;
     }
 
-    public void setCandWordList (CandWordList CandWordList)
+    public void setCandWordList (CandWordList candWordList)
     {
-        this.candWordList = CandWordList;
+        this.candWordList = candWordList;
     }
 
     public String getM_nEnd ()
@@ -78,9 +86,4 @@ public class PnuErrorWord
         this.m_nEnd = m_nEnd;
     }
 
-    @Override
-    public String toString()
-    {
-        return "ClassPojo [Help = "+Help+", OrgStr = "+orgStr+", m_nStart = "+m_nStart+", nErrorIdx = "+nErrorIdx+", CandWordList = "+candWordList+", m_nEnd = "+m_nEnd+"]";
-    }
 }

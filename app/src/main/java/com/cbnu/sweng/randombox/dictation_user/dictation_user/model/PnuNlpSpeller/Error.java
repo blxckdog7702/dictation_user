@@ -1,11 +1,14 @@
+
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller;
 
-/**
- * Created by son on 2017-09-23.
- */
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class Error
 {
+
+    @SerializedName("msg")
+    @Expose
     private String msg;
 
     public String getMsg ()
@@ -18,9 +21,4 @@ public class Error
         this.msg = msg;
     }
 
-    @Override
-    public String toString()
-    {
-        return "ClassPojo [msg = "+msg+"]";
-    }
 }
