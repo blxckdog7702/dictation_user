@@ -64,7 +64,7 @@ public class PusanSpellChecker {
         CandWordList candWordList = new CandWordList();
         String[] candWord = null;
         Help help = new Help();
-        Error error = null;
+        Error error = new Error();
 
         XmlParser xmlParser = new XmlParser();
         Document doc = xmlParser.loadXmlString(xml);
@@ -73,48 +73,59 @@ public class PusanSpellChecker {
         PnuErrorWordList[] pnuErrorWordLists = new PnuErrorWordList[nodePnuErrorWordList.getLength()];
         for(int i = 0; i< nodePnuErrorWordList.getLength(); i++){
             pnuErrorWordList.setRepeat(xmlParser.getAttribute(nodePnuErrorWordList, "repeat"));
+            System.out.println("repat" + pnuErrorWordList.getRepeat());
 
             NodeList nodeError = doc.getElementsByTagName("Error");
-            if(nodeError.item(0).getChildNodes().item(0).getNodeValue() != null){
-                error = new Error();
-                error.setMsg(nodeError.item(0).getChildNodes().item(0).getNodeValue());
-                pnuErrorWordList.setError(error);
+
+            if(nodeError.item(0) != null){
+                error.setMsg(xmlParser.getAttribute(nodeError, "msg"));
+                System.out.println("error.msg" + error.getMsg());
             }
             else{
                 //@NULL
-                pnuErrorWordList.setError(error);
+                error.setMsg("null");
+                System.out.println("error.msg" + "NULL");
             }
+            pnuErrorWordList.setError(error);
 
             NodeList nodePnuErrorWord = doc.getElementsByTagName("PnuErrorWord");
             PnuErrorWord[] pnuErrorWords = new PnuErrorWord[nodePnuErrorWord.getLength()];
             for(int j = 0; j< nodePnuErrorWord.getLength(); j++){
                 Node node = nodePnuErrorWord.item(j);
                 Element fstElmnt = (Element) node;
-                NodeList nodeOrgStrList  = fstElmnt.getElementsByTagName("OrgStr");
-                NodeList nodeCandWordList  = fstElmnt.getElementsByTagName("CandWordList");
-                NodeList nodeHelpList  = fstElmnt.getElementsByTagName("Help");
+                NodeList nodeOrgStrList = fstElmnt.getElementsByTagName("OrgStr");
+                NodeList nodeCandWordList = fstElmnt.getElementsByTagName("CandWordList");
+                NodeList nodeHelpList = fstElmnt.getElementsByTagName("Help");
 
                 candWordList.setM_nCount(Integer.parseInt(xmlParser.getAttribute(nodeCandWordList, "m_nCount")));
                 for(int k = 0; k< candWordList.getM_nCount(); k++){
                     Node node1 = nodeCandWordList.item(k);
                     Element fstElmnt1 = (Element) node1;
-                    NodeList nodeCandWord  = fstElmnt1.getElementsByTagName("CandWord");
+                    NodeList nodeCandWord = fstElmnt1.getElementsByTagName("CandWord");
                     candWord = new String[candWordList.getM_nCount()];
                     candWord[k] = nodeCandWord.item(0).getChildNodes().item(0).getNodeValue();
+                    System.out.println("candword" + candWord[k]);
                 }
                 candWordList.setCandWord(candWord);
 
                 help.setNCorrectMethod(Integer.parseInt(xmlParser.getAttribute(nodeHelpList, "nCorrectMethod")));
                 help.setText(nodeHelpList.item(0).getChildNodes().item(0).getNodeValue());
+                System.out.println("help.getNCorrectMethod" + help.getNCorrectMethod());
+                System.out.println("help.getText" + help.getText());
 
-                pnuErrorWord.setM_nStart(xmlParser.getAttribute(node, "m_nEnd"));
-                pnuErrorWord.setM_nEnd(xmlParser.getAttribute(node, "m_nStart"));
-                pnuErrorWord.setNErrorIdx(xmlParser.getAttribute(node, "nErrorIdx"));
+                pnuErrorWord.setM_nStart(Integer.parseInt(xmlParser.getAttribute(node, "m_nStart")));
+                pnuErrorWord.setM_nEnd(Integer.parseInt(xmlParser.getAttribute(node, "m_nEnd")));
+                pnuErrorWord.setNErrorIdx(Integer.parseInt(xmlParser.getAttribute(node, "nErrorIdx")));
                 pnuErrorWord.setOrgStr(nodeOrgStrList.item(0).getChildNodes().item(0).getNodeValue());
                 pnuErrorWord.setCandWordList(candWordList);
                 pnuErrorWord.setHelp(help);
+                System.out.println("m_nEnd" + pnuErrorWord.getM_nEnd());
+                System.out.println("m_nStart" + pnuErrorWord.getM_nStart());
+                System.out.println("nErrorIdx" + pnuErrorWord.getNErrorIdx());
+                System.out.println("setOrgStr" + pnuErrorWord.getOrgStr());
             }
             pnuErrorWordList.setPnuErrorWord(pnuErrorWords);
+            pnuErrorWordLists[i] = pnuErrorWordList;
         }
         pnuNlpSpeller.setPnuErrorWordList(pnuErrorWordLists);
 

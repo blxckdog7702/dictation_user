@@ -1,10 +1,12 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller;
 
+import java.io.Serializable;
+
 /**
  * Created by son on 2017-09-23.
  */
 
-public class PnuErrorWordList
+public class PnuErrorWordList implements Serializable
 {
     private String repeat;
 

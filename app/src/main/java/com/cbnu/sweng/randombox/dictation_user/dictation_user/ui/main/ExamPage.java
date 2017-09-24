@@ -304,7 +304,6 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
             QuestionResult questionResult = new QuestionResult();
             questionResult.setCorrect(grade.getCorrect());
             questionResult.setRectify(grade.getRectify());
-            Log.d("ExamPage/R", String.valueOf(grade.getRectify().size()));
             questionResult.setQuestionNumber(grade.getQuestionNumber());
             questionResult.setSubmittedAnswer(grade.getSubmittedAnswer());
             questionResults.add(questionResult);

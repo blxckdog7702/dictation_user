@@ -2,6 +2,8 @@ package com.cbnu.sweng.randombox.dictation_user.dictation_user.model;
 
 import android.util.ArrayMap;
 
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuNlpSpeller;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +17,7 @@ public class Grade implements Serializable {
     private int questionNumber;
     private boolean correct;
     private int score;
-    private List<List<ArrayMap<String, String>>> rectify;
+    private PnuNlpSpeller rectify;
     private String question;
     private String SubmittedAnswer;
 
@@ -59,11 +61,11 @@ public class Grade implements Serializable {
         SubmittedAnswer = submittedAnswer;
     }
 
-    public List<List<ArrayMap<String, String>>> getRectify() {
+    public PnuNlpSpeller getRectify() {
         return rectify;
     }
 
-    public void setRectify(List<List<ArrayMap<String, String>>> rectify) {
+    public void setRectify(PnuNlpSpeller rectify) {
         this.rectify = rectify;
     }
 }

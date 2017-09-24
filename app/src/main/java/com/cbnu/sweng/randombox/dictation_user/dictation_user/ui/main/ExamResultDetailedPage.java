@@ -14,6 +14,11 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.CandWordList;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.Help;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuErrorWord;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuErrorWordList;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuNlpSpeller;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Question;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuestionResult;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizResult;
@@ -70,66 +75,78 @@ public class ExamResultDetailedPage extends AppCompatActivity {
                 SpannableStringBuilder studentAnswerBuilder = new SpannableStringBuilder(submittedAnswer);
                 SpannableStringBuilder candWordBuilder = new SpannableStringBuilder(submittedAnswer);
 
-                ArrayList<ArrayList<ArrayMap<String, String>>> rectify = (ArrayList) questionResult.getRectify();
-                Log.d("DetailedPage/R : ", String.valueOf(rectify.size()));
-                for(ArrayList<ArrayMap<String, String>> errors : rectify){
-                    Log.d("DetailedPage/R1 : ", String.valueOf(errors.size()));
-                    for(ArrayMap<String, String> error : errors){
-                        int nCorrectMethod = Integer.parseInt(error.get("nCorrectMethod"));
-                        int start = Integer.parseInt(error.get("m_nStart"));
-                        int end = Integer.parseInt(error.get("m_nEnd"));
-                        String CandWord = error.get("CandWord");
-                        System.out.println("nCorrectMethod : " + nCorrectMethod);
-                        Log.d("nCorrectMethod : ", String.valueOf(nCorrectMethod));
+                PnuNlpSpeller rectify = questionResult.getRectify();
+                if(rectify != null){
+                    for(PnuErrorWordList pnuErrorWordList : rectify.getPnuErrorWordList()){
+                        if(pnuErrorWordList.getError().getMsg() == "null"){
+                            for(PnuErrorWord pnuErrorWord : pnuErrorWordList.getPnuErrorWord()){
+                                Help help = pnuErrorWord.getHelp();
+                                CandWordList candWordList = pnuErrorWord.getCandWordList();
 
-                        if(nCorrectMethod == 0){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            System.out.println("nCorrectMethod : " + nCorrectMethod);
+                                if(help.getNCorrectMethod() == 0){
+                                    studentAnswerBuilder.setSpan(
+                                            new ForegroundColorSpan(Color.parseColor("#000000")), pnuErrorWord.getM_nStart(),
+                                            pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                }
+                                else if(help.getNCorrectMethod() == 1){
+                                    studentAnswerBuilder.setSpan(
+                                            new ForegroundColorSpan(Color.parseColor("#FF0000")), pnuErrorWord.getM_nStart(),
+                                            pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                }
+                                else if(help.getNCorrectMethod() == 2){
+                                    studentAnswerBuilder.setSpan(
+                                            new ForegroundColorSpan(Color.parseColor("#FF0000")), pnuErrorWord.getM_nStart(),
+                                            pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                }
+                                else if(help.getNCorrectMethod() == 3){
+                                    studentAnswerBuilder.setSpan(
+                                            new ForegroundColorSpan(Color.parseColor("#5F00FF")), pnuErrorWord.getM_nStart(),
+                                            pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                }
+                                else if(help.getNCorrectMethod() == 4){
+                                    studentAnswerBuilder.setSpan(
+                                            new ForegroundColorSpan(Color.parseColor("#FF0000")), pnuErrorWord.getM_nStart(),
+                                            pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                }
+                                else if(help.getNCorrectMethod() == 5){
+                                    studentAnswerBuilder.setSpan(
+                                            new ForegroundColorSpan(Color.parseColor("#5F00FF")), pnuErrorWord.getM_nStart(),
+                                            pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                }
+                                else if(help.getNCorrectMethod() == 6){
+                                    studentAnswerBuilder.setSpan(
+                                            new ForegroundColorSpan(Color.parseColor("#1DDB16")), pnuErrorWord.getM_nStart(),
+                                            pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                }
+                                else if(help.getNCorrectMethod() == 7){
+                                    studentAnswerBuilder.setSpan(
+                                            new ForegroundColorSpan(Color.parseColor("#5F00FF")), pnuErrorWord.getM_nStart(),
+                                            pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                }
+                                else if(help.getNCorrectMethod() == 8){
+                                    studentAnswerBuilder.setSpan(
+                                            new ForegroundColorSpan(Color.parseColor("#5F00FF")), pnuErrorWord.getM_nStart(),
+                                            pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                }
+                                else if(help.getNCorrectMethod() == 9){
+                                    studentAnswerBuilder.setSpan(
+                                            new ForegroundColorSpan(Color.parseColor("#5F00FF")), pnuErrorWord.getM_nStart(),
+                                            pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                }
+                                else if(help.getNCorrectMethod() == 10){
+                                    studentAnswerBuilder.setSpan(
+                                            new ForegroundColorSpan(Color.parseColor("#5F00FF")), pnuErrorWord.getM_nStart(),
+                                            pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                }
+                            }
                         }
-                        else if(nCorrectMethod == 1){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#FF0000")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            System.out.println("nCorrectMethod : " + nCorrectMethod);
-                        }
-                        else if(nCorrectMethod == 2){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#FF0000")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            candWordBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#FF0000")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        }
-                        else if(nCorrectMethod == 3){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#5F00FF")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            System.out.println("nCorrectMethod : " + nCorrectMethod);
-                        }
-                        else if(nCorrectMethod == 4){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#FF0000")), 6, 10, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            System.out.println("nCorrectMethod : " + nCorrectMethod);
-                        }
-                        else if(nCorrectMethod == 5){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#5F00FF")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            System.out.println("nCorrectMethod : " + nCorrectMethod);
-                        }
-                        else if(nCorrectMethod == 6){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#1DDB16")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            System.out.println("nCorrectMethod : " + nCorrectMethod);
-                        }
-                        else if(nCorrectMethod == 7){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#5F00FF")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            System.out.println("nCorrectMethod : " + nCorrectMethod);
-                        }
-                        else if(nCorrectMethod == 8){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#5F00FF")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            System.out.println("nCorrectMethod : " + nCorrectMethod);
-                        }
-                        else if(nCorrectMethod == 9){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#5F00FF")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            System.out.println("nCorrectMethod : " + nCorrectMethod);
-                        }
-                        else if(nCorrectMethod == 10){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#1DDB16")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            System.out.println("nCorrectMethod : " + nCorrectMethod);
+                        else{
+                            //Not Error
                         }
                     }
-                    tvCandWord.setText(candWordBuilder);
-                    tvStudentAnswer.setText(studentAnswerBuilder);
-                    }
+                }
+                tvCandWord.setText(candWordBuilder);
+                tvStudentAnswer.setText(studentAnswerBuilder);
             }
         }
     }

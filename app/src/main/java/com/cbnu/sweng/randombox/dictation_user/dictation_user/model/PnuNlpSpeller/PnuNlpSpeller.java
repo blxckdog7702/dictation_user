@@ -7,8 +7,7 @@ import java.util.ArrayList;
  * Created by son on 2017-09-23.
  */
 
-public class PnuNlpSpeller
-{
+public class PnuNlpSpeller implements Serializable {
     private PnuErrorWordList[] pnuErrorWordList;
 
     public PnuErrorWordList[] getPnuErrorWordList ()

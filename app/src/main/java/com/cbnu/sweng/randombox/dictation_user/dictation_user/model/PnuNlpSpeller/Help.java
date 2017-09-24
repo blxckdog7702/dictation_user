@@ -1,10 +1,12 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller;
 
+import java.io.Serializable;
+
 /**
  * Created by son on 2017-09-23.
  */
 
-public class Help
+public class Help implements Serializable
 {
     private String text;
 
