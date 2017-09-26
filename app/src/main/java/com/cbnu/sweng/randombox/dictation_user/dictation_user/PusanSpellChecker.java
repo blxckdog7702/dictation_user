@@ -83,13 +83,15 @@ public class PusanSpellChecker {
             }
             else{
                 //@NULL
-                error.setMsg("null");
-                System.out.println("error.msg" + "NULL");
+                error.setMsg("PASS");
+                System.out.println("error.msg" + "PASS");
             }
             pnuErrorWordList.setError(error);
 
             NodeList nodePnuErrorWord = doc.getElementsByTagName("PnuErrorWord");
             PnuErrorWord[] pnuErrorWords = new PnuErrorWord[nodePnuErrorWord.getLength()];
+            System.out.println("PnuErrorWord.length : " + nodePnuErrorWord.getLength());
+
             for(int j = 0; j< nodePnuErrorWord.getLength(); j++){
                 Node node = nodePnuErrorWord.item(j);
                 Element fstElmnt = (Element) node;
@@ -110,8 +112,7 @@ public class PusanSpellChecker {
 
                 help.setNCorrectMethod(Integer.parseInt(xmlParser.getAttribute(nodeHelpList, "nCorrectMethod")));
                 help.setText(nodeHelpList.item(0).getChildNodes().item(0).getNodeValue());
-                System.out.println("help.getNCorrectMethod" + help.getNCorrectMethod());
-                System.out.println("help.getText" + help.getText());
+
 
                 pnuErrorWord.setM_nStart(Integer.parseInt(xmlParser.getAttribute(node, "m_nStart")));
                 pnuErrorWord.setM_nEnd(Integer.parseInt(xmlParser.getAttribute(node, "m_nEnd")));
@@ -119,10 +120,16 @@ public class PusanSpellChecker {
                 pnuErrorWord.setOrgStr(nodeOrgStrList.item(0).getChildNodes().item(0).getNodeValue());
                 pnuErrorWord.setCandWordList(candWordList);
                 pnuErrorWord.setHelp(help);
-                System.out.println("m_nEnd" + pnuErrorWord.getM_nEnd());
-                System.out.println("m_nStart" + pnuErrorWord.getM_nStart());
-                System.out.println("nErrorIdx" + pnuErrorWord.getNErrorIdx());
-                System.out.println("setOrgStr" + pnuErrorWord.getOrgStr());
+
+                pnuErrorWords[j] = pnuErrorWord;
+                System.out.println("help.getNCorrectMethod" + pnuErrorWords[j].getHelp().getNCorrectMethod());
+                System.out.println("help.getText" + pnuErrorWords[j].getHelp().getText());
+                System.out.println("m_nEnd" + pnuErrorWords[j].getM_nEnd());
+                System.out.println("m_nStart" + pnuErrorWords[j].getM_nStart());
+                System.out.println("nErrorIdx" + pnuErrorWords[j].getNErrorIdx());
+                System.out.println("setOrgStr" + pnuErrorWords[j].getOrgStr());
+
+
             }
             pnuErrorWordList.setPnuErrorWord(pnuErrorWords);
             pnuErrorWordLists[i] = pnuErrorWordList;

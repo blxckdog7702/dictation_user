@@ -14,6 +14,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.Util;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.CandWordList;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.Help;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuErrorWord;
@@ -67,21 +68,27 @@ public class ExamResultDetailedPage extends AppCompatActivity {
         }
 
         for(QuestionResult questionResult : quizResult.getQuestionResult()){
-
             if(questionResult.getQuestionNumber() == questionNumber){
+                String candWord = questionResult.getSubmittedAnswer();
                 String submittedAnswer = questionResult.getSubmittedAnswer();
-                tvCandWord.setText(submittedAnswer);
 
+                SpannableStringBuilder candWordBuilder = new SpannableStringBuilder(candWord);
                 SpannableStringBuilder studentAnswerBuilder = new SpannableStringBuilder(submittedAnswer);
-                SpannableStringBuilder candWordBuilder = new SpannableStringBuilder(submittedAnswer);
 
                 PnuNlpSpeller rectify = questionResult.getRectify();
                 if(rectify != null){
                     for(PnuErrorWordList pnuErrorWordList : rectify.getPnuErrorWordList()){
-                        if(pnuErrorWordList.getError().getMsg() == "null"){
+                        System.out.println("reapeat : " + pnuErrorWordList.getRepeat());
+                        System.out.println("error : " + pnuErrorWordList.getError().getMsg());
+                        if(pnuErrorWordList.getError().getMsg().equals("PASS")){
                             for(PnuErrorWord pnuErrorWord : pnuErrorWordList.getPnuErrorWord()){
                                 Help help = pnuErrorWord.getHelp();
                                 CandWordList candWordList = pnuErrorWord.getCandWordList();
+                                System.out.println("help.getNCorrectMethod() : " + help.getNCorrectMethod());
+                                System.out.println("getCandWord :  " + pnuErrorWord.getCandWordList().getCandWord()[0]);
+                                System.out.println("getOrgStr : " + pnuErrorWord.getOrgStr());
+                                System.out.println("RIndex : " + Util.getInstance().getIndexOfDifference(pnuErrorWord.getCandWordList().getCandWord()[0],
+                                        pnuErrorWord.getOrgStr()));
 
                                 if(help.getNCorrectMethod() == 0){
                                     studentAnswerBuilder.setSpan(
@@ -89,8 +96,14 @@ public class ExamResultDetailedPage extends AppCompatActivity {
                                             pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                 }
                                 else if(help.getNCorrectMethod() == 1){
+                                    int replaceIndex = Util.getInstance().getIndexOfDifference(pnuErrorWord.getCandWordList().getCandWord()[0],
+                                                                                                pnuErrorWord.getOrgStr());
+//                                    candWordBuilder.replace(replaceIndex, replaceIndex + 1, "˅");
+//                                    candWordBuilder.setSpan(
+//                                            new ForegroundColorSpan(Color.parseColor("#FF0000")), replaceIndex,
+//                                            replaceIndex + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                     studentAnswerBuilder.setSpan(
-                                            new ForegroundColorSpan(Color.parseColor("#FF0000")), pnuErrorWord.getM_nStart(),
+                                            new ForegroundColorSpan(Color.parseColor("#1DDB16")), pnuErrorWord.getM_nStart(),
                                             pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                 }
                                 else if(help.getNCorrectMethod() == 2){
@@ -99,8 +112,14 @@ public class ExamResultDetailedPage extends AppCompatActivity {
                                             pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                 }
                                 else if(help.getNCorrectMethod() == 3){
+                                    int replaceIndex = Util.getInstance().getIndexOfDifference(pnuErrorWord.getCandWordList().getCandWord()[0],
+                                                                                                pnuErrorWord.getOrgStr());
+                                    candWordBuilder.replace(replaceIndex, replaceIndex + 1, "︵");
+                                    candWordBuilder.setSpan(
+                                            new ForegroundColorSpan(Color.parseColor("#FF0000")), replaceIndex,
+                                            replaceIndex + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                     studentAnswerBuilder.setSpan(
-                                            new ForegroundColorSpan(Color.parseColor("#5F00FF")), pnuErrorWord.getM_nStart(),
+                                            new ForegroundColorSpan(Color.parseColor("#1DDB16")), pnuErrorWord.getM_nStart(),
                                             pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                 }
                                 else if(help.getNCorrectMethod() == 4){
@@ -141,12 +160,15 @@ public class ExamResultDetailedPage extends AppCompatActivity {
                             }
                         }
                         else{
-                            //Not Error
+                            Log.e("WordList.getError() : ", "NOT NULL");
                         }
                     }
                 }
-                tvCandWord.setText(candWordBuilder);
+                else{
+                    Log.e("getRectify()", "NULL");
+                }
                 tvStudentAnswer.setText(studentAnswerBuilder);
+                tvCandWord.setText(candWordBuilder);
             }
         }
     }

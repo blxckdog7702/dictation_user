@@ -178,7 +178,8 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
             mTextField.setSelection(text.length());
             mTextField.setOnSelectionChangedListener(this);
             widget.setCursorIndex(mTextField.length());
-        } else {
+        }
+        else {
             mTextField.setSelection(widget.getCursorIndex());
             mTextField.setOnSelectionChangedListener(this);
             isCorrectionMode--;
@@ -192,7 +193,8 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
             widget.setCursorIndex(selEnd);
             if (selEnd == widget.getText().length()) {
                 widget.scrollTo(selEnd);
-            } else {
+            }
+            else {
                 widget.centerTo(selEnd);
             }
         }
@@ -251,6 +253,7 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
                 @Override
                 public void run() {
                     mTextField.setText(SubmittedAnswers[questionNumber - 1]);
+                    widget.setText(SubmittedAnswers[questionNumber - 1]);
                 }
             }, 500);
         }
@@ -273,6 +276,7 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
                 @Override
                 public void run() {
                     mTextField.setText(SubmittedAnswers[questionNumber - 1]);
+                    widget.setText(SubmittedAnswers[questionNumber - 1]);
                 }
             }, 500);
         }
