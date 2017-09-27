@@ -86,8 +86,15 @@ public class ApiRequester {
 
 			} else {
 				// error response, no access to resource?
-				System.out.println("서버 실패");
-				callback.onFail();
+				int status = response.code();
+				System.out.println(response.message());
+				if( status == 404 ){
+					callback.onSuccess(false);
+				}
+				else {
+					System.out.println("서버 실패");
+					callback.onFail();
+				}
 			}
 		}
 		@Override
@@ -180,5 +187,26 @@ public class ApiRequester {
 	public void loginTeacher(String loginID, String password, UserCallback<Teacher> userCallback){
 		Call<Teacher> call = dictationServerApi.login(loginID, password, "teacher");
 		call.enqueue(new ObjectCallback<Teacher>(userCallback));
+	}
+
+	//매칭 신청하기
+	public void applyMatching(@Field("teacher_login_id") String teacherLoginID, @Field("student_id") String studentID, UserCallback<Boolean> userCallback){
+		Call<okhttp3.ResponseBody> call = dictationServerApi.applyMatching(teacherLoginID, studentID);
+		call.enqueue(new ResultCallback(userCallback));
+	}
+	//매칭 수락하기
+	public void acceptMatching(@Field("teacher_login_id") String teacherLoginID, @Field("student_id") String studentID, UserCallback<Boolean> userCallback){
+		Call<okhttp3.ResponseBody> call = dictationServerApi.acceptMatching(teacherLoginID, studentID);
+		call.enqueue(new ResultCallback(userCallback));
+	}
+	//매칭 삭제하기
+	public void cancelMatching(@Field("teacher_login_id") String teacherLoginID, @Field("student_id") String studentID, UserCallback<Boolean> userCallback){
+		Call<okhttp3.ResponseBody> call = dictationServerApi.cancelMatching(teacherLoginID, studentID);
+		call.enqueue(new ResultCallback(userCallback));
+	}
+	//매칭 목록보기
+	public void getTeachersApplicants(@Path("teacher_login_id") String teacherLoginID, UserCallback<List<Student>> userCallback){
+		Call<List<Student>> call = dictationServerApi.getTeachersApplicants(teacherLoginID);
+		call.enqueue(new ObjectCallback<>(userCallback));
 	}
 }
