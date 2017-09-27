@@ -52,7 +52,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             if (remoteMessage.getData().get("quizNumber") != null) {
                 quizNumber = remoteMessage.getData().get("quizNumber");
             } else {
-                quizNumber = "뀨뀨까까";
+                quizNumber = "null";
             }
 
 //            Handler handler = new Handler(Looper.getMainLooper());

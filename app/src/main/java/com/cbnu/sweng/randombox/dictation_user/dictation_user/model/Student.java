@@ -1,31 +1,80 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by user on 2017-08-14.
  */
 
-public class Student implements Serializable {
+public class Student implements Serializable{
 
-    public volatile static Student student;
-    private String name;
-    private String School;
-    private String class_name;
-    private int id;
-    private String type;
-    private String result;
-    private String user;
+    @SerializedName("_id")
+    @Expose
+    private String id;
+    @SerializedName("school")
+    @Expose
+    private String school;
+    @SerializedName("grade")
+    @Expose
     private String grade;
+    @SerializedName("class")
+    @Expose
+    private String _class;
+    @SerializedName("student_id")
+    @Expose
+    private Integer studentId;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("__v")
+    @Expose
+    private Integer v;
+    @SerializedName("quiz_results")
+    @Expose
+    private List<String> quizResults = null;
 
-    public static Student getInstance() {
-        if(student == null){
-            student = new Student();
-        }
-        return student;
+    public String getId() {
+        return id;
     }
 
-    private Student() {
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public String getClass_() {
+        return _class;
+    }
+
+    public void setClass_(String _class) {
+        this._class = _class;
+    }
+
+    public Integer getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Integer studentId) {
+        this.studentId = studentId;
     }
 
     public String getName() {
@@ -36,59 +85,20 @@ public class Student implements Serializable {
         this.name = name;
     }
 
-    public String getSchool() {
-        return School;
+    public Integer getV() {
+        return v;
     }
 
-    public void setSchool(String school) {
-        School = school;
+    public void setV(Integer v) {
+        this.v = v;
     }
 
-    public String getClass_name() {
-        return class_name;
+    public List<String> getQuizResults() {
+        return quizResults;
     }
 
-    public void setClass_name(String class_name) {
-        this.class_name = class_name;
+    public void setQuizResults(List<String> quizResults) {
+        this.quizResults = quizResults;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public String getGrade() {
-        return grade;
-    }
-
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
 }

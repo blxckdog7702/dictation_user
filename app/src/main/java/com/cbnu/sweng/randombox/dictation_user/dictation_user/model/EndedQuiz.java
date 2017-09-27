@@ -12,7 +12,7 @@ public class EndedQuiz {
     @SerializedName("student_id")
     @Expose
     private String studentId;
-    @SerializedName("quiz_results")
+    @SerializedName("quiz_result")
     @Expose
     private QuizResult quizResult;
 

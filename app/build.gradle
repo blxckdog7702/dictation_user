@@ -19,19 +19,23 @@ android {
     }
 }
 
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-
-
     compile(name: 'MyScript_ATK-Core-android-component', ext: 'aar')
     compile(name: 'MyScript_ATK-Text-android-component', ext: 'aar')
     compile(name: 'MyScript_ATK-IMCommon-android-component', ext: 'aar')
     compile(name: 'MyScript_ATK-SingleLineWidget-android-widget', ext: 'aar')
 
+
+    compile project(path: ':myscript-certificate')
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.jakewharton:butterknife:8.8.0'
@@ -40,11 +44,10 @@ dependencies {
     compile 'com.shawnlin:number-picker:2.4.4'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    testCompile 'junit:junit:4.12'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.0'
-    compile project(path: ':myscript-certificate')
-
     compile 'com.google.firebase:firebase-core:10.2.6'
     compile 'com.google.firebase:firebase-messaging:10.2.6'
+
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.0'
 }
 apply plugin: 'com.google.gms.google-services'

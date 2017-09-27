@@ -1,16 +1,18 @@
 
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.model;
-
 import java.io.Serializable;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Quiz implements Serializable {
+public class Quiz implements Serializable{
 
     @SerializedName("number")
     @Expose
     private Integer number;
+    @SerializedName("name")
+    @Expose
+    private String name;
     @SerializedName("_id")
     @Expose
     private String id;
@@ -22,7 +24,6 @@ public class Quiz implements Serializable {
     private List<Question> questions = null;
 
     public Integer getNumber() {
-
         return number;
     }
 
@@ -54,4 +55,12 @@ public class Quiz implements Serializable {
         this.questions = questions;
     }
 
+    public String getName() { return name; }
+
+    public void setName(String name) { this.name = name; }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

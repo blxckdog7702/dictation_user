@@ -1,9 +1,12 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user;
 
+import android.util.ArrayMap;
+import android.util.Log;
+
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Grade;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
+import java.util.List;
 
 /**
  * Created by user on 2017-08-21.
@@ -11,51 +14,49 @@ import java.util.concurrent.ExecutionException;
 
 public class Grader {
 
-    ArrayList<Grade> result;
-    NaverSpellChecker naverSpellCheckParser;
+    ArrayList<Grade> grades;
+    PusanSpellChecker pusanSpellChecker;
     private int score = 100;
 
-    public void excute(ArrayList<String[]> qnas)
+    public ArrayList<Grade> execute(ArrayList<ArrayMap<String, String>> qnas)
     {
-        result = new ArrayList<Grade>();
-        naverSpellCheckParser = new NaverSpellChecker();
+        grades = new ArrayList<Grade>();
+        pusanSpellChecker = new PusanSpellChecker();
 
-        for(String[] qna : qnas){
-            String questionNumber = qna[0];
-            final String question = qna[1];
-            final String answer = qna[2];
-            Grade gradeResult = new Grade();
+        for(ArrayMap<String, String> qna : qnas){
+            String questionNumber = qna.get("questionNumber");
+            final String question = qna.get("question");
+            final String SubmittedAnswer = qna.get("SubmittedAnswer");
+            Grade grade = new Grade();
 
-            if(question.equals(answer)){
-                gradeResult.setQuestionNumber(Integer.parseInt(questionNumber));
-                gradeResult.setCorrect(true);
-                gradeResult.setRectify(new ArrayList<String[]>()
-                {
-                    {
-                       add(new String[]{"black", answer});
-                     }
-                });
-                gradeResult.setQuestion(question);
+            if(question.equals(SubmittedAnswer)){
+                grade.setQuestionNumber(Integer.parseInt(questionNumber));
+                grade.setCorrect(true);
+                grade.setRectify(null);
+                grade.setQuestion(question);
+                grade.setSubmittedAnswer(SubmittedAnswer);
             }
             else{
-                gradeResult.setQuestionNumber(Integer.parseInt(questionNumber));
-                gradeResult.setCorrect(false);
-                gradeResult.setQuestion(question);
+                grade.setQuestionNumber(Integer.parseInt(questionNumber));
+                grade.setCorrect(false);
+                grade.setQuestion(question);
+                grade.setSubmittedAnswer(SubmittedAnswer);
 
                 try {
-                    gradeResult.setRectify((naverSpellCheckParser.execute(answer).get()));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
+                    grade.setRectify(pusanSpellChecker.execute(SubmittedAnswer));
+
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
+
                 score -= 10;
             }
 
-            if(gradeResult.getQuestionNumber() == 10){
-                gradeResult.setScore(score);
+            if(grade.getQuestionNumber() == 10){
+                grade.setScore(score);
             }
-            result.add(gradeResult);
+            grades.add(grade);
         }
+        return grades;
     }
 }

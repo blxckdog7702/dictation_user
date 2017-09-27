@@ -9,13 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.Util;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.service.MyFirebaseMessagingService;
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -100,6 +98,7 @@ public class MainPage extends AppCompatActivity {
                     tvTeacherSchoolName.setText("한국초등학교");
                 }
                 else {
+                    etTeacherId.setPadding(20, 5, 20, 5);
                     tvTeacherSchoolName.setText("해당 아이디가 없습니다.");
                     tvTeacherSchoolName.setPadding(20, 5, 20, 5);
                     tvTeacherName.setText("아이디를 다시 입력해주세요.");
@@ -114,19 +113,15 @@ public class MainPage extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-//            Util.getInstance().moveAcitivity(MainPage.this, ExamActivity.class);
             String historyId = intent.getStringExtra("quizHistoryId");
             String quizNumber = intent.getStringExtra("quizNumber");
 
-
-            Intent intent2 = new Intent(MainPage.this, ExamActivity.class);
-            intent2.putExtra("quizHistoryId", historyId);
-            intent2.putExtra("quizNumber", quizNumber);
-            startActivity(intent2);
-
             if(isReceiveKey){
                 btExamReady.setProgress(100);
-                Util.getInstance().moveAcitivity(MainPage.this, ExamActivity.class);
+                Intent intent2 = new Intent(MainPage.this, ExamPage.class);
+                intent2.putExtra("quizHistoryId", historyId);
+                intent2.putExtra("quizNumber", quizNumber);
+                startActivity(intent2);
             }
         }
     };
