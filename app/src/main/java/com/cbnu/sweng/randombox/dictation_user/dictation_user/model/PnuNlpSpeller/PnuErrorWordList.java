@@ -4,8 +4,9 @@ package com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpell
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 
-public class PnuErrorWordList
+public class PnuErrorWordList implements Serializable
 {
 
     @SerializedName("repeat")

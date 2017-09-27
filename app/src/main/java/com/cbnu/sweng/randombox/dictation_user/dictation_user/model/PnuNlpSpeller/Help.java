@@ -3,8 +3,10 @@ package com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpell
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 
-public class Help
+
+public class Help implements Serializable
 {
 
     @SerializedName("text")

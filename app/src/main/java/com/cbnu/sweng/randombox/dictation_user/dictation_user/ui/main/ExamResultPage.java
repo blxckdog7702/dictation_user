@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.Util;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuNlpSpeller;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Question;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuestionResult;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizResult;
@@ -23,7 +24,7 @@ public class ExamResultPage extends AppCompatActivity {
 
     QuizResult quizResult;
     ArrayList<Question> questions;
-    ArrayList<ArrayMap<String, String>> rectifies;
+    PnuNlpSpeller rectifies;
     @BindView(R.id.ivGradeOne) ImageView ivGradeOne;
     @BindView(R.id.ivGradeTwo) ImageView ivGradeTwo;
     @BindView(R.id.ivGradeThree) ImageView ivGradeThree;
@@ -38,11 +39,6 @@ public class ExamResultPage extends AppCompatActivity {
 
     @OnClick(R.id.btResultOne)
     void onClickBtResultOne(){
-        for(QuestionResult questionResult : quizResult.getQuestionResult()){
-            rectifies = (ArrayList) questionResult.getRectify();
-            Log.d("ExamResultPage/R : ", String.valueOf(rectifies.size()));
-        }
-
         Util.getInstance().moveActivity(this, ExamResultDetailedPage.class, quizResult,
                                             questions, 1);
     }

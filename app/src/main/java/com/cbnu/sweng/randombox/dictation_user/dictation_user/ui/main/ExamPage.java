@@ -178,7 +178,8 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
             mTextField.setSelection(text.length());
             mTextField.setOnSelectionChangedListener(this);
             widget.setCursorIndex(mTextField.length());
-        } else {
+        }
+        else {
             mTextField.setSelection(widget.getCursorIndex());
             mTextField.setOnSelectionChangedListener(this);
             isCorrectionMode--;
@@ -192,7 +193,8 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
             widget.setCursorIndex(selEnd);
             if (selEnd == widget.getText().length()) {
                 widget.scrollTo(selEnd);
-            } else {
+            }
+            else {
                 widget.centerTo(selEnd);
             }
         }
@@ -251,6 +253,7 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
                 @Override
                 public void run() {
                     mTextField.setText(SubmittedAnswers[questionNumber - 1]);
+                    widget.setText(SubmittedAnswers[questionNumber - 1]);
                 }
             }, 500);
         }
@@ -273,6 +276,7 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
                 @Override
                 public void run() {
                     mTextField.setText(SubmittedAnswers[questionNumber - 1]);
+                    widget.setText(SubmittedAnswers[questionNumber - 1]);
                 }
             }, 500);
         }
@@ -282,6 +286,28 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
     public void endDictation() {
         SubmittedAnswer = mTextField.getText().toString();
         SubmittedAnswers[(questionNumber) - 1] = SubmittedAnswer;
+
+//        TEST CASE
+//        1. 세수를 합니다.
+//        2. 잠을 잡니다.
+//        3. 책을 읽습니다.
+//        4. 꼬리를 흔듭니다.
+//        5. 시소 미끄럼틀
+//        6. 놀이터에서 놀아요.
+//        7. 그네를 타요.
+//        8. 콩쥐가 울고
+//        9. 항아리가 깨졌습니다.
+//        10. 다람쥐가 도와줍니다.
+        SubmittedAnswers[0] = "아 버지가 방에 들어가쉰다.";
+        SubmittedAnswers[1] = "잠을 잡니다.";
+        SubmittedAnswers[2] = "책을";
+        SubmittedAnswers[3] = "꼬리를 흔듬니다.";
+        SubmittedAnswers[4] = "시소 미끄럼틀";
+        SubmittedAnswers[5] = "노리터에서 노라요";
+        SubmittedAnswers[6] = "다람쥐";
+        SubmittedAnswers[7] = "다람쥐";
+        SubmittedAnswers[8] = "다람쥐";
+        SubmittedAnswers[9] = "다람지가 도아줌니다.";
 
         Toast.makeText(getApplicationContext(),
                 "시험이 종료되었습니다.",
@@ -304,7 +330,6 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
             QuestionResult questionResult = new QuestionResult();
             questionResult.setCorrect(grade.getCorrect());
             questionResult.setRectify(grade.getRectify());
-            Log.d("ExamPage/R", String.valueOf(grade.getRectify().size()));
             questionResult.setQuestionNumber(grade.getQuestionNumber());
             questionResult.setSubmittedAnswer(grade.getSubmittedAnswer());
             questionResults.add(questionResult);

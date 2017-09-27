@@ -1,11 +1,14 @@
 
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller;
 
+
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 
-public class CandWordList
+
+public class CandWordList implements Serializable
 {
 
     @SerializedName("m_nCount")

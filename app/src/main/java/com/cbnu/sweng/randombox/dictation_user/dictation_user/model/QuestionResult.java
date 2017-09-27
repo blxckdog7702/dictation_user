@@ -3,6 +3,7 @@ package com.cbnu.sweng.randombox.dictation_user.dictation_user.model;
 
 import android.util.ArrayMap;
 
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuNlpSpeller;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -19,7 +20,7 @@ public class QuestionResult implements Serializable {
     private Boolean correct;
     @SerializedName("rectify")
     @Expose
-    private List<List<ArrayMap<String, String>>> rectify; //틀린부분
+    private PnuNlpSpeller rectify; //틀린부분
     @SerializedName("submitted_answer")
     @Expose
     private String submittedAnswer;
@@ -48,11 +49,11 @@ public class QuestionResult implements Serializable {
         this.correct = correct;
     }
 
-    public List<List<ArrayMap<String, String>>> getRectify() {
+    public PnuNlpSpeller getRectify() {
         return rectify;
     }
 
-    public void setRectify(List<List<ArrayMap<String, String>>> rectify) {
+    public void setRectify(PnuNlpSpeller rectify) {
         this.rectify = rectify;
     }
 }

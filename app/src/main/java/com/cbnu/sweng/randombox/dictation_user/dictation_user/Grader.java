@@ -43,7 +43,7 @@ public class Grader {
                 grade.setSubmittedAnswer(SubmittedAnswer);
 
                 try {
-                    grade.setRectify((List) pusanSpellChecker.execute(SubmittedAnswer));
+                    grade.setRectify(pusanSpellChecker.execute(SubmittedAnswer));
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -55,7 +55,6 @@ public class Grader {
             if(grade.getQuestionNumber() == 10){
                 grade.setScore(score);
             }
-            Log.d("Grader/R", String.valueOf(grade.getRectify().size()));
             grades.add(grade);
         }
         return grades;

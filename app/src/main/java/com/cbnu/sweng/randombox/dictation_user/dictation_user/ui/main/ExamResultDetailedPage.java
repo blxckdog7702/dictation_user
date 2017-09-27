@@ -8,12 +8,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StrikethroughSpan;
 import android.util.ArrayMap;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.Util;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.CandWordList;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.Help;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuErrorWord;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuErrorWordList;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuNlpSpeller;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Question;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuestionResult;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizResult;
@@ -35,6 +45,7 @@ public class ExamResultDetailedPage extends AppCompatActivity {
     @BindView(R.id.tvStudentAnswer) TextView tvStudentAnswer;
     @BindView(R.id.tvCorrectAnswer) TextView tvCorrectAnswer;
     @BindView(R.id.tvCandWord) TextView tvCandWord;
+    @BindView(R.id.ivRedCircle) ImageView ivRedCircle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,74 +73,125 @@ public class ExamResultDetailedPage extends AppCompatActivity {
         }
 
         for(QuestionResult questionResult : quizResult.getQuestionResult()){
-
             if(questionResult.getQuestionNumber() == questionNumber){
+                String candWord = questionResult.getSubmittedAnswer();
                 String submittedAnswer = questionResult.getSubmittedAnswer();
-                tvCandWord.setText(submittedAnswer);
 
+                SpannableStringBuilder candWordBuilder = new SpannableStringBuilder(candWord);
                 SpannableStringBuilder studentAnswerBuilder = new SpannableStringBuilder(submittedAnswer);
-                SpannableStringBuilder candWordBuilder = new SpannableStringBuilder(submittedAnswer);
 
-                ArrayList<ArrayList<ArrayMap<String, String>>> rectify = (ArrayList) questionResult.getRectify();
-                Log.d("DetailedPage/R : ", String.valueOf(rectify.size()));
-                for(ArrayList<ArrayMap<String, String>> errors : rectify){
-                    Log.d("DetailedPage/R1 : ", String.valueOf(errors.size()));
-                    for(ArrayMap<String, String> error : errors){
-                        int nCorrectMethod = Integer.parseInt(error.get("nCorrectMethod"));
-                        int start = Integer.parseInt(error.get("m_nStart"));
-                        int end = Integer.parseInt(error.get("m_nEnd"));
-                        String CandWord = error.get("CandWord");
-                        System.out.println("nCorrectMethod : " + nCorrectMethod);
-                        Log.d("nCorrectMethod : ", String.valueOf(nCorrectMethod));
+                PnuNlpSpeller rectify = questionResult.getRectify();
+                //채점 결과 -> 정답
+                if(CorrectAnswer.equals(submittedAnswer)){
+                    tvStudentAnswer.setText(submittedAnswer);
+                    ivRedCircle.setVisibility(View.VISIBLE);
+                }
+                //채점 결과 -> 학생 답안과 실제 답안이 내용상 일치율이 70% 이상일 경우 교정
+                else if(Util.getInstance().getWordSimilarity(CorrectAnswer, submittedAnswer) > 80){
+                    if(rectify != null){
+                        for(PnuErrorWordList pnuErrorWordList : rectify.getPnuErrorWordList()){
+                            if(pnuErrorWordList.getError().getMsg().equals("PASS")){
+                                for(PnuErrorWord pnuErrorWord : pnuErrorWordList.getPnuErrorWord()){
+                                    Help help = pnuErrorWord.getHelp();
+                                    System.out.println("help.getNCorrectMethod() : " + help.getNCorrectMethod());
+                                    System.out.println("getCandWord :  " + pnuErrorWord.getCandWordList().getCandWord()[0]);
+                                    System.out.println("getOrgStr : " + pnuErrorWord.getOrgStr());
+                                    System.out.println("RIndex : " + Util.getInstance().getIndexOfDifference(pnuErrorWord.getCandWordList().getCandWord()[0],
+                                            pnuErrorWord.getOrgStr()));
 
-                        if(nCorrectMethod == 0){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            System.out.println("nCorrectMethod : " + nCorrectMethod);
+                                    if(help.getNCorrectMethod() == 0){
+                                        //
+                                    }
+                                    // 띄어쓰기
+                                    else if(help.getNCorrectMethod() == 1){
+                                        int replaceIndex = Util.getInstance().getIndexOfDifference(pnuErrorWord.getCandWordList().getCandWord()[0],
+                                                pnuErrorWord.getOrgStr());
+                                        candWordBuilder.replace(pnuErrorWord.getM_nStart() + replaceIndex,
+                                                pnuErrorWord.getM_nStart() + replaceIndex + 1,
+                                                "V");
+                                        candWordBuilder.setSpan(
+                                                new ForegroundColorSpan(Color.parseColor("#FF0000")), pnuErrorWord.getM_nStart() + replaceIndex,
+                                                pnuErrorWord.getM_nStart() + replaceIndex + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                        studentAnswerBuilder.setSpan(
+                                                new ForegroundColorSpan(Color.parseColor("#1DDB16")), pnuErrorWord.getM_nStart(),
+                                                pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    }
+                                    //TODO 틀린곳이 1개만 색칠되서 getIndexOfDifference 고쳐야함 []로 반환으로 여러개 체크
+                                    else if(help.getNCorrectMethod() == 2){
+                                        int replaceIndex = Util.getInstance().getIndexOfDifference(pnuErrorWord.getCandWordList().getCandWord()[0],
+                                                pnuErrorWord.getOrgStr());
+                                        studentAnswerBuilder.setSpan(
+                                                new ForegroundColorSpan(Color.parseColor("#FF0000")), pnuErrorWord.getM_nStart() + replaceIndex,
+                                                pnuErrorWord.getM_nStart() + replaceIndex + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    }
+                                    // 붙여쓰기
+                                    else if(help.getNCorrectMethod() == 3){
+                                        int replaceIndex = Util.getInstance().getIndexOfDifference(pnuErrorWord.getCandWordList().getCandWord()[0],
+                                                pnuErrorWord.getOrgStr());
+                                        candWordBuilder.replace(pnuErrorWord.getM_nStart() + replaceIndex,
+                                                pnuErrorWord.getM_nStart() + replaceIndex + 1,
+                                                "︵");
+                                        candWordBuilder.setSpan(
+                                                new ForegroundColorSpan(Color.parseColor("#FF0000")), pnuErrorWord.getM_nStart() + replaceIndex,
+                                                pnuErrorWord.getM_nStart() + replaceIndex + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                        studentAnswerBuilder.setSpan(
+                                                new ForegroundColorSpan(Color.parseColor("#1DDB16")), pnuErrorWord.getM_nStart(),
+                                                pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    }
+                                    else if(help.getNCorrectMethod() == 4){
+                                        studentAnswerBuilder.setSpan(
+                                                new ForegroundColorSpan(Color.parseColor("#FF0000")), pnuErrorWord.getM_nStart(),
+                                                pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    }
+                                    else if(help.getNCorrectMethod() == 5){
+                                        studentAnswerBuilder.setSpan(
+                                                new ForegroundColorSpan(Color.parseColor("#5F00FF")), pnuErrorWord.getM_nStart(),
+                                                pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    }
+                                    else if(help.getNCorrectMethod() == 6){
+                                        studentAnswerBuilder.setSpan(
+                                                new ForegroundColorSpan(Color.parseColor("#1DDB16")), pnuErrorWord.getM_nStart(),
+                                                pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    }
+                                    else if(help.getNCorrectMethod() == 7){
+                                        studentAnswerBuilder.setSpan(
+                                                new ForegroundColorSpan(Color.parseColor("#5F00FF")), pnuErrorWord.getM_nStart(),
+                                                pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    }
+                                    else if(help.getNCorrectMethod() == 8){
+                                        studentAnswerBuilder.setSpan(
+                                                new ForegroundColorSpan(Color.parseColor("#5F00FF")), pnuErrorWord.getM_nStart(),
+                                                pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    }
+                                    else if(help.getNCorrectMethod() == 9){
+                                        studentAnswerBuilder.setSpan(
+                                                new ForegroundColorSpan(Color.parseColor("#5F00FF")), pnuErrorWord.getM_nStart(),
+                                                pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    }
+                                    else if(help.getNCorrectMethod() == 10){
+                                        studentAnswerBuilder.setSpan(
+                                                new ForegroundColorSpan(Color.parseColor("#5F00FF")), pnuErrorWord.getM_nStart(),
+                                                pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    }
+                                }
+                            }
+                            else{
+                                Log.e("WordList.getError() : ", "NOT NULL");
+                                tvStudentAnswer.setBackground(getResources().getDrawable(R.drawable.red_strike_line));
+                            }
                         }
-                        else if(nCorrectMethod == 1){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#FF0000")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            System.out.println("nCorrectMethod : " + nCorrectMethod);
-                        }
-                        else if(nCorrectMethod == 2){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#FF0000")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            candWordBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#FF0000")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        }
-                        else if(nCorrectMethod == 3){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#5F00FF")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            System.out.println("nCorrectMethod : " + nCorrectMethod);
-                        }
-                        else if(nCorrectMethod == 4){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#FF0000")), 6, 10, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            System.out.println("nCorrectMethod : " + nCorrectMethod);
-                        }
-                        else if(nCorrectMethod == 5){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#5F00FF")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            System.out.println("nCorrectMethod : " + nCorrectMethod);
-                        }
-                        else if(nCorrectMethod == 6){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#1DDB16")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            System.out.println("nCorrectMethod : " + nCorrectMethod);
-                        }
-                        else if(nCorrectMethod == 7){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#5F00FF")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            System.out.println("nCorrectMethod : " + nCorrectMethod);
-                        }
-                        else if(nCorrectMethod == 8){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#5F00FF")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            System.out.println("nCorrectMethod : " + nCorrectMethod);
-                        }
-                        else if(nCorrectMethod == 9){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#5F00FF")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            System.out.println("nCorrectMethod : " + nCorrectMethod);
-                        }
-                        else if(nCorrectMethod == 10){
-                            studentAnswerBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#1DDB16")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            System.out.println("nCorrectMethod : " + nCorrectMethod);
-                        }
+                        tvStudentAnswer.setText(studentAnswerBuilder);
+                        tvCandWord.setText(candWordBuilder);
                     }
-                    tvCandWord.setText(candWordBuilder);
+                    else{
+                        Log.e("getRectify()", "NULL");
+                    }
+                }
+                //채점 결과 -> 학생 답안과 실제 답안이 내용상 일치율이 70%가 안될 경우
+                else{
                     tvStudentAnswer.setText(studentAnswerBuilder);
-                    }
+                    tvStudentAnswer.setBackground(getResources().getDrawable(R.drawable.red_strike_line));
+                }
             }
         }
     }

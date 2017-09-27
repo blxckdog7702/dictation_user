@@ -1,10 +1,13 @@
 
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller;
 
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 
-public class PnuErrorWord
+
+public class PnuErrorWord implements Serializable
 {
 
     @SerializedName("Help")
@@ -46,22 +49,22 @@ public class PnuErrorWord
         this.orgStr = orgStr;
     }
 
-    public String getM_nStart ()
+    public int getM_nStart ()
     {
         return m_nStart;
     }
 
-    public void setM_nStart (String m_nStart)
+    public void setM_nStart (int m_nStart)
     {
         this.m_nStart = m_nStart;
     }
 
-    public String getNErrorIdx ()
+    public int getNErrorIdx ()
     {
         return nErrorIdx;
     }
 
-    public void setNErrorIdx (String nErrorIdx)
+    public void setNErrorIdx (int nErrorIdx)
     {
         this.nErrorIdx = nErrorIdx;
     }
@@ -76,12 +79,12 @@ public class PnuErrorWord
         this.candWordList = candWordList;
     }
 
-    public String getM_nEnd ()
+    public int getM_nEnd ()
     {
         return m_nEnd;
     }
 
-    public void setM_nEnd (String m_nEnd)
+    public void setM_nEnd (int m_nEnd)
     {
         this.m_nEnd = m_nEnd;
     }
