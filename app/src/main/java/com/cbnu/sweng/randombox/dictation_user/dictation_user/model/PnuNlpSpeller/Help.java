@@ -1,15 +1,19 @@
+
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
-/**
- * Created by son on 2017-09-23.
- */
 
 public class Help implements Serializable
 {
-    private String text;
 
+    @SerializedName("text")
+    @Expose
+    private String text;
+    @SerializedName("nCorrectMethod")
+    @Expose
     private int nCorrectMethod;
 
     public String getText ()
@@ -32,9 +36,4 @@ public class Help implements Serializable
         this.nCorrectMethod = nCorrectMethod;
     }
 
-    @Override
-    public String toString()
-    {
-        return "ClassPojo [content = "+text+", nCorrectMethod = "+nCorrectMethod+"]";
-    }
 }

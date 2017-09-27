@@ -1,33 +1,42 @@
+
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller;
 
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
-/**
- * Created by son on 2017-09-23.
- */
 
 public class PnuErrorWord implements Serializable
 {
-    private Help Help;
 
+    @SerializedName("Help")
+    @Expose
+    private Help help;
+    @SerializedName("orgStr")
+    @Expose
     private String orgStr;
-
-    private int m_nStart;
-
-    private int nErrorIdx;
-
+    @SerializedName("m_nStart")
+    @Expose
+    private String m_nStart;
+    @SerializedName("nErrorIdx")
+    @Expose
+    private String nErrorIdx;
+    @SerializedName("candWordList")
+    @Expose
     private CandWordList candWordList;
-
-    private int m_nEnd;
+    @SerializedName("m_nEnd")
+    @Expose
+    private String m_nEnd;
 
     public Help getHelp ()
     {
-        return Help;
+        return help;
     }
 
-    public void setHelp (Help Help)
+    public void setHelp (Help help)
     {
-        this.Help = Help;
+        this.help = help;
     }
 
     public String getOrgStr ()
@@ -35,9 +44,9 @@ public class PnuErrorWord implements Serializable
         return orgStr;
     }
 
-    public void setOrgStr (String OrgStr)
+    public void setOrgStr (String orgStr)
     {
-        this.orgStr = OrgStr;
+        this.orgStr = orgStr;
     }
 
     public int getM_nStart ()
@@ -65,9 +74,9 @@ public class PnuErrorWord implements Serializable
         return candWordList;
     }
 
-    public void setCandWordList (CandWordList CandWordList)
+    public void setCandWordList (CandWordList candWordList)
     {
-        this.candWordList = CandWordList;
+        this.candWordList = candWordList;
     }
 
     public int getM_nEnd ()
@@ -80,9 +89,4 @@ public class PnuErrorWord implements Serializable
         this.m_nEnd = m_nEnd;
     }
 
-    @Override
-    public String toString()
-    {
-        return "ClassPojo [Help = "+Help+", OrgStr = "+orgStr+", m_nStart = "+m_nStart+", nErrorIdx = "+nErrorIdx+", CandWordList = "+candWordList+", m_nEnd = "+m_nEnd+"]";
-    }
 }

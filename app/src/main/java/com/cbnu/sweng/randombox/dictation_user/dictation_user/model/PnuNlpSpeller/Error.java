@@ -1,13 +1,15 @@
+
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
-
-/**
- * Created by son on 2017-09-23.
- */
 
 public class Error implements Serializable
 {
+
+    @SerializedName("msg")
+    @Expose
     private String msg;
 
     public String getMsg ()
@@ -20,9 +22,4 @@ public class Error implements Serializable
         this.msg = msg;
     }
 
-    @Override
-    public String toString()
-    {
-        return "ClassPojo [msg = "+msg+"]";
-    }
 }

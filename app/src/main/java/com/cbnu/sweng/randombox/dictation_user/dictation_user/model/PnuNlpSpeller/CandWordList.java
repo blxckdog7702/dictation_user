@@ -1,15 +1,21 @@
+
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller;
 
+
+import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
-/**
- * Created by son on 2017-09-23.
- */
 
 public class CandWordList implements Serializable
 {
-    private int m_nCount;
 
+    @SerializedName("m_nCount")
+    @Expose
+    private int m_nCount;
+    @SerializedName("candWord")
+    @Expose
     private String[] candWord;
 
     public int getM_nCount ()
@@ -32,9 +38,4 @@ public class CandWordList implements Serializable
         this.candWord = CandWord;
     }
 
-    @Override
-    public String toString()
-    {
-        return "ClassPojo [m_nCount = "+m_nCount+", CandWord = "+candWord+"]";
-    }
 }
