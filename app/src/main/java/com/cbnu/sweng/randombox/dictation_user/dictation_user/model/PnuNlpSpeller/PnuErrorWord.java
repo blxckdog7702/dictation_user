@@ -13,21 +13,26 @@ public class PnuErrorWord implements Serializable
     @SerializedName("Help")
     @Expose
     private Help help;
+
     @SerializedName("orgStr")
     @Expose
     private String orgStr;
+
     @SerializedName("m_nStart")
     @Expose
-    private String m_nStart;
+    private int m_nStart;
+
     @SerializedName("nErrorIdx")
     @Expose
-    private String nErrorIdx;
+    private int nErrorIdx;
+
     @SerializedName("candWordList")
     @Expose
     private CandWordList candWordList;
+
     @SerializedName("m_nEnd")
     @Expose
-    private String m_nEnd;
+    private int m_nEnd;
 
     public Help getHelp ()
     {

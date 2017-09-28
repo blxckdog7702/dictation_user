@@ -27,6 +27,10 @@ public class SignUpActivity extends AppCompatActivity {
 
     Spinner spState;
     Spinner spCity;
+    Button schoolsearch;
+    EditText schoolname;
+    String selectedschool;
+
     @BindArray(R.array.strArrayCity)
     String [] strArrayCity;
     @BindView(R.id.etSchoolNameUp) EditText etSchoolNameUp;
@@ -40,11 +44,29 @@ public class SignUpActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
         builder.setTitle("학교를 검색합니다.");
+
+        schoolsearch.setOnClickListener( // 검색하기 버튼 누르는 부분
+                new Button.OnClickListener() {
+                    public void onClick(View v) {
+
+                        selectedschool = schoolname.getText().toString();
+
+
+
+                    }
+                }
+        );
+
         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which){
                 String strCity = spCity.getSelectedItem().toString();
                 String strState = spState.getSelectedItem().toString();
+
+                Log.d("TAG", strState);
+                Log.d("TAG", strCity);
+                Log.d("TAG", selectedschool);
+
             }
         });
         builder.setNegativeButton("취소",
