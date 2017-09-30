@@ -1,4 +1,4 @@
-package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.main;
+package com.cbnu.sweng.randombox.dictation_user.dictation_user.view.exam;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,10 +17,11 @@ import android.widget.Toast;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ApiRequester;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.BuildConfig;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.CustomEditText;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.Grader;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.Util;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Grade;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.GradeModel;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Question;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuestionResult;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Quiz;
@@ -323,18 +324,18 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
         }
 
         Grader grader = new Grader();
-        ArrayList<Grade> grades = grader.execute(qnas);
+        ArrayList<GradeModel> gradeModels = grader.execute(qnas);
         QuizResult quizResult = new QuizResult();
 
-        for(Grade grade : grades){
+        for(GradeModel gradeModel : gradeModels){
             QuestionResult questionResult = new QuestionResult();
-            questionResult.setCorrect(grade.getCorrect());
-            questionResult.setRectify(grade.getRectify());
-            questionResult.setQuestionNumber(grade.getQuestionNumber());
-            questionResult.setSubmittedAnswer(grade.getSubmittedAnswer());
+            questionResult.setCorrect(gradeModel.getCorrect());
+            questionResult.setRectify(gradeModel.getRectify());
+            questionResult.setQuestionNumber(gradeModel.getQuestionNumber());
+            questionResult.setSubmittedAnswer(gradeModel.getSubmittedAnswer());
             questionResults.add(questionResult);
             if (questionResult.getQuestionNumber() == 10){
-                quizResult.setScore(grade.getScore());
+                quizResult.setScore(gradeModel.getScore());
             }
         }
         quizResult.setQuestionResult(questionResults);

@@ -12,7 +12,7 @@ import java.util.List;
  * Created by user on 2017-08-21.
  */
 
-public class Grade implements Serializable {
+public class GradeModel implements Serializable {
 
     private int questionNumber;
     private boolean correct;

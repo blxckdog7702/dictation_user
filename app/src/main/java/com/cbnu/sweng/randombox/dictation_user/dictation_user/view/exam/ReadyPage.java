@@ -1,4 +1,4 @@
-package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.main;
+package com.cbnu.sweng.randombox.dictation_user.dictation_user.view.exam;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,18 +23,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainPage extends AppCompatActivity {
+public class ReadyPage extends AppCompatActivity {
 
     private Boolean isReceiveKey = false;
     private Boolean isTeacherInfo = false;
-    @BindView(R.id.tvTeacherSchoolName)
-    TextView tvTeacherSchoolName;
-    @BindView(R.id.tvTeacherName)
-    TextView tvTeacherName;
-    @BindView(R.id.etTeacherId)
-    EditText etTeacherId;
-    @BindView(R.id.btExamReady)
-    ActionProcessButton btExamReady;
+    @BindView(R.id.tvTeacherSchoolName) TextView tvTeacherSchoolName;
+    @BindView(R.id.tvTeacherName) TextView tvTeacherName;
+    @BindView(R.id.etTeacherId) EditText etTeacherId;
+    @BindView(R.id.btExamReady) ActionProcessButton btExamReady;
 
     @OnClick(R.id.btExamReady)
     void onClickBtExamReady() {
@@ -118,7 +114,7 @@ public class MainPage extends AppCompatActivity {
 
             if(isReceiveKey){
                 btExamReady.setProgress(100);
-                Intent intent2 = new Intent(MainPage.this, ExamPage.class);
+                Intent intent2 = new Intent(ReadyPage.this, ExamPage.class);
                 intent2.putExtra("quizHistoryId", historyId);
                 intent2.putExtra("quizNumber", quizNumber);
                 startActivity(intent2);

@@ -1,4 +1,4 @@
-package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign;
+package com.cbnu.sweng.randombox.dictation_user.dictation_user.view.sign;
 
 import android.content.DialogInterface;
 import android.graphics.Color;

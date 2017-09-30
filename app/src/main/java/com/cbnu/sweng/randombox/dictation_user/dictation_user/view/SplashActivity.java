@@ -1,4 +1,4 @@
-package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui;
+package com.cbnu.sweng.randombox.dictation_user.dictation_user.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign.SignUpActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.view.sign.SignUpActivity;
 
 public class SplashActivity extends AppCompatActivity {
 

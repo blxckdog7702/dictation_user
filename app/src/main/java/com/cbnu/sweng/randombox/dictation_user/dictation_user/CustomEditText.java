@@ -1,4 +1,4 @@
-package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.main;
+package com.cbnu.sweng.randombox.dictation_user.dictation_user;
 
 import android.content.Context;
 import android.text.InputType;

@@ -1,10 +1,8 @@
-package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.main;
+package com.cbnu.sweng.randombox.dictation_user.dictation_user.view.exam;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.ArrayMap;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
