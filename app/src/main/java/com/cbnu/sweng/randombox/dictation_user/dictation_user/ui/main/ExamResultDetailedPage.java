@@ -8,10 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.StrikethroughSpan;
-import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,7 +16,6 @@ import android.widget.TextView;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.Util;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.CandWordList;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.Help;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuErrorWord;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuErrorWordList;
@@ -29,7 +25,6 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuestionResu
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizResult;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -87,7 +82,7 @@ public class ExamResultDetailedPage extends AppCompatActivity {
                     ivRedCircle.setVisibility(View.VISIBLE);
                 }
                 //채점 결과 -> 학생 답안과 실제 답안이 내용상 일치율이 70% 이상일 경우 교정
-                else if(Util.getInstance().getWordSimilarity(CorrectAnswer, submittedAnswer) > 80){
+                else if(Util.getInstance().wordSimilarity(CorrectAnswer, submittedAnswer) > 80){
                     if(rectify != null){
                         for(PnuErrorWordList pnuErrorWordList : rectify.getPnuErrorWordList()){
                             if(pnuErrorWordList.getError().getMsg().equals("PASS")){

@@ -23,17 +23,6 @@ public class School implements Serializable {
     @SerializedName("address")
     @Expose
     private String address;
-    private String _id;
-
-    public static School getInstance() {
-        if(school == null){
-            school = new School();
-        }
-        return school;
-    }
-
-    private School() {
-    }
 
     public String getName() {
         return name;
@@ -67,11 +56,4 @@ public class School implements Serializable {
         this.address = address;
     }
 
-    public String get_id() {
-        return _id;
-    }
-
-    public void set_id(String _id) {
-        this._id = _id;
-    }
 }

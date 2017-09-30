@@ -101,7 +101,7 @@ public class Util {
         return -1;
     }
 
-    public int getWordSimilarity (String correctAnswer, String submittedAnswer) {
+    public int wordSimilarity(String correctAnswer, String submittedAnswer) {
         int result;
         int len1 = correctAnswer.length();
         int len2 = submittedAnswer.length();
