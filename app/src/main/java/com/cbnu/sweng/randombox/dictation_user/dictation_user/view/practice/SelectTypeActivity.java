@@ -13,13 +13,13 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SelectTypePage extends BaseActivity {
+public class SelectTypeActivity extends BaseActivity {
 
     @BindView(R.id.rvPractice) RecyclerView rvPractice;
 
     public static final String[] titles = {"유아용", "유아용", "유아용", "초등학생용"};
     public static final String[] practiceTypes = {"자음 / 모음", "자음 + 모음", "낱말카드", "급수표"};
-    public static final Integer[] images = {R.drawable.practice1, R.drawable.practice1, R.drawable.practice1, R.drawable.practice4};
+    public static final Integer[] images = {R.drawable.practice1, R.drawable.practice1, R.drawable.practice3, R.drawable.practice4};
     private int numOfCard = 4;
     private ArrayList<PracticeTypeModel> practiceTypeModels = new ArrayList<>();
     private PracticeTypeAdapter practiceTypeAdapter;

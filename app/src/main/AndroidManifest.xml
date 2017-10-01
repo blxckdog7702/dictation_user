@@ -23,7 +23,7 @@
         <activity android:name=".view.exam.ExamResultDetailedPage" />
         <activity
             android:name=".view.exam.ReadyPage"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".view.sign.SignUpActivity" />
         <activity
             android:name=".view.exam.ExamPage"
@@ -40,14 +40,18 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".view.practice.SelectTypePage">
+        <activity android:name=".view.practice.SelectTypeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.BaseActivity"></activity>
+        <activity android:name=".view.BaseActivity" />
+        <activity android:name=".view.practice.WordPracticeActivity" />
+        <activity android:name=".view.practice.DictationPracticeActivity" />
+        <activity android:name=".view.practice.VowelOrConsonantPracticeActivity" />
+        <activity android:name=".view.practice.VowelAndConsonantPracticeActivity"></activity>
     </application>
 
 </manifest>

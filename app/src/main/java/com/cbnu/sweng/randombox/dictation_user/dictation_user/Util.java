@@ -149,4 +149,18 @@ public class Util {
         float px = dp * (metrics.densityDpi / 160f);
         return px;
     }
+
+    public float getDisplayWidth(Context context){
+        return (float) ((Activity) context).getWindowManager().getDefaultDisplay().getWidth();
+    }
+
+    public float getDisplayHeigth(Context context){
+        return (float) ((Activity) context).getWindowManager().getDefaultDisplay().getHeight();
+    }
+
+    public float getMargin(Context context){
+        return (int) convertDpToPixel(10f, (Activity) context);
+    }
+
+
 }
