@@ -15,6 +15,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -30,7 +31,12 @@ import retrofit2.http.Query;
  */
 
 public interface DictationServerApi {
-
+	//등록된 선생님 목록보기
+	@GET("/students/{student_id}/teachers")
+	Call<List<Teacher>> getStudentsTeachers(@Path("student_id") String studentID);
+	//매칭 끊기 - 이거 사용
+	@DELETE("/matching/teacher_id/{teacher_id}/student_id/{student_id}")
+	Call<ResponseBody> unConnectedMatching(@Path("student_id") String studentID, @Path("teacher_id") String teacherID);
 	//학교 목록보기
 	@GET("/schools")
 	Call<List<School>> getSchools();
