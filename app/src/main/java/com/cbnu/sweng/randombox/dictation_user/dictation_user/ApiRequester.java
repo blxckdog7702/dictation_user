@@ -231,4 +231,14 @@ public class ApiRequester {
         Call<List<School>> call = dictationServerApi.searchSchool(region1, region2);
 		call.enqueue(new ObjectCallback<>(userCallback));
 	}
+	//등록된 선생님 목록보기
+	public void getStudentsTeachers(String studentID, UserCallback<List<Teacher>> userCallback){
+		Call<List<Teacher>> call = dictationServerApi.getStudentsTeachers(studentID);
+		call.enqueue(new ObjectCallback<>(userCallback));
+	}
+	//매칭 끊기
+	public void unConnectedMatching(String studentID, String teacherID, UserCallback<Boolean> userCallback){
+		Call<okhttp3.ResponseBody> call = dictationServerApi.unConnectedMatching(studentID, teacherID);
+		call.enqueue(new ResultCallback(userCallback));
+	}
 }
