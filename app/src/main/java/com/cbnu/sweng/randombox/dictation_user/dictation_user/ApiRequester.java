@@ -1,5 +1,7 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.EndedQuiz;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Quiz;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizHistory;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizResult;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.School;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Teacher;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.service.DictationServerApi;
@@ -23,6 +26,8 @@ public class ApiRequester {
 	JsonParser parser;
 
 	Callback callback;
+
+
 
 	public interface UserCallback<T>{
 		void onSuccess(T result);
@@ -219,7 +224,11 @@ public class ApiRequester {
 	}
 	//학교 검색하기
 	public void searchSchools(String region1, String region2, UserCallback<List<School>> userCallback){
-		Call<List<School>> call = dictationServerApi.searchSchool(region1, region2);
+
+		Log.d("TAG", "api");
+
+
+        Call<List<School>> call = dictationServerApi.searchSchool(region1, region2);
 		call.enqueue(new ObjectCallback<>(userCallback));
 	}
 }

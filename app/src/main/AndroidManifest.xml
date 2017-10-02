@@ -22,7 +22,7 @@
         <activity android:name=".ui.main.ExamResultPage"></activity>
         <activity android:name=".ui.main.ExamResultDetailedPage"></activity>
         <activity
-            android:name=".ui.main.MainPage"
+            android:name=".ui.sign.SignUpActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +31,7 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".ui.sign.SignUpActivity" />
+        <activity android:name=".ui.main.MainPage" />
         <activity
             android:name=".ui.main.ExamPage"
             android:screenOrientation="landscape"></activity>

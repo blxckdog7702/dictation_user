@@ -11,15 +11,19 @@ import java.io.Serializable;
 public class School implements Serializable {
 
     public volatile static School school;
+
     @SerializedName("name")
     @Expose
     private String name;
+
     @SerializedName("region1")
     @Expose
     private String regionn1;
+
     @SerializedName("region2")
     @Expose
     private String regionn2;
+
     @SerializedName("address")
     @Expose
     private String address;
