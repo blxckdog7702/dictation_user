@@ -218,8 +218,8 @@ public class ApiRequester {
 		call.enqueue(new ObjectCallback<>(userCallback));
 	}
 	//학교 검색하기
-	public void searchSchools(String region1, String region2, UserCallback<List<School>> userCallback){
-		Call<List<School>> call = dictationServerApi.searchSchool(region1, region2);
+	public void searchSchools(String region1, String region2, String name, UserCallback<List<School>> userCallback){
+		Call<List<School>> call = dictationServerApi.searchSchool(region1, region2, name);
 		call.enqueue(new ObjectCallback<>(userCallback));
 	}
 	//등록된 선생님 목록보기
