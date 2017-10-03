@@ -38,7 +38,7 @@ import retrofit2.http.POST;
 public class SignUpActivity extends AppCompatActivity {
 
     ApiRequester apiRequester = new ApiRequester();
-    Student student;
+    Student student = new Student();
 
     Spinner spState;
     Spinner spCity;
@@ -49,7 +49,12 @@ public class SignUpActivity extends AppCompatActivity {
     String myschool;
 
     String myname; // 실제 가입할 때 넘어가는 값들
+
     String myinfo; // 실제 가입할 때 넘어가는 값들
+    String myclass;
+    String mygrade;
+    int myStudentId;
+
     String myschoolname; // 실제 가입할 때 넘어가는 값들
     String myteacher; // 실제 가입할 때 넘어가는 값들
 
@@ -269,9 +274,14 @@ public class SignUpActivity extends AppCompatActivity {
                 int strGrade = npGrade.getValue();
                 int strClass = npClass.getValue();
                 int strAttendenceNum = npAttendenceNum.getValue();
+                myStudentId = strAttendenceNum;
                 etStudentInfoUp.setText(Integer.toString(strGrade) + "학년 " + Integer.toString(strClass) + "반 " + Integer.toString(strAttendenceNum) + "번 "
                 );
                 myinfo = Integer.toString(strGrade) + "학년 " + Integer.toString(strClass) + "반 " + Integer.toString(strAttendenceNum) + "번 ";
+
+                mygrade = Integer.toString(strGrade);
+                myclass = Integer.toString(strClass);
+                //myStudentId = Integer.toString(strAttendenceNum);
             }
         });
         builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -290,19 +300,60 @@ public class SignUpActivity extends AppCompatActivity {
     @OnClick(R.id.btSignUp)
     void onClickBtSignUp()
     {
-        myname = etStudentNameUp.getText().toString();
-        myteacher = etTeacherNameUp.getText().toString();
+        myname = etStudentNameUp.getText().toString(); // 기재한 이름을 변수에 담음
+        myteacher = etTeacherNameUp.getText().toString(); // 기재한 선생님ID를 변수에 담음
 
-        Log.d("TAG", myname);
-        Log.d("TAG", myschoolname);
-        Log.d("TAG", myinfo);
-        Log.d("TAG", myteacher);
+        Log.d("TAG", myname); // 이름
+        Log.d("TAG", myschoolname); // 학교 명
+        Log.d("TAG", mygrade); // 학년
+        Log.d("TAG", myclass); // 반
+        Log.d("TAG", String.valueOf(myStudentId)); // 번호
 
 //        student.setName(myname);
-//        student.setSchool(myschoolname);
-//        student.set
-//
-//        apiRequester.signUpStudent();
+        student.setSchool(myschoolname);
+        student.setGrade(mygrade);
+        student.setClass_(myclass);
+        student.setStudentId(myStudentId);
+
+      apiRequester.checkDuplicateStudent(student, new ApiRequester.UserCallback<Boolean>() {
+          @Override
+          public void onSuccess(Boolean result) {
+              if(result==true)
+              {
+                  Toast.makeText(getApplicationContext(), "중복 되는 정보가 있습니다.", Toast.LENGTH_LONG).show();
+              }
+              else
+              {
+                  Toast.makeText(getApplicationContext(), "회원 가입 진행", Toast.LENGTH_LONG).show();
+
+                  student.setName(myname);
+                  student.setSchool(myschoolname);
+                  student.setGrade(mygrade);
+                  student.setClass_(myclass);
+                  //student.setStudentId(myStudentId);
+
+                  apiRequester.signUpStudent(student, new ApiRequester.UserCallback<Student>() {
+                      @Override
+                      public void onSuccess(Student result) {
+                          Toast.makeText(getApplicationContext(), "가입이 완료 되었습니다.", Toast.LENGTH_LONG).show();
+                      }
+
+                      @Override
+                      public void onFail() {
+                          Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
+                      }
+                  });
+
+              }
+
+          }
+
+          @Override
+          public void onFail() {
+              Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
+          }
+      });
+
 
     }
 

@@ -15,24 +15,31 @@ public class Student implements Serializable{
     @SerializedName("_id")
     @Expose
     private String id;
+
     @SerializedName("school")
     @Expose
     private String school;
+
     @SerializedName("grade")
     @Expose
     private String grade;
+
     @SerializedName("class")
     @Expose
     private String _class;
+
     @SerializedName("student_id")
     @Expose
     private Integer studentId;
+
     @SerializedName("name")
     @Expose
     private String name;
+
     @SerializedName("__v")
     @Expose
     private Integer v;
+
     @SerializedName("quiz_results")
     @Expose
     private List<String> quizResults = null;
