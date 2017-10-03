@@ -52,7 +52,6 @@
         <activity android:name=".view.practice.DictationPracticeActivity" />
         <activity android:name=".view.practice.VowelOrConsonantPracticeActivity" />
         <activity android:name=".view.practice.VowelAndConsonantPracticeActivity" />
-        <activity android:name=".view.practice.BasePracticeActivity"></activity>
     </application>
 
 </manifest>
