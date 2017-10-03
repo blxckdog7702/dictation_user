@@ -2,12 +2,14 @@ package com.cbnu.sweng.randombox.dictation_user.dictation_user.view.practice;
 
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.BuildConfig;
@@ -15,34 +17,73 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.CustomEditText;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.myscript.atk.sltw.SingleLineWidget;
 import com.myscript.atk.sltw.SingleLineWidgetApi;
+import com.myscript.atk.text.CandidateInfo;
 import com.myscript.certificate.MyCertificate;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class backup extends AppCompatActivity implements SingleLineWidgetApi.OnConfiguredListener,
+public abstract class BasePracticeActivity extends AppCompatActivity implements SingleLineWidgetApi.OnConfiguredListener,
                                                                             SingleLineWidgetApi.OnTextChangedListener,
                                                                             CustomEditText.OnSelectionChanged,
                                                                             SingleLineWidgetApi.OnUserScrollBeginListener,
                                                                             SingleLineWidgetApi.OnUserScrollEndListener,
                                                                             SingleLineWidgetApi.OnUserScrollListener{
-
-    @BindView(R.id.textField) CustomEditText textField;
+    protected int isCorrectionMode;
+    protected ArrayMap<Integer, String> words;
+    protected ArrayList<Integer> keys;
+    protected int wordNum = 0;
+    protected int wordSize = 0;
     @BindView(R.id.widget) SingleLineWidget widget;
-
-    private static final String TAG = "WordPractice";
-    private int isCorrectionMode;
+    @BindView(R.id.tvWord) TextView tvWord;
+    @BindView(R.id.ivWord) ImageView ivWord;
+    @OnClick(R.id.btClear)
+    void onClickBtClear(){
+        widget.clear();
+    }
+    @OnClick(R.id.btPrev)
+    void onClickBtPrev(){
+        System.out.println("WordSize() : " + wordSize);
+        System.out.println("WordNum() : " + wordNum);
+        if(wordNum > 0 ){
+            showWords(wordNum);
+            wordNum--;
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "이전 낱말이 없습니다.", Toast.LENGTH_LONG).show();
+        }
+        widget.clear();
+    }
+    @OnClick(R.id.btNext)
+    void onClickBtNext(){
+        System.out.println("WordSize() : " + wordSize);
+        System.out.println("WordNum() : " + wordNum);
+        if(wordNum < wordSize){
+            showWords(wordNum);
+            wordNum++;
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "다음 낱말이 없습니다.", Toast.LENGTH_LONG).show();
+        }
+        widget.clear();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void setContentView(int layoutResID) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        setContentView(R.layout.activity_word_practice_acitivity);
+        super.setContentView(layoutResID);
+        bindViews();
+    }
 
+    protected void bindViews() {
         ButterKnife.bind(this);
+        Init();
+    }
 
-        textField.setOnSelectionChangedListener(this);
-
+    public void Init(){
         if (!widget.registerCertificate(MyCertificate.getBytes())) {
             AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
             dlgAlert.setMessage("Please use a valid certificate.");
@@ -56,13 +97,11 @@ public class backup extends AppCompatActivity implements SingleLineWidgetApi.OnC
             dlgAlert.create().show();
             return;
         }
-
         widget.setOnConfiguredListener(this);
         widget.setOnTextChangedListener(this);
         widget.setOnUserScrollBeginListener(this);
         widget.setOnUserScrollEndListener(this);
         widget.setOnUserScrollListener(this);
-        widget.setBaselinePosition(getResources().getDimension(R.dimen.baseline_position));
         widget.setWritingAreaBackgroundResource(R.drawable.sltw_bg_pattern);
         widget.setScrollbarResource(R.drawable.sltw_scrollbar_xml);
         widget.setScrollbarMaskResource(R.drawable.sltw_scrollbar_mask);
@@ -72,51 +111,58 @@ public class backup extends AppCompatActivity implements SingleLineWidgetApi.OnC
         widget.setCursorResource(R.drawable.sltw_text_cursor_holo_light);
         widget.addSearchDir("zip://" + getPackageCodePath() + "!/assets/conf");
         widget.configure("ko_KR", "cur_text");
-        widget.setText(textField.getText().toString());
-
         isCorrectionMode = 0;
+
+        setWords();
+        showWords(wordNum);
     }
 
-    @Override
-    protected void onDestroy() {
-        widget.setOnTextChangedListener(null);
-        widget.setOnConfiguredListener(null);
-        super.onDestroy();
+    protected void showWords(int num){
+        Integer key = keys.get(num);
+        ivWord.setImageResource(key);
+        if(words.get(key).length() == 1){
+            tvWord.setTextSize(150);
+        }
+        else if(words.get(key).length() == 3){
+            tvWord.setTextSize(130);
+        }
+        else if(words.get(key).length() == 5){
+            tvWord.setTextSize(90);
+        }
+        else if(words.get(key).length() == 7){
+            tvWord.setTextSize(100);
+        }
+        tvWord.setText(words.get(key));
     }
+
+    protected abstract void setWords();
 
     @Override
     public void onConfigured(SingleLineWidgetApi widget, boolean success) {
         if (!success) {
             Toast.makeText(getApplicationContext(), widget.getErrorString(), Toast.LENGTH_LONG).show();
-            Log.e(TAG, "Unable to configure the Single Line Widget: " + widget.getErrorString());
+            Log.e("TAG", "Unable to configure the Single Line Widget: " + widget.getErrorString());
             return;
         }
         if (BuildConfig.DEBUG)
-            Log.d(TAG, "Single Line Widget configured!");
+            Log.d("TAG", "Single Line Widget configured!");
     }
 
     @Override
     public void onTextChanged(SingleLineWidgetApi widget, String text, boolean intermediate) {
 
-        Log.d(TAG, "Text changed to \"" + text + "\" (" + (intermediate ? "intermediate" : "stable") + ")");
+        Log.d("TAG", "Text changed to \"" + text + "\" (" + (intermediate ? "intermediate" : "stable") + ")");
         // temporarily disable selection changed listener to prevent spurious cursor jumps
-        textField.setOnSelectionChangedListener(null);
-        textField.setTextKeepState(text);
         if (isCorrectionMode == 0) {
-            textField.setSelection(text.length());
-            textField.setOnSelectionChangedListener(this);
-            widget.setCursorIndex(textField.length());
         }
         else {
-            textField.setSelection(widget.getCursorIndex());
-            textField.setOnSelectionChangedListener(this);
             isCorrectionMode--;
         }
     }
 
     @Override
     public void onSelectionChanged(EditText editText, int selStart, int selEnd) {
-        Log.d(TAG, "Selection changed to [" + selStart + "-" + selEnd + "]");
+        Log.d("TAG", "Selection changed to [" + selStart + "-" + selEnd + "]");
         if (widget.getCursorIndex() != selEnd) {
             widget.setCursorIndex(selEnd);
             if (selEnd == widget.getText().length()) {
@@ -129,29 +175,18 @@ public class backup extends AppCompatActivity implements SingleLineWidgetApi.OnC
     }
 
     @Override
-    public void onUserScrollBegin(SingleLineWidgetApi w) {
-        Log.d(TAG, "User scroll begin");
-    }
+    public void onUserScrollBegin(SingleLineWidgetApi w) {}
 
     @Override
-    public void onUserScrollEnd(SingleLineWidgetApi w) {
-        Log.d(TAG, "User scroll end");
-    }
+    public void onUserScrollEnd(SingleLineWidgetApi w) {}
 
     @Override
-    public void onUserScroll(SingleLineWidgetApi w) {
-        Log.d(TAG, "User scroll");
-        if (widget.moveCursorToVisibleIndex()) {
-            // temporarily disable selection changed listener
-            textField.setOnSelectionChangedListener(null);
-            textField.setSelection(widget.getCursorIndex());
-            textField.setOnSelectionChangedListener(this);
-        }
-    }
+    public void onUserScroll(SingleLineWidgetApi w) {}
 
-    private void setWords(){
-        ArrayMap<Integer, String> words = new ArrayMap<>();
-
-
+    @Override
+    protected void onDestroy() {
+        widget.setOnTextChangedListener(null);
+        widget.setOnConfiguredListener(null);
+        super.onDestroy();
     }
 }

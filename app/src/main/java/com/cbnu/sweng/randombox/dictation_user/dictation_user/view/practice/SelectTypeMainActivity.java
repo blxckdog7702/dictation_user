@@ -7,13 +7,13 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.adapter.PracticeTypeAdapter;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PracticeTypeModel;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.view.BaseActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.view.BaseMainActivity;
 
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SelectTypeActivity extends BaseActivity {
+public class SelectTypeMainActivity extends BaseMainActivity {
 
     @BindView(R.id.rvPractice) RecyclerView rvPractice;
 

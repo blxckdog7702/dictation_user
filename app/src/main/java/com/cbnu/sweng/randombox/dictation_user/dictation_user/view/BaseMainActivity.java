@@ -14,7 +14,7 @@ import com.myscript.atk.core.Tool;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseMainActivity extends AppCompatActivity {
 
     @Nullable
     @BindView(R.id.toolbar) Toolbar toolbar;
