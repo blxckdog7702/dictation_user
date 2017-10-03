@@ -24,7 +24,7 @@
 
     </LinearLayout>
 
-    <com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.main.CustomEditText
+    <com.cbnu.sweng.randombox.dictation_user.dictation_user.CustomEditText
         android:id="@+id/textField"
         android:text="@string/input_text"
         android:layout_width="match_parent"
@@ -91,7 +91,6 @@
 
     <GridView
         android:id="@+id/candidatePanel"
-
         android:layout_above="@id/buttons"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

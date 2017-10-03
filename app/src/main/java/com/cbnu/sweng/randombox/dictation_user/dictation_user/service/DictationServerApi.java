@@ -5,6 +5,7 @@ import java.util.List;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Quiz;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizHistory;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizResult;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.School;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Teacher;
 import com.google.gson.JsonObject;
