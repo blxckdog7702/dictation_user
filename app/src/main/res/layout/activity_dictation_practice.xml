@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cbnu.sweng.randombox.dictation_user.dictation_user.view.practice.DictationPracticeActivity">
+    tools:context="com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.DictationPracticeActivity">
 
 </android.support.constraint.ConstraintLayout>

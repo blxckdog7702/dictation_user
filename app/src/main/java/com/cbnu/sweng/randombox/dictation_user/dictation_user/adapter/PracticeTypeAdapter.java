@@ -12,12 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.Util;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.Util;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PracticeTypeModel;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.view.practice.DictationPracticeActivity;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.view.practice.VowelAndConsonantPracticeActivity;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.view.practice.VowelOrConsonantPracticeActivity;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.view.practice.WordPracticeActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.DictationPracticeActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.VowelAndConsonantPracticeActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.VowelOrConsonantPracticeActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.WordPracticeActivity;
 
 import java.util.ArrayList;
 
