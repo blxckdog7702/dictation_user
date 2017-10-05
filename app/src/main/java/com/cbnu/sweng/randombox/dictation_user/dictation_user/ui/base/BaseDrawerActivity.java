@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BaseActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.CircleTransformation;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.Util;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
@@ -20,6 +19,7 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindDimen;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class BaseDrawerActivity extends BaseActivity {
 
@@ -35,10 +35,15 @@ public class BaseDrawerActivity extends BaseActivity {
     @Override
     public void setContentView(int layoutResID) {
         super.setContentViewWithoutInject(R.layout.activity_base_drawer);
-        ViewGroup viewGroup = (ViewGroup) findViewById(R.id.id_container_menu);
+        ViewGroup viewGroup = (ViewGroup) findViewById(R.id.content);
         LayoutInflater.from(this).inflate(layoutResID, viewGroup, true);
         bindViews();
+    }
 
+    protected void bindViews() {
+        super.bindViews();
+        ButterKnife.bind(this);
+        setupToolbar();
         setupMenu();
         setupHeader();
     }

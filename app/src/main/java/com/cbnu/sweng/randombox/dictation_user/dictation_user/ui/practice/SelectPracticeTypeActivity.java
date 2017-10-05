@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SelectTypeMainActivity extends BaseDrawerActivity {
+public class SelectPracticeTypeActivity extends BaseDrawerActivity {
 
     @BindView(R.id.rvPractice) RecyclerView rvPractice;
 
@@ -27,7 +27,7 @@ public class SelectTypeMainActivity extends BaseDrawerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_type);
+        setContentView(R.layout.activity_select_practice_type);
 
         ButterKnife.bind(this);
 

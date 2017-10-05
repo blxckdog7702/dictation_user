@@ -40,7 +40,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".ui.practice.SelectTypeMainActivity">
+        <activity android:name=".ui.practice.SelectPracticeTypeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,7 +52,9 @@
         <activity android:name=".ui.practice.DictationPracticeActivity" />
         <activity android:name=".ui.practice.VowelOrConsonantPracticeActivity" />
         <activity android:name=".ui.practice.VowelAndConsonantPracticeActivity" />
-        <activity android:name=".ui.base.BaseDrawerActivity"></activity>
+        <activity android:name=".ui.base.BaseDrawerActivity">
+
+        </activity>
     </application>
 
 </manifest>
