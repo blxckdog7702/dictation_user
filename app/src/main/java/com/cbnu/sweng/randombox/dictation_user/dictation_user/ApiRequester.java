@@ -224,13 +224,10 @@ public class ApiRequester {
 	}
 	//학교 검색하기
 	public void searchSchools(String region1, String region2, UserCallback<List<School>> userCallback){
-
-		Log.d("TAG", "api");
-
-
         Call<List<School>> call = dictationServerApi.searchSchool(region1, region2);
 		call.enqueue(new ObjectCallback<>(userCallback));
 	}
+
 	//등록된 선생님 목록보기
 	public void getStudentsTeachers(String studentID, UserCallback<List<Teacher>> userCallback){
 		Call<List<Teacher>> call = dictationServerApi.getStudentsTeachers(studentID);
