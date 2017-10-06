@@ -17,5 +17,4 @@ public class RecordFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_record,null);
     }
 
-
 }

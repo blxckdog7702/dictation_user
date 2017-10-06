@@ -15,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile.RecordManagerActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.Util;
 import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
 import com.yalantis.contextmenu.lib.MenuObject;
 import com.yalantis.contextmenu.lib.MenuParams;
@@ -185,7 +187,7 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
 
         }
         else if(position == 4){
-
+            Util.getInstance().moveActivity(this, RecordManagerActivity.class);
         }
         else if(position == 5){
 
