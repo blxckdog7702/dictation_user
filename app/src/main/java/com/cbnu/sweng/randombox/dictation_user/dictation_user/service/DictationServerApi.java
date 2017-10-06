@@ -85,7 +85,15 @@ public interface DictationServerApi {
     @FormUrlEncoded
     @POST("/auth/login")
     Call<Teacher> login(@Field("login_id") String loginID, @Field("password") String password, @Field("type") String type);
-
+		//학생 로그인
+    @FormUrlEncoded
+    @POST("/auth/login")
+    Call<Student> loginStudent(	@Field("type") String type,
+    							@Field("school") String school,
+    							@Field("grade") String grade,
+    							@Field("class") String _class,
+    							@Field("student_id") int studentId,
+    							@Field("name") String name);
     @GET("/teachers/{id}/quiz_histories")
     Call<List<QuizHistory>> getTeachersQuizHistories(@Path("id") String id);
 
