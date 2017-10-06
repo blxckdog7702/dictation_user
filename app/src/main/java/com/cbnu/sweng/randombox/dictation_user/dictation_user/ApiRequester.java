@@ -14,7 +14,6 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Teacher;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.service.DictationServerApi;
 import com.google.gson.*;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -221,10 +220,10 @@ public class ApiRequester {
 	public void getSchools(UserCallback<List<School>> userCallback){
 		Call<List<School>> call = dictationServerApi.getSchools();
 		call.enqueue(new ObjectCallback<>(userCallback));
-	}
+}
 	//학교 검색하기
-	public void searchSchools(String region1, String region2, UserCallback<List<School>> userCallback){
-        Call<List<School>> call = dictationServerApi.searchSchool(region1, region2);
+	public void searchSchools(String region1, String region2, String name, UserCallback<List<School>> userCallback){
+		Call<List<School>> call = dictationServerApi.searchSchool(region1, region2, name);
 		call.enqueue(new ObjectCallback<>(userCallback));
 	}
 

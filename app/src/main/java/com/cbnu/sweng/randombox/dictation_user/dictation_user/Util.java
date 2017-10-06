@@ -9,6 +9,7 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.util.ArrayMap;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
@@ -141,4 +142,25 @@ public class Util {
         result = 100 - ((dp[len1][len2] / correctAnswer.length()) * 100);
         return result;
     }
+
+    public float convertDpToPixel(float dp, Context context) {
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        float px = dp * (metrics.densityDpi / 160f);
+        return px;
+    }
+
+    public float getDisplayWidth(Context context){
+        return (float) ((Activity) context).getWindowManager().getDefaultDisplay().getWidth();
+    }
+
+    public float getDisplayHeigth(Context context){
+        return (float) ((Activity) context).getWindowManager().getDefaultDisplay().getHeight();
+    }
+
+    public float getMargin(Context context){
+        return (int) convertDpToPixel(10f, (Activity) context);
+    }
+
+
 }
