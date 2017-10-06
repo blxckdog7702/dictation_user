@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.ArrayMap;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BasePracticeActivity;
 
 import java.util.ArrayList;
 

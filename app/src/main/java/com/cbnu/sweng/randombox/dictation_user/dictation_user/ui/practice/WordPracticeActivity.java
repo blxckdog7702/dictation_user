@@ -3,6 +3,7 @@ package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice;
 import android.os.Bundle;
 import android.util.ArrayMap;
 
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BasePracticeActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.CustomEditText;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.myscript.atk.sltw.SingleLineWidgetApi;

@@ -1,4 +1,4 @@
-package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice;
+package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base;
 
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
