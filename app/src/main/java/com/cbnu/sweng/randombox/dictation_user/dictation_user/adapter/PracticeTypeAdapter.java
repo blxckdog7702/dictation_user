@@ -25,10 +25,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Created by user on 2017-09-30.
- */
-
 public class PracticeTypeAdapter extends RecyclerView.Adapter<PracticeTypeAdapter.PracTypeViewHolder> {
 
     private ArrayList<PracticeTypeModel> practiceTypeModels;

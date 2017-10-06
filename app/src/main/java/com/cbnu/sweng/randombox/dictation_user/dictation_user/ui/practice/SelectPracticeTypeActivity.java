@@ -32,10 +32,10 @@ public class SelectPracticeTypeActivity extends BaseDrawerActivity {
         ButterKnife.bind(this);
 
         initModels();
-        setAdapter();
+        setupView();
     }
 
-    private void setAdapter() {
+    private void setupView() {
         StaggeredGridLayoutManager MyLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         MyLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
 
