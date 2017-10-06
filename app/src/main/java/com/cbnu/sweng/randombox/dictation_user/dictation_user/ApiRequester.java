@@ -2,6 +2,8 @@ package com.cbnu.sweng.randombox.dictation_user.dictation_user;
 
 import android.util.Log;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.util.List;
 
