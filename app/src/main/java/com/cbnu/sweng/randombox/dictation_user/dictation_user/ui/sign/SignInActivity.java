@@ -22,11 +22,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.ApiRequester;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.School;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.view.practice.SelectTypeMainActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.SelectPracticeTypeActivity;
 import com.shawnlin.numberpicker.NumberPicker;
 
 import java.util.List;
@@ -50,8 +50,6 @@ public class SignInActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     CheckBox Auto_Login;
 
-
-
     Spinner spState;
     Spinner spCity;
     Button schoolsearch;
@@ -59,6 +57,7 @@ public class SignInActivity extends AppCompatActivity {
     String selectedschool;
     int temp;
     String myschool;
+
 
     String myname; // 실제 가입할 때 넘어가는 값들
 
@@ -68,7 +67,7 @@ public class SignInActivity extends AppCompatActivity {
     int myStudentId;
 
     String myschoolname; // 실제 가입할 때 넘어가는 값들(변수에 담겨있음)
-    String myteacher; // 실제 가입할 때 넘어가는 값들
+    //String myteacher; // 실제 가입할 때 넘어가는 값들
 
     String name[];
 
@@ -87,7 +86,7 @@ public class SignInActivity extends AppCompatActivity {
     @OnClick(R.id.nonsignperson)
     void onClickNonSignPerson()
     {
-        Intent i = new Intent(SignInActivity.this, SelectTypeMainActivity.class);
+        Intent i = new Intent(SignInActivity.this, SelectPracticeTypeActivity.class);
         startActivity(i);
     }
 
@@ -97,8 +96,6 @@ public class SignInActivity extends AppCompatActivity {
         Intent t = new Intent(SignInActivity.this, SignUpActivity.class);
         startActivity(t);
     }
-
-
 
     @OnClick(R.id.etSchoolNameIn)
     void onClickEtSchoolNameIn(){
@@ -129,8 +126,6 @@ public class SignInActivity extends AppCompatActivity {
 
                         selectedschool = schoolname.getText().toString();
                         Log.d("TAG", selectedschool);
-
-
 
                         apiRequester.searchSchools(strCity, strState, selectedschool, new ApiRequester.UserCallback<List<School>>() {
 
@@ -180,15 +175,11 @@ public class SignInActivity extends AppCompatActivity {
                                     AlertDialog dialog = builder3.create();
                                     dialog.show();
                                 }
-
-
                             }
-
                             @Override
                             public void onFail()
                             {
                                 Log.d("TAG", "실패");
-
                             }
                         });
                     }
@@ -197,14 +188,8 @@ public class SignInActivity extends AppCompatActivity {
         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which){
-
                 etSchoolNameIn.setText(myschool);
-
                 myschoolname = etSchoolNameIn.getText().toString();
-
-
-
-
             }
         });
         builder.setNegativeButton("취소",
@@ -266,29 +251,24 @@ public class SignInActivity extends AppCompatActivity {
                 }
                 spState.setClickable(true);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 // onNothingSelected logic
             }
         });
-
         setStateApdapter(R.array.strArraySeoulState);
         spState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 ((TextView)adapterView.getChildAt(0)).setTextColor(Color.BLACK);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 // onNothingSelected logic
             }
         });
-
         AlertDialog dialog = builder.create();
         dialog.show();
-
     }
     @OnClick(R.id.etStudentInfoIn)
     void onClickEtStudentInfoUp(){
@@ -330,9 +310,13 @@ public class SignInActivity extends AppCompatActivity {
     void onClickBtSignIn()
     {
         myname = etStudentNameIn.getText().toString(); // 기재한 이름을 변수에 담음
-       // myteacher = etTeacherNameUp.getText().toString(); // 기재한 선생님ID를 변수에 담음
+        //myteacher = etTeacherNameUp.getText().toString(); // 기재한 선생님ID를 변수에 담음
 
-        if(myname.length()==0 || myschool.length()==0 || mygrade.length()==0)
+        if(myname==null || myschoolname==null || mygrade==null)
+        {
+            Toast.makeText(getApplicationContext(), "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
+        }
+        else if(myname.length()==0 || myschoolname.length()==0 || mygrade.length()==0)
         {
             Toast.makeText(getApplicationContext(), "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
         }
@@ -358,7 +342,7 @@ public class SignInActivity extends AppCompatActivity {
                         mRunnable = new Runnable() {
                             @Override
                             public void run() {
-                                Intent e = new Intent(SignInActivity.this, SelectTypeMainActivity.class);
+                                Intent e = new Intent(SignInActivity.this, SelectPracticeTypeActivity.class);
                                 startActivity(e);
                             }
                         };
@@ -368,7 +352,6 @@ public class SignInActivity extends AppCompatActivity {
                     else
                     {
                         Toast.makeText(getApplicationContext(), "입력한 정보가 없습니다.", Toast.LENGTH_LONG).show();
-
                     }
                 }
                 @Override
@@ -376,7 +359,6 @@ public class SignInActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
                 }
             });
-
         }
     }
 
@@ -406,14 +388,7 @@ public class SignInActivity extends AppCompatActivity {
 
                     editor.putBoolean("Auto_Login_enabled", true);
                     editor.commit();
-
-
-
-
                 }else{
-//			editor.remove("ID");
-//			editor.remove("PW");
-//			editor.remove("Auto_Login_enabled");
                     editor.clear();
                     editor.commit();
                 }
@@ -422,15 +397,9 @@ public class SignInActivity extends AppCompatActivity {
         });
 
         if(setting.getBoolean("Auto_Login_enabled", false)){
-            etStudentNameIn.setText(setting.getString("studentname", ""));
-            etSchoolNameIn.setText(setting.getString("schoolname", ""));
-            etStudentInfoIn.setText(setting.getString("studentInfo", ""));
             Auto_Login.setChecked(true);
-
-            Intent intent = new Intent(SignInActivity.this, SelectTypeMainActivity.class);
+            Intent intent = new Intent(SignInActivity.this, SelectPracticeTypeActivity.class);
             startActivity(intent);
-
-
         }
 
 

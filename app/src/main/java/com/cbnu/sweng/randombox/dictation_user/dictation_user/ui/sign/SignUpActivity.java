@@ -18,11 +18,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.ApiRequester;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.School;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.view.practice.SelectTypeMainActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.SelectPracticeTypeActivity;
 import com.shawnlin.numberpicker.NumberPicker;
 
 
@@ -353,7 +353,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 mRunnable = new Runnable() {
                                     @Override
                                     public void run() {
-                                        Intent e = new Intent(SignUpActivity.this, SelectTypeMainActivity.class);
+                                        Intent e = new Intent(SignUpActivity.this, SelectPracticeTypeActivity.class);
                                         startActivity(e);
                                     }
                                 };
@@ -378,13 +378,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             });
         }
-
-
-
-
     }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

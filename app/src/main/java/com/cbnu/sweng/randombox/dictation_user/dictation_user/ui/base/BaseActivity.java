@@ -1,5 +1,7 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -7,8 +9,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,6 +20,9 @@ import android.view.View;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile.RecordManagerActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.SelectPracticeTypeActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign.SignInActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign.SignUpActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.Util;
 import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
 import com.yalantis.contextmenu.lib.MenuObject;
@@ -190,6 +197,29 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
             Util.getInstance().moveActivity(this, RecordManagerActivity.class);
         }
         else if(position == 5){
+
+            Log.d("TAG", "으아아아아아");
+
+            new AlertDialog.Builder(this)
+                    .setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?")
+                    .setPositiveButton("로그아웃", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            Intent i = new Intent(BaseActivity.this, SignInActivity.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                            i.putExtra("goname", "");
+//                            i.putExtra("goschoolname", "");
+//                            i.putExtra("gostudentInfo", "");
+                            startActivity(i);
+                        }
+                    })
+                    .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                        }
+                    })
+                    .show();
+
+
 
         }
     }
