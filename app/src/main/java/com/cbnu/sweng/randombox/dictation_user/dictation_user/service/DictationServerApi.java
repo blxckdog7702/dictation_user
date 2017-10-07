@@ -85,7 +85,15 @@ public interface DictationServerApi {
     @FormUrlEncoded
     @POST("/auth/login")
     Call<Teacher> login(@Field("login_id") String loginID, @Field("password") String password, @Field("type") String type);
-
+		//학생 로그인
+    @FormUrlEncoded
+    @POST("/auth/login")
+    Call<Student> loginStudent(	@Field("type") String type,
+    							@Field("school") String school,
+    							@Field("grade") String grade,
+    							@Field("class") String _class,
+    							@Field("student_id") int studentId,
+    							@Field("name") String name);
     @GET("/teachers/{id}/quiz_histories")
     Call<List<QuizHistory>> getTeachersQuizHistories(@Path("id") String id);
 
@@ -100,16 +108,16 @@ public interface DictationServerApi {
     @POST("/quiz/end")
     Call<QuizHistory> endQuiz(@Body JsonObject endedQuiz);
 
-    //test2
-    public static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://dev-dictation-server.herokuapp.com")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-
-//    //test1
+//    //test2
 //    public static final Retrofit retrofit = new Retrofit.Builder()
 //            .baseUrl("https://dev-dictation-server.herokuapp.com")
-//            .baseUrl("https://dictation-server-minung.c9users.io")
 //            .addConverterFactory(GsonConverterFactory.create())
 //            .build();
+
+    //test1
+    public static final Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl("https://dev-dictation-server.herokuapp.com")
+            .baseUrl("https://dictation-server-minung.c9users.io")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
 }

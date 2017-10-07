@@ -197,6 +197,17 @@ public class ApiRequester {
 		call.enqueue(new ObjectCallback<Teacher>(userCallback));
 	}
 
+	//학생 로그인
+	public void loginStudent(Student student, UserCallback<Student> userCallback) {
+		Call<Student> call = dictationServerApi.loginStudent(   "student",
+															student.getSchool(),
+															student.getGrade(),
+															student.getClass_(),
+															student.getStudentId(),
+															student.getName());
+		call.enqueue(new ObjectCallback<Student>(userCallback));
+	}
+
 	//매칭 신청하기
 	public void applyMatching(String teacherLoginID,String studentID, UserCallback<Boolean> userCallback){
 		Call<okhttp3.ResponseBody> call = dictationServerApi.applyMatching(teacherLoginID, studentID);

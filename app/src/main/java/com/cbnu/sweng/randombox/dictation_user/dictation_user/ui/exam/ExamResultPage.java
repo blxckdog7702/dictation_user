@@ -1,6 +1,7 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.exam;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -17,6 +18,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import nl.dionsegijn.konfetti.KonfettiView;
+import nl.dionsegijn.konfetti.models.Shape;
+import nl.dionsegijn.konfetti.models.Size;
 
 public class ExamResultPage extends AppCompatActivity {
 
@@ -34,6 +38,7 @@ public class ExamResultPage extends AppCompatActivity {
     @BindView(R.id.ivGradeNine) ImageView ivGradeNine;
     @BindView(R.id.ivGradeTen) ImageView ivGradeTen;
     @BindView(R.id.ivScore) ImageView ivScore;
+    @BindView(R.id.konfettiView) KonfettiView konfettiView;
 
     @OnClick(R.id.btResultOne)
     void onClickBtResultOne(){
@@ -134,6 +139,16 @@ public class ExamResultPage extends AppCompatActivity {
         }
         else if(quizResult.getScore() == 100){
             ivScore.setImageResource(R.drawable.score100);
+            konfettiView.build()
+                    .addColors(Color.rgb(241, 95, 95), Color.rgb(165, 102, 255), Color.rgb(250, 237, 125))
+                    .setDirection(0.0, 359.0)
+                    .setSpeed(3f, 5f)
+                    .setFadeOutEnabled(true)
+                    .setTimeToLive(1500L)
+                    .addShapes(Shape.RECT)
+                    .addSizes(new Size(12, 5f))
+                    .setPosition(0f, Util.getInstance().getDisplayWidth(this), 0f, 50f)
+                    .stream(300, 3000L);
         }
 
         for (QuestionResult questionResult : quizResult.getQuestionResult()) {
