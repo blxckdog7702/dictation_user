@@ -320,6 +320,7 @@ public class SignInActivity extends AppCompatActivity {
         {
             Toast.makeText(getApplicationContext(), "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
         }
+
         else
         {
             Log.d("TAG", myname); // 이름
@@ -332,6 +333,7 @@ public class SignInActivity extends AppCompatActivity {
             student.setGrade(mygrade);
             student.setClass_(myclass);
             student.setStudentId(myStudentId);
+            student.setName(myname);
 
             apiRequester.checkDuplicateStudent(student, new ApiRequester.UserCallback<Boolean>() {
                 @Override
@@ -339,19 +341,29 @@ public class SignInActivity extends AppCompatActivity {
                     if (result == true) {
                         Toast.makeText(getApplicationContext(), "로그인중..", Toast.LENGTH_SHORT).show();
 
-                        mRunnable = new Runnable() {
+                        apiRequester.loginStudent(student, new ApiRequester.UserCallback<Student>() {
                             @Override
-                            public void run() {
-                                Intent e = new Intent(SignInActivity.this, SelectPracticeTypeActivity.class);
-                                startActivity(e);
+                            public void onSuccess(Student result) {
+
+                                Toast.makeText(getApplicationContext(), "로그인 완료!", Toast.LENGTH_SHORT).show();
+                                mRunnable = new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent e = new Intent(SignInActivity.this, SelectPracticeTypeActivity.class);
+                                        startActivity(e);
+                                    }
+                                };
+                                mHandler = new Handler();
+                                mHandler.postDelayed(mRunnable, 3000);
                             }
-                        };
-                        mHandler = new Handler();
-                        mHandler.postDelayed(mRunnable, 3000);
+                            @Override
+                            public void onFail() {
+                            }
+                        });
                     }
                     else
                     {
-                        Toast.makeText(getApplicationContext(), "입력한 정보가 없습니다.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "입력한 정보가 없습니다. 회원가입을 해주세요.", Toast.LENGTH_LONG).show();
                     }
                 }
                 @Override

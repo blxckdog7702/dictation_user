@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.Util;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.Util;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
