@@ -350,6 +350,7 @@ public class SignInActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         Intent e = new Intent(SignInActivity.this, SelectPracticeTypeActivity.class);
+                                        e.putExtra("student", student);
                                         startActivity(e);
                                     }
                                 };
@@ -379,10 +380,11 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
+
         Auto_Login = (CheckBox) findViewById(R.id.cbAutoLogin);
         goSignUp.setPaintFlags(goSignUp.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-        setting = getSharedPreferences("setting", 0);
+        setting = getSharedPreferences("setting", MODE_PRIVATE);
         editor= setting.edit();
 
         Auto_Login.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -410,6 +412,19 @@ public class SignInActivity extends AppCompatActivity {
 
         if(setting.getBoolean("Auto_Login_enabled", false)){
             Auto_Login.setChecked(true);
+
+//            etStudentNameIn.setText(setting.getString("studentname", ""));
+//            etSchoolNameIn.setText(setting.getString("schoolname", ""));
+//            etStudentInfoIn.setText(setting.getString("studentInfo", ""));
+//
+//            editor.putString("studentname", myname);
+//            editor.putString("schoolname", myschoolname);
+//            editor.putString("studentInfo", myinfo);
+//
+//            editor.commit();
+//
+//            System.out.println("시발"+ setting.getString("studentname", ""));
+
             Intent intent = new Intent(SignInActivity.this, SelectPracticeTypeActivity.class);
             startActivity(intent);
         }

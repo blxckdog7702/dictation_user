@@ -2,6 +2,7 @@ package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -19,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile.CheckMyInfo;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile.RecordManagerActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.SelectPracticeTypeActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign.SignInActivity;
@@ -186,6 +188,9 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
         }
         else if(position == 1){
 
+            Intent t = new Intent(BaseActivity.this, CheckMyInfo.class);
+            startActivity(t);
+
         }
         else if(position == 2){
 
@@ -204,11 +209,16 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
                     .setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?")
                     .setPositiveButton("로그아웃", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
+
+                            SharedPreferences sf = getSharedPreferences("setting", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sf.edit();//editor가져오기
+                            editor.remove("studentname"); // 삭제
+                            editor.remove("schoolname"); // 삭제
+                            editor.remove("studentInfo"); // 삭제
+                            editor.commit(); // 파일에 최종 반영
+
                             Intent i = new Intent(BaseActivity.this, SignInActivity.class);
                             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                            i.putExtra("goname", "");
-//                            i.putExtra("goschoolname", "");
-//                            i.putExtra("gostudentInfo", "");
                             startActivity(i);
                         }
                     })
@@ -218,9 +228,6 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
                         }
                     })
                     .show();
-
-
-
         }
     }
 

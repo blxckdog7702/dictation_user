@@ -423,5 +423,6 @@
     <string name="effect_calligraphic_quill">Calligraphic quill</string>
     <string name="effect_qalam">Qalam</string>
     <string name="input_text"></string>
+    <string name="title_activity_check_my_info">CheckMyInfo</string>
 
 </resources>

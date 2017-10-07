@@ -1,5 +1,7 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.model;
 
+import android.app.Application;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

@@ -354,6 +354,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         Intent e = new Intent(SignUpActivity.this, SelectPracticeTypeActivity.class);
+
                                         startActivity(e);
                                     }
                                 };
