@@ -13,30 +13,23 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.ApiRequester;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.School;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.view.practice.SelectTypeMainActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.SelectPracticeTypeActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
 import com.shawnlin.numberpicker.NumberPicker;
 
-
-import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 
 import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.POST;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -353,7 +346,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 mRunnable = new Runnable() {
                                     @Override
                                     public void run() {
-                                        Intent e = new Intent(SignUpActivity.this, SelectTypeMainActivity.class);
+                                        Intent e = new Intent(SignUpActivity.this, SelectPracticeTypeActivity.class);
                                         startActivity(e);
                                     }
                                 };

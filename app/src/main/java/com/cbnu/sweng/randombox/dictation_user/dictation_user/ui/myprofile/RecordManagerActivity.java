@@ -19,7 +19,7 @@ public class RecordManagerActivity extends BaseTabLayoutActivity {
     protected void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new RecordFragment(), "성 적 표");
-        adapter.addFrag(new RecordFragment(), "취 약 점");
+        adapter.addFrag(new StatsFragment(), "취 약 점");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

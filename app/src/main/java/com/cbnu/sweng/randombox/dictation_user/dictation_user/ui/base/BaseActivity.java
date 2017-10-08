@@ -34,7 +34,7 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
     private FragmentManager fragmentManager;
     private ContextMenuDialogFragment mMenuDialogFragment;
 
-    @Nullable @BindView(R.id.toolbar) Toolbar toolbar;
+    public @Nullable @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Override
     public void setContentView(int layoutResID) {

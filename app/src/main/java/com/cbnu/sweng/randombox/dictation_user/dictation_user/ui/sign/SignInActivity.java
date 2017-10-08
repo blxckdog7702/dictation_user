@@ -22,11 +22,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.ApiRequester;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.School;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.view.practice.SelectTypeMainActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.SelectPracticeTypeActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
 import com.shawnlin.numberpicker.NumberPicker;
 
 import java.util.List;
@@ -35,10 +35,6 @@ import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.cbnu.sweng.randombox.dictation_user.dictation_user.R.array.strArrayCity;
-import static com.cbnu.sweng.randombox.dictation_user.dictation_user.R.id.spCity;
-import static com.cbnu.sweng.randombox.dictation_user.dictation_user.R.id.spState;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -87,7 +83,7 @@ public class SignInActivity extends AppCompatActivity {
     @OnClick(R.id.nonsignperson)
     void onClickNonSignPerson()
     {
-        Intent i = new Intent(SignInActivity.this, SelectTypeMainActivity.class);
+        Intent i = new Intent(SignInActivity.this, SelectPracticeTypeActivity.class);
         startActivity(i);
     }
 
@@ -358,7 +354,7 @@ public class SignInActivity extends AppCompatActivity {
                         mRunnable = new Runnable() {
                             @Override
                             public void run() {
-                                Intent e = new Intent(SignInActivity.this, SelectTypeMainActivity.class);
+                                Intent e = new Intent(SignInActivity.this, SelectPracticeTypeActivity.class);
                                 startActivity(e);
                             }
                         };
@@ -427,7 +423,7 @@ public class SignInActivity extends AppCompatActivity {
             etStudentInfoIn.setText(setting.getString("studentInfo", ""));
             Auto_Login.setChecked(true);
 
-            Intent intent = new Intent(SignInActivity.this, SelectTypeMainActivity.class);
+            Intent intent = new Intent(SignInActivity.this, SelectPracticeTypeActivity.class);
             startActivity(intent);
 
 
