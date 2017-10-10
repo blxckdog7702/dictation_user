@@ -2,6 +2,7 @@ package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
@@ -45,6 +46,9 @@ public class SignUpActivity extends AppCompatActivity {
     private Handler mHandler;
     private Runnable mRunnable;
 
+    SharedPreferences setting;
+    SharedPreferences.Editor editor;
+
     Spinner spState;
     Spinner spCity;
     Button schoolsearch;
@@ -62,7 +66,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     String myschoolname; // 실제 가입할 때 넘어가는 값들
     String myteacher; // 실제 가입할 때 넘어가는 값들
-
     String name[];
 
     @BindArray(R.array.strArrayCity)
@@ -71,9 +74,7 @@ public class SignUpActivity extends AppCompatActivity {
     @BindView(R.id.etStudentInfoUp) EditText etStudentInfoUp;
     @BindView(R.id.etStudentNameUp) EditText etStudentNameUp;
     @BindView(R.id.etTeacherNameUp) EditText etTeacherNameUp;
-
     @BindView(R.id.btSignUp) Button btSignUp;
-
 
 
     @OnClick(R.id.etSchoolNameUp)
@@ -106,10 +107,7 @@ public class SignUpActivity extends AppCompatActivity {
                         selectedschool = schoolname.getText().toString();
                         Log.d("TAG", selectedschool);
 
-
-
                         apiRequester.searchSchools(strCity, strState, selectedschool, new ApiRequester.UserCallback<List<School>>() {
-
                             @Override
                             public void onSuccess(List<School> result)
                             {
@@ -156,10 +154,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     AlertDialog dialog = builder3.create();
                                     dialog.show();
                                 }
-
-
                             }
-
                             @Override
                             public void onFail()
                             {
@@ -173,14 +168,8 @@ public class SignUpActivity extends AppCompatActivity {
         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which){
-
                 etSchoolNameUp.setText(myschool);
-
                 myschoolname = etSchoolNameUp.getText().toString();
-
-
-
-
             }
         });
         builder.setNegativeButton("취소",
@@ -255,7 +244,6 @@ public class SignUpActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 ((TextView)adapterView.getChildAt(0)).setTextColor(Color.BLACK);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 // onNothingSelected logic
@@ -285,10 +273,8 @@ public class SignUpActivity extends AppCompatActivity {
                 etStudentInfoUp.setText(Integer.toString(strGrade) + "학년 " + Integer.toString(strClass) + "반 " + Integer.toString(strAttendenceNum) + "번 "
                 );
                 myinfo = Integer.toString(strGrade) + "학년 " + Integer.toString(strClass) + "반 " + Integer.toString(strAttendenceNum) + "번 ";
-
                 mygrade = Integer.toString(strGrade);
                 myclass = Integer.toString(strClass);
-                //myStudentId = Integer.toString(strAttendenceNum);
             }
         });
         builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -302,7 +288,6 @@ public class SignUpActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
 
     @OnClick(R.id.btSignUp)
     void onClickBtSignUp()
@@ -322,7 +307,6 @@ public class SignUpActivity extends AppCompatActivity {
             Log.d("TAG", myclass); // 반
             Log.d("TAG", String.valueOf(myStudentId)); // 번호
 
-//        student.setName(myname);
             student.setSchool(myschoolname);
             student.setGrade(mygrade);
             student.setClass_(myclass);
@@ -343,34 +327,38 @@ public class SignUpActivity extends AppCompatActivity {
                         student.setSchool(myschoolname);
                         student.setGrade(mygrade);
                         student.setClass_(myclass);
-                        //student.setStudentId(myStudentId);
 
                         apiRequester.signUpStudent(student, new ApiRequester.UserCallback<Student>() {
                             @Override
                             public void onSuccess(Student result) {
-                                Toast.makeText(getApplicationContext(), "회원가입이 완료 되었습니다.", Toast.LENGTH_LONG).show();
 
+                                String studentname = etStudentNameUp.getText().toString();
+                                String schoolname = etSchoolNameUp.getText().toString();
+                                String studentInfo = etStudentInfoUp.getText().toString();
+
+                                editor.putString("studentname", studentname);
+                                editor.putString("schoolname", schoolname);
+                                editor.putString("studentInfo", studentInfo);
+
+                                editor.commit();
+
+                                Toast.makeText(getApplicationContext(), "회원가입이 완료 되었습니다.", Toast.LENGTH_LONG).show();
                                 mRunnable = new Runnable() {
                                     @Override
                                     public void run() {
-                                        Intent e = new Intent(SignUpActivity.this, SelectPracticeTypeActivity.class);
-
+                                        Intent e = new Intent(SignUpActivity.this, SignInActivity.class);
                                         startActivity(e);
                                     }
                                 };
                                 mHandler = new Handler();
                                 mHandler.postDelayed(mRunnable, 5000);
-
                             }
-
                             @Override
                             public void onFail() {
                                 Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
                             }
                         });
-
                     }
-
                 }
 
                 @Override
@@ -384,6 +372,9 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        setting = getSharedPreferences("setting", 0);
+        editor= setting.edit();
 
         ButterKnife.bind(this);
     }

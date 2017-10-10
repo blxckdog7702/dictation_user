@@ -71,7 +71,7 @@ public class SignInActivity extends AppCompatActivity {
     int myStudentId;
 
     String myschoolname; // 실제 가입할 때 넘어가는 값들(변수에 담겨있음)
-    //String myteacher; // 실제 가입할 때 넘어가는 값들
+    String myteacher; // 실제 가입할 때 넘어가는 값들
 
     String name[];
 
@@ -81,9 +81,6 @@ public class SignInActivity extends AppCompatActivity {
     @BindView(R.id.etStudentInfoIn) EditText etStudentInfoIn;
     @BindView(R.id.etStudentNameIn) EditText etStudentNameIn;
     @BindView(R.id.goSignUp) TextView goSignUp;
-
-    //@BindView(R.id.etTeacherNameUp) EditText etTeacherNameUp;
-
     @BindView(R.id.btSignIn) Button btSignIn;
     @BindView(R.id.nonsignperson) Button nonsignperson;
 
@@ -296,7 +293,6 @@ public class SignInActivity extends AppCompatActivity {
 
                 mygrade = Integer.toString(strGrade);
                 myclass = Integer.toString(strClass);
-                //myStudentId = Integer.toString(strAttendenceNum);
             }
         });
         builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -361,8 +357,7 @@ public class SignInActivity extends AppCompatActivity {
                                                     editor.putString("studentname", studentname);
                                                     editor.putString("schoolname", schoolname);
                                                     editor.putString("studentInfo", studentInfo);
-
-                                                    //editor.putBoolean("Auto_Login_enabled", true);
+;
                                                     editor.commit();
 
 

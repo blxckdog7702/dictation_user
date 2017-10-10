@@ -189,10 +189,8 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
 
         }
         else if(position == 1){
-
             Intent t = new Intent(BaseActivity.this, CheckMyInfo.class);
             startActivity(t);
-
         }
         else if(position == 2){
 
@@ -204,16 +202,13 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
             Util.getInstance().moveActivity(this, RecordManagerActivity.class);
         }
         else if(position == 5){
-
-            Log.d("TAG", "으아아아아아");
-
             new AlertDialog.Builder(this)
                     .setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?")
                     .setPositiveButton("로그아웃", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
 
                             SharedPreferences sf = getSharedPreferences("setting", MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sf.edit();//editor가져오기
+                            SharedPreferences.Editor editor = sf.edit();// editor가져오기
 
                             editor.remove("studentname"); // 삭제
                             editor.remove("schoolname"); // 삭제

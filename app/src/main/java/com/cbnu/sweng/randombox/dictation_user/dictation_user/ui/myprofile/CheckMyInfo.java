@@ -22,27 +22,13 @@ public class CheckMyInfo extends AppCompatActivity {
     @BindView(R.id.showschoolname) TextView showschoolname;
     @BindView(R.id.showinfo) TextView showinfo;
 
-
-
-
-//    @BindView(R.id.btEdit) Button btEdit;
-//
-//    @OnClick(R.id.btEdit)
-//    void onClickBtEdit()
-//    {
-//    }
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_my_info);
-
         ButterKnife.bind(this);
 
         SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
-
 
         showname.setText(setting.getString("studentname", ""));
         showschoolname.setText(setting.getString("schoolname", ""));
