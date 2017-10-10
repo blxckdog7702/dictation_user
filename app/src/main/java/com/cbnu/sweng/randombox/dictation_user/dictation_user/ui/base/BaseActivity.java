@@ -18,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile.CheckMyInfo;
@@ -212,12 +214,14 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
 
                             SharedPreferences sf = getSharedPreferences("setting", MODE_PRIVATE);
                             SharedPreferences.Editor editor = sf.edit();//editor가져오기
+
                             editor.remove("studentname"); // 삭제
                             editor.remove("schoolname"); // 삭제
                             editor.remove("studentInfo"); // 삭제
                             editor.commit(); // 파일에 최종 반영
 
                             Intent i = new Intent(BaseActivity.this, SignInActivity.class);
+
                             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                             startActivity(i);
                         }

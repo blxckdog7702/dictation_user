@@ -46,9 +46,13 @@ public class SignInActivity extends AppCompatActivity {
     Student student = new Student();
     private Handler mHandler;
     private Runnable mRunnable;
+
+
     SharedPreferences setting;
     SharedPreferences.Editor editor;
+
     CheckBox Auto_Login;
+
 
     Spinner spState;
     Spinner spCity;
@@ -349,6 +353,19 @@ public class SignInActivity extends AppCompatActivity {
                                 mRunnable = new Runnable() {
                                     @Override
                                     public void run() {
+
+                                                    String studentname = etStudentNameIn.getText().toString();
+                                                    String schoolname = etSchoolNameIn.getText().toString();
+                                                    String studentInfo = etStudentInfoIn.getText().toString();
+
+                                                    editor.putString("studentname", studentname);
+                                                    editor.putString("schoolname", schoolname);
+                                                    editor.putString("studentInfo", studentInfo);
+
+                                                    editor.putBoolean("Auto_Login_enabled", true);
+                                                    editor.commit();
+
+
                                         Intent e = new Intent(SignInActivity.this, SelectPracticeTypeActivity.class);
                                         e.putExtra("student", student);
                                         startActivity(e);
@@ -381,10 +398,14 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
 
+        etStudentNameIn.setText("");
+        etSchoolNameIn.setText("");
+        etStudentInfoIn.setText("");
+
         Auto_Login = (CheckBox) findViewById(R.id.cbAutoLogin);
         goSignUp.setPaintFlags(goSignUp.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-        setting = getSharedPreferences("setting", MODE_PRIVATE);
+        setting = getSharedPreferences("setting", 0);
         editor= setting.edit();
 
         Auto_Login.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -402,7 +423,14 @@ public class SignInActivity extends AppCompatActivity {
 
                     editor.putBoolean("Auto_Login_enabled", true);
                     editor.commit();
+
+
+
+
                 }else{
+//			editor.remove("ID");
+//			editor.remove("PW");
+//			editor.remove("Auto_Login_enabled");
                     editor.clear();
                     editor.commit();
                 }
@@ -411,28 +439,14 @@ public class SignInActivity extends AppCompatActivity {
         });
 
         if(setting.getBoolean("Auto_Login_enabled", false)){
+            etStudentNameIn.setText(setting.getString("studentname", ""));
+            etSchoolNameIn.setText(setting.getString("schoolname", ""));
+            etStudentInfoIn.setText(setting.getString("studentInfo", ""));
             Auto_Login.setChecked(true);
-
-//            etStudentNameIn.setText(setting.getString("studentname", ""));
-//            etSchoolNameIn.setText(setting.getString("schoolname", ""));
-//            etStudentInfoIn.setText(setting.getString("studentInfo", ""));
-//
-//            editor.putString("studentname", myname);
-//            editor.putString("schoolname", myschoolname);
-//            editor.putString("studentInfo", myinfo);
-//
-//            editor.commit();
-//
-//            System.out.println("시발"+ setting.getString("studentname", ""));
 
             Intent intent = new Intent(SignInActivity.this, SelectPracticeTypeActivity.class);
             startActivity(intent);
         }
-
-
-
-
-
     }
 
 
