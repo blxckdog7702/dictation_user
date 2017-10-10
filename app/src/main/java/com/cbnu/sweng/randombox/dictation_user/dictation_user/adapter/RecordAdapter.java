@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.RecordModel;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile.RecordResultActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.Util;
 
 
@@ -79,7 +80,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordView
         @OnClick(R.id.lrRecord)
         public void onCheck() {
             //Util.getInstance().moveActivity(this, ExamResultPage.class, quizResult, (ArrayList<Question>) questions);
-            //Util.getInstance().moveActivity(context, RecordResultActivity.class);
+            Util.getInstance().moveActivity(context, RecordResultActivity.class);
             Log.v("RecordAdapter", "Listener OK");
         }
     }

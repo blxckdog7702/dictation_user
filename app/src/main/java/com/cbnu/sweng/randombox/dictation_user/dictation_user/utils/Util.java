@@ -144,6 +144,10 @@ public class Util {
         return (int) convertDpToPixel(10f, (Activity) context);
     }
 
+    public float getRandom(float range, float startsfrom) {
+        return (float) (Math.random() * range) + startsfrom;
+    }
+
     public void onBackPressed(Activity activity){
 
         if (System.currentTimeMillis() > backKeyPressedTime + 2000) {

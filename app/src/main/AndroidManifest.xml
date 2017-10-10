@@ -47,14 +47,14 @@
         <activity android:name=".ui.practice.VowelAndConsonantPracticeActivity" />
         <activity android:name=".ui.base.BaseDrawerActivity" />
         <activity android:name=".ui.myprofile.RecordManagerActivity">
-        </activity>
-        <activity android:name=".ui.sign.SignInActivity" />
-        <activity android:name=".ui.myprofile.PiePolylineChartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".ui.sign.SignInActivity" />
+        <activity android:name=".ui.myprofile.RecordResultActivity">
         </activity>
     </application>
 
