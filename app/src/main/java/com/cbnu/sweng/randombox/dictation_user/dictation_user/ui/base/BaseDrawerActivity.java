@@ -35,7 +35,7 @@ public class BaseDrawerActivity extends BaseActivity {
     @Override
     public void setContentView(int layoutResID) {
         super.setContentViewWithoutInject(R.layout.activity_base_drawer);
-        ViewGroup viewGroup = (ViewGroup) findViewById(R.id.content);
+        ViewGroup viewGroup = (ViewGroup) findViewById(R.id.lrContent);
         LayoutInflater.from(this).inflate(layoutResID, viewGroup, true);
         bindViews();
     }
@@ -93,6 +93,7 @@ public class BaseDrawerActivity extends BaseActivity {
     @Override
     public void setupToolbar(){
         super.setupToolbar();
+        toolbar.setNavigationIcon(R.drawable.ic_menu_white);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
