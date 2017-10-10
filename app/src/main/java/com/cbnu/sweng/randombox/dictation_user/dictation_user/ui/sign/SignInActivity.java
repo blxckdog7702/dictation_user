@@ -362,7 +362,7 @@ public class SignInActivity extends AppCompatActivity {
                                                     editor.putString("schoolname", schoolname);
                                                     editor.putString("studentInfo", studentInfo);
 
-                                                    editor.putBoolean("Auto_Login_enabled", true);
+                                                    //editor.putBoolean("Auto_Login_enabled", true);
                                                     editor.commit();
 
 
@@ -420,17 +420,10 @@ public class SignInActivity extends AppCompatActivity {
                     editor.putString("studentname", studentname);
                     editor.putString("schoolname", schoolname);
                     editor.putString("studentInfo", studentInfo);
-
                     editor.putBoolean("Auto_Login_enabled", true);
                     editor.commit();
 
-
-
-
                 }else{
-//			editor.remove("ID");
-//			editor.remove("PW");
-//			editor.remove("Auto_Login_enabled");
                     editor.clear();
                     editor.commit();
                 }
