@@ -64,7 +64,7 @@
             android:label="@string/title_activity_check_my_info"
             android:theme="@style/AppTheme" />
         <activity android:name=".ui.myprofile.RecordResultActivity"></activity>
-        <activity android:name=".ui.sign.Alexa"
+        <activity android:name=".ui.sign.Draw"
             android:screenOrientation="landscape"></activity>
     </application>
 

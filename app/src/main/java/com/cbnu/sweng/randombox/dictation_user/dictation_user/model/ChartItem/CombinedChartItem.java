@@ -63,7 +63,7 @@ public class CombinedChartItem extends ChartItem {
         holder.chart.setDrawBarShadow(false);
         holder.chart.setHighlightFullBarEnabled(false);
 
-        // draw bars behind lines
+        // Draw bars behind lines
         holder.chart.setDrawOrder(new CombinedChart.DrawOrder[]{
                 CombinedChart.DrawOrder.BAR, CombinedChart.DrawOrder.BUBBLE,
                 CombinedChart.DrawOrder.CANDLE, CombinedChart.DrawOrder.LINE,

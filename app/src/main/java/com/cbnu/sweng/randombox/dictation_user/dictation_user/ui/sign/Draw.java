@@ -1,28 +1,32 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.view.View;
 import android.widget.Button;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.CustomEditText;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import me.panavtec.drawableview.DrawableView;
 import me.panavtec.drawableview.DrawableViewConfig;
 
-public class Alexa extends AppCompatActivity {
+public class Draw extends AppCompatActivity {
 
     private DrawableView drawableView;
     private DrawableViewConfig config = new DrawableViewConfig();
+    protected ArrayMap<Integer, String> words;
+    protected ArrayList<Integer> keys;
+    protected int wordNum = 0;
+    protected int wordSize = 0;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_alexa);
+        setContentView(R.layout.activity_draw);
         initUi();
     }
 

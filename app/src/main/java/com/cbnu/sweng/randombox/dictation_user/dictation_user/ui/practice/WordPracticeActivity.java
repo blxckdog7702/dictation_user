@@ -6,11 +6,8 @@ import android.util.ArrayMap;
 import android.view.View;
 import android.widget.Button;
 
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BasePracticeActivity;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign.Alexa;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.CustomEditText;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign.Draw;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
-import com.myscript.atk.sltw.SingleLineWidgetApi;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +17,7 @@ import butterknife.ButterKnife;
 import me.panavtec.drawableview.DrawableView;
 import me.panavtec.drawableview.DrawableViewConfig;
 
-public class WordPracticeActivity extends Alexa {
+public class WordPracticeActivity extends Draw {
 
     private DrawableView drawableView;
     private DrawableViewConfig config = new DrawableViewConfig();
@@ -28,7 +25,7 @@ public class WordPracticeActivity extends Alexa {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_alexa);
+        setContentView(R.layout.activity_draw);
 
         ButterKnife.bind(this);
         initUi();
