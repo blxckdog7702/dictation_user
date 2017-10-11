@@ -25,11 +25,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public abstract class BasePracticeActivity extends AppCompatActivity implements SingleLineWidgetApi.OnConfiguredListener,
-                                                                            SingleLineWidgetApi.OnTextChangedListener,
-                                                                            CustomEditText.OnSelectionChanged,
-                                                                            SingleLineWidgetApi.OnUserScrollBeginListener,
-                                                                            SingleLineWidgetApi.OnUserScrollEndListener,
-                                                                            SingleLineWidgetApi.OnUserScrollListener{
+        SingleLineWidgetApi.OnTextChangedListener,
+        CustomEditText.OnSelectionChanged,
+        SingleLineWidgetApi.OnUserScrollBeginListener,
+        SingleLineWidgetApi.OnUserScrollEndListener,
+        SingleLineWidgetApi.OnUserScrollListener{
     protected int isCorrectionMode;
     protected ArrayMap<Integer, String> words;
     protected ArrayList<Integer> keys;

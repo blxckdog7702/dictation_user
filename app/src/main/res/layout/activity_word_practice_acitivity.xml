@@ -6,6 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.WordPracticeActivity">
 
-    <include layout="@layout/activity_base_practice" />
+    <include layout="@layout/activity_alexa" />
 
 </LinearLayout>
