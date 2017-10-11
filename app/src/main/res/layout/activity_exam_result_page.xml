@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:fbutton="http://schemas.android.com/apk/res-auto"
-    tools:context="com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.main.ExamResultPage"
+    tools:context="com.cbnu.sweng.randombox.dictation_user.dictation_user.view.exam.ExamResultPage"
     android:background="#FFFFFF">
 
     <LinearLayout
@@ -549,4 +549,9 @@
 
     </LinearLayout>
 
-</LinearLayout>
+    <nl.dionsegijn.konfetti.KonfettiView
+        android:id="@+id/konfettiView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</FrameLayout>

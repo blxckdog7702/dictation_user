@@ -15,26 +15,25 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup,android:icon,android:label,android:supportsRtl,android:theme">
         <activity
-            android:name=".ui.SplashActivity"
+            android:name=".view.SplashActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".ui.sign.SignInActivity" />
-        <activity android:name=".ui.main.ExamResultPage"></activity>
-        <activity android:name=".ui.main.ExamResultDetailedPage"></activity>
+        <activity android:name=".view.sign.SignInActivity" />
+        <activity android:name=".view.exam.ExamResultPage" />
+        <activity android:name=".view.exam.ExamResultDetailedPage" />
         <activity
-            android:name=".ui.main.MainPage"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:name=".view.exam.ReadyPage"
+            android:theme="@style/Theme.AppCompat.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".ui.sign.SignUpActivity" />
+        <activity android:name=".view.sign.SignUpActivity" />
         <activity
-            android:name=".ui.main.ExamPage"
-            android:screenOrientation="landscape"></activity>
+            android:name=".view.exam.ExamPage"
+            android:screenOrientation="landscape" />
 
         <service android:name=".service.MyFirebaseMessagingService">
             <intent-filter>
@@ -47,7 +46,15 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".TestAcitivity">
+        <activity android:name=".view.practice.SelectTypeMainActivity">
+
+        </activity>
+        <activity android:name=".view.BaseMainActivity" />
+        <activity android:name=".view.practice.WordPracticeActivity" />
+        <activity android:name=".view.practice.DictationPracticeActivity" />
+        <activity android:name=".view.practice.VowelOrConsonantPracticeActivity" />
+        <activity android:name=".view.practice.VowelAndConsonantPracticeActivity" />
+        <activity android:name=".view.TestActivity">
 
         </activity>
     </application>

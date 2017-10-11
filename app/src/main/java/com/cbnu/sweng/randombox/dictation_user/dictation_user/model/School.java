@@ -1,5 +1,7 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 /**
@@ -9,21 +11,18 @@ import java.io.Serializable;
 public class School implements Serializable {
 
     public volatile static School school;
+    @SerializedName("name")
+    @Expose
     private String name;
+    @SerializedName("region1")
+    @Expose
     private String regionn1;
+    @SerializedName("region2")
+    @Expose
     private String regionn2;
+    @SerializedName("address")
+    @Expose
     private String address;
-    private String _id;
-
-    public static School getInstance() {
-        if(school == null){
-            school = new School();
-        }
-        return school;
-    }
-
-    private School() {
-    }
 
     public String getName() {
         return name;
@@ -57,11 +56,4 @@ public class School implements Serializable {
         this.address = address;
     }
 
-    public String get_id() {
-        return _id;
-    }
-
-    public void set_id(String _id) {
-        this._id = _id;
-    }
 }

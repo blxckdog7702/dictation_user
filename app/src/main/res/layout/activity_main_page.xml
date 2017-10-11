@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    tools:context="com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.main.MainPage"
+    tools:context="com.cbnu.sweng.randombox.dictation_user.dictation_user.view.exam.ReadyPage"
     android:orientation="vertical"
     android:background="@drawable/splashportrait">
 

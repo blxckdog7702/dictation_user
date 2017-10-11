@@ -7,11 +7,11 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.EndedQuiz;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Quiz;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizHistory;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizResult;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.School;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Teacher;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.service.DictationServerApi;
 import com.google.gson.*;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -191,6 +191,17 @@ public class ApiRequester {
 		call.enqueue(new ObjectCallback<Teacher>(userCallback));
 	}
 
+	//학생 로그인
+	public void loginStudent(Student student, UserCallback<Student> userCallback) {
+		Call<Student> call = dictationServerApi.loginStudent(   "student",
+															student.getSchool(),
+															student.getGrade(),
+															student.getClass_(),
+															student.getStudentId(),
+															student.getName());
+		call.enqueue(new ObjectCallback<Student>(userCallback));
+	}
+
 	//매칭 신청하기
 	public void applyMatching(String teacherLoginID,String studentID, UserCallback<Boolean> userCallback){
 		Call<okhttp3.ResponseBody> call = dictationServerApi.applyMatching(teacherLoginID, studentID);
@@ -210,5 +221,26 @@ public class ApiRequester {
 	public void getTeachersApplicants(String teacherLoginID, UserCallback<List<Student>> userCallback){
 		Call<List<Student>> call = dictationServerApi.getTeachersApplicants(teacherLoginID);
 		call.enqueue(new ObjectCallback<>(userCallback));
+	}
+
+	//학교 목록보기
+	public void getSchools(UserCallback<List<School>> userCallback){
+		Call<List<School>> call = dictationServerApi.getSchools();
+		call.enqueue(new ObjectCallback<>(userCallback));
+}
+	//학교 검색하기
+	public void searchSchools(String region1, String region2, String name, UserCallback<List<School>> userCallback){
+		Call<List<School>> call = dictationServerApi.searchSchool(region1, region2, name);
+		call.enqueue(new ObjectCallback<>(userCallback));
+	}
+	//등록된 선생님 목록보기
+	public void getStudentsTeachers(String studentID, UserCallback<List<Teacher>> userCallback){
+		Call<List<Teacher>> call = dictationServerApi.getStudentsTeachers(studentID);
+		call.enqueue(new ObjectCallback<>(userCallback));
+	}
+	//매칭 끊기
+	public void unConnectedMatching(String studentID, String teacherID, UserCallback<Boolean> userCallback){
+		Call<okhttp3.ResponseBody> call = dictationServerApi.unConnectedMatching(studentID, teacherID);
+		call.enqueue(new ResultCallback(userCallback));
 	}
 }

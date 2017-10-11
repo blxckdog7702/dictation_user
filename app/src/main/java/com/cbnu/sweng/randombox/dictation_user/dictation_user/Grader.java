@@ -1,12 +1,10 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user;
 
 import android.util.ArrayMap;
-import android.util.Log;
 
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Grade;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.GradeModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by user on 2017-08-21.
@@ -14,36 +12,36 @@ import java.util.List;
 
 public class Grader {
 
-    ArrayList<Grade> grades;
+    ArrayList<GradeModel> gradeModels;
     PusanSpellChecker pusanSpellChecker;
     private int score = 100;
 
-    public ArrayList<Grade> execute(ArrayList<ArrayMap<String, String>> qnas)
+    public ArrayList<GradeModel> execute(ArrayList<ArrayMap<String, String>> qnas)
     {
-        grades = new ArrayList<Grade>();
+        gradeModels = new ArrayList<GradeModel>();
         pusanSpellChecker = new PusanSpellChecker();
 
         for(ArrayMap<String, String> qna : qnas){
             String questionNumber = qna.get("questionNumber");
             final String question = qna.get("question");
             final String SubmittedAnswer = qna.get("SubmittedAnswer");
-            Grade grade = new Grade();
+            GradeModel gradeModel = new GradeModel();
 
             if(question.equals(SubmittedAnswer)){
-                grade.setQuestionNumber(Integer.parseInt(questionNumber));
-                grade.setCorrect(true);
-                grade.setRectify(null);
-                grade.setQuestion(question);
-                grade.setSubmittedAnswer(SubmittedAnswer);
+                gradeModel.setQuestionNumber(Integer.parseInt(questionNumber));
+                gradeModel.setCorrect(true);
+                gradeModel.setRectify(null);
+                gradeModel.setQuestion(question);
+                gradeModel.setSubmittedAnswer(SubmittedAnswer);
             }
             else{
-                grade.setQuestionNumber(Integer.parseInt(questionNumber));
-                grade.setCorrect(false);
-                grade.setQuestion(question);
-                grade.setSubmittedAnswer(SubmittedAnswer);
+                gradeModel.setQuestionNumber(Integer.parseInt(questionNumber));
+                gradeModel.setCorrect(false);
+                gradeModel.setQuestion(question);
+                gradeModel.setSubmittedAnswer(SubmittedAnswer);
 
                 try {
-                    grade.setRectify(pusanSpellChecker.execute(SubmittedAnswer));
+                    gradeModel.setRectify(pusanSpellChecker.execute(SubmittedAnswer));
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -52,11 +50,11 @@ public class Grader {
                 score -= 10;
             }
 
-            if(grade.getQuestionNumber() == 10){
-                grade.setScore(score);
+            if(gradeModel.getQuestionNumber() == 10){
+                gradeModel.setScore(score);
             }
-            grades.add(grade);
+            gradeModels.add(gradeModel);
         }
-        return grades;
+        return gradeModels;
     }
 }
