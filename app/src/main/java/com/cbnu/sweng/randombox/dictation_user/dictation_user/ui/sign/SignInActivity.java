@@ -22,11 +22,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
+
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.School;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.SelectPracticeTypeActivity;
+
 import com.shawnlin.numberpicker.NumberPicker;
 
 import java.util.List;
@@ -35,10 +38,6 @@ import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.cbnu.sweng.randombox.dictation_user.dictation_user.R.array.strArrayCity;
-import static com.cbnu.sweng.randombox.dictation_user.dictation_user.R.id.spCity;
-import static com.cbnu.sweng.randombox.dictation_user.dictation_user.R.id.spState;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -370,7 +369,9 @@ public class SignInActivity extends AppCompatActivity {
                                 mHandler.postDelayed(mRunnable, 3000);
                             }
                             @Override
+
                             public void onFail() {
+
                             }
                         });
                     }

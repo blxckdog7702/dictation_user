@@ -20,7 +20,9 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".ui.exam.ExamResultPage" />
         <activity android:name=".ui.exam.ExamResultDetailedPage" />
+
         <activity android:name=".ui.practice.SelectPracticeTypeActivity" />
+
         <activity
             android:name=".ui.exam.ReadyPage"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
@@ -47,19 +49,23 @@
         <activity android:name=".ui.practice.VowelAndConsonantPracticeActivity" />
         <activity android:name=".ui.base.BaseDrawerActivity" />
 
+
         <activity android:name=".ui.myprofile.RecordManagerActivity" />
 
         <activity android:name=".ui.sign.SignInActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.myprofile.CheckMyInfo"
             android:label="@string/title_activity_check_my_info"
             android:theme="@style/AppTheme" />
+
     </application>
 
 </manifest>
