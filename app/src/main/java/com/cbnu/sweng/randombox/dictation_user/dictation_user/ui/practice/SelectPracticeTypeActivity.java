@@ -20,8 +20,6 @@ public class SelectPracticeTypeActivity extends BaseDrawerActivity {
 
     @BindView(R.id.rvPractice) RecyclerView rvPractice;
 
-    Student student = new Student();
-
     public static final String[] titles = {"유아용", "유아용", "유아용", "초등학생용"};
     public static final String[] practiceTypes = {"자음 / 모음", "자음 + 모음", "낱말카드", "급수표"};
     public static final Integer[] images = {R.drawable.practice1, R.drawable.practice1, R.drawable.practice3, R.drawable.practice4};
@@ -35,14 +33,6 @@ public class SelectPracticeTypeActivity extends BaseDrawerActivity {
         setContentView(R.layout.activity_select_practice_type);
 
         ButterKnife.bind(this);
-
-        Intent e = getIntent();
-//        student = (Student)e.getSerializableExtra("student");
-//        Log.d("TAGGG", student.getName());
-//        Log.d("TAGGG", student.getSchool());
-//        Log.d("TAGGG", student.getGrade());
-//        Log.d("TAGGG", student.getClass_());
-//        Log.d("TAGGG", String.valueOf(student.getStudentId()));
 
         initModels();
         setupView();
