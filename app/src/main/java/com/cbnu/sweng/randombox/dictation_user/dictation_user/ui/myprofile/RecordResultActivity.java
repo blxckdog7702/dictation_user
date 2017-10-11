@@ -94,11 +94,15 @@ public class RecordResultActivity extends BaseChartActivity implements OnChartVa
         l.setXEntrySpace(7f);
         l.setYEntrySpace(0f);
         l.setYOffset(0f);
+        l.setEnabled(false);
 
         // entry label styling
         pieChart.setEntryLabelColor(Color.WHITE);
         pieChart.setEntryLabelTypeface(mTfRegular);
         pieChart.setEntryLabelTextSize(12f);
+
+        pieChart.animateX(750);
+        pieChart.animateY(700);
     }
 
     private void setData(int count, float range) {
@@ -116,7 +120,7 @@ public class RecordResultActivity extends BaseChartActivity implements OnChartVa
 
         dataSet.setDrawIcons(false);
 
-        dataSet.setSliceSpace(3f);
+        dataSet.setSliceSpace(10f);
         dataSet.setIconsOffset(new MPPointF(0, 40));
         dataSet.setSelectionShift(5f);
 

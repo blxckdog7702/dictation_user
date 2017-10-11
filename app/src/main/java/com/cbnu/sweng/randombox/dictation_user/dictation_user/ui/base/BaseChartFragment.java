@@ -119,8 +119,14 @@ public abstract class BaseChartFragment extends Fragment {
         PieDataSet d = new PieDataSet(entries, "");
 
         // space between slices
-        d.setSliceSpace(2f);
+        d.setSliceSpace(10f);
         d.setColors(ColorTemplate.VORDIPLOM_COLORS);
+
+        d.setValueLinePart1OffsetPercentage(80.f);
+        d.setValueLinePart1Length(0.2f);
+        d.setValueLinePart2Length(0.4f);
+        //dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        d.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
 
         PieData cd = new PieData(d);
         return cd;

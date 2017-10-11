@@ -114,8 +114,13 @@ public abstract class BaseChartActivity extends BaseDrawerActivity {
         PieDataSet d = new PieDataSet(entries, "");
 
         // space between slices
-        d.setSliceSpace(2f);
+        d.setSliceSpace(10f);
         d.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        d.setValueLinePart1OffsetPercentage(80.f);
+        d.setValueLinePart1Length(3.2f);
+        d.setValueLinePart2Length(1.4f);
+        //dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        d.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
 
         PieData cd = new PieData(d);
         return cd;
