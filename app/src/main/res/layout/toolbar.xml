@@ -9,7 +9,6 @@
     android:minHeight="?attr/actionBarSize"
     android:background="#B2CCFF"
     app:layout_collapseMode="parallax"
-    android:gravity="top"
-    app:layout_scrollFlags="scroll|enterAlways">
+    android:gravity="top">
 
 </android.support.v7.widget.Toolbar>

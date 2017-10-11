@@ -3,7 +3,6 @@ package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -25,7 +24,7 @@ public abstract class BaseTabLayoutActivity extends BaseDrawerActivity {
     @Override
     public void setContentView(int layoutResID) {
         super.setContentViewWithoutInject(R.layout.activity_base_tab_layout);
-        ViewGroup viewGroup = (ViewGroup) findViewById(R.id.content);
+        ViewGroup viewGroup = (ViewGroup) findViewById(R.id.lrContent);
         LayoutInflater.from(this).inflate(layoutResID, viewGroup, true);
         bindViews();
     }

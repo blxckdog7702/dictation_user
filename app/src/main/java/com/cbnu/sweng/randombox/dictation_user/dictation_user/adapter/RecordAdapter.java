@@ -3,6 +3,7 @@ package com.cbnu.sweng.randombox.dictation_user.dictation_user.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.RecordModel;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile.RecordResultActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.Util;
 
 
 import java.util.ArrayList;
@@ -76,8 +79,9 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordView
 
         @OnClick(R.id.lrRecord)
         public void onCheck() {
-            int postion = getAdapterPosition();
-
+            //Util.getInstance().moveActivity(this, ExamResultPage.class, quizResult, (ArrayList<Question>) questions);
+            Util.getInstance().moveActivity(context, RecordResultActivity.class);
+            Log.v("RecordAdapter", "Listener OK");
         }
     }
 }

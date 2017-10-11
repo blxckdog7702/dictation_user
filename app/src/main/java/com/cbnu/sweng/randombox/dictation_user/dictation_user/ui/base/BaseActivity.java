@@ -131,7 +131,6 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-        toolbar.setNavigationIcon(R.drawable.ic_menu_white);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

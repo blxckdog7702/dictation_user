@@ -3,8 +3,11 @@ package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import android.view.ViewGroup;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.adapter.RecordAdapter;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.RecordModel;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 
@@ -52,7 +56,8 @@ public class RecordFragment extends Fragment {
 
         recordAdapter = new RecordAdapter(getActivity(), recordModels);
         rvRecord.setAdapter(recordAdapter);
-        //recordAdapter.notifyDataSetChanged();
+        recordAdapter.notifyDataSetChanged();
+
     }
 
     private void initModels() {

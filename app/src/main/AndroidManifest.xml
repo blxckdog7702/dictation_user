@@ -66,6 +66,10 @@
             android:label="@string/title_activity_check_my_info"
             android:theme="@style/AppTheme" />
 
+
+
+        <activity android:name=".ui.myprofile.RecordResultActivity">
+        </activity>
     </application>
 
 </manifest>
