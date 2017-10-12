@@ -63,6 +63,8 @@ dependencies {
     compile 'nl.dionsegijn:konfetti:1.1.0'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     compile 'me.panavtec:drawableview:0.6.0'
+    compile 'com.github.markushi:circlebutton:1.1'
+
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.0'
 }

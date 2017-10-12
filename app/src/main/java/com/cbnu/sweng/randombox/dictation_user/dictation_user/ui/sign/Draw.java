@@ -28,9 +28,6 @@ public abstract class Draw extends AppCompatActivity {
 
     private TTSRequester mTTSRequester = null;
     private long mLastClickTime = 0;
-
-
-
     private DrawableView drawableView;
     private DrawableViewConfig config = new DrawableViewConfig();
     protected ArrayMap<Integer, String> words;
@@ -71,8 +68,7 @@ public abstract class Draw extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.readword) // 낱말 읽기(tts)
-    void onClickReadword(){
+    public void readSentenceClick (View view){ // 낱말 읽기(tts)
         //disable double click
         if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
             return;
@@ -143,8 +139,8 @@ public abstract class Draw extends AppCompatActivity {
     private void initUi() {
         drawableView = (DrawableView) findViewById(R.id.paintView);
         drawableView.setAlpha(0.5f);
-        Button strokeWidthMinusButton = (Button) findViewById(R.id.strokeWidthMinusButton);
-        Button strokeWidthPlusButton = (Button) findViewById(R.id.strokeWidthPlusButton);
+        Button strokeWidthMinusButton = (Button) findViewById(R.id.nextBt);
+        Button strokeWidthPlusButton = (Button) findViewById(R.id.previousBt);
        // Button changeColorButton = (Button) findViewById(R.id.changeColorButton); // 선 색깔 바꾸는 버튼
         Button undoButton = (Button) findViewById(R.id.undoButton);
 
