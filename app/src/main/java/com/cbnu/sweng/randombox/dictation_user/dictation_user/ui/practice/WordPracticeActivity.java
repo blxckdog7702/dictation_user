@@ -6,7 +6,7 @@ import android.util.ArrayMap;
 import android.view.View;
 import android.widget.Button;
 
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign.Draw;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BasePracticeActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 import me.panavtec.drawableview.DrawableView;
 import me.panavtec.drawableview.DrawableViewConfig;
 
-public class WordPracticeActivity extends Draw {
+public class WordPracticeActivity extends BasePracticeActivity {
 
     private DrawableView drawableView;
     private DrawableViewConfig config = new DrawableViewConfig();
@@ -25,7 +25,7 @@ public class WordPracticeActivity extends Draw {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_draw);
+        setContentView(R.layout.activity_base_practice);
 
         ButterKnife.bind(this);
     }

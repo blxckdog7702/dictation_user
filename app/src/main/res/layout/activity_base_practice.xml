@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.WordPracticeActivity">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,6 +32,15 @@
             android:layout_weight="1"
             android:weightSum="7">
 
+            <TextView
+                android:id="@+id/tvWord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="TEST"
+                android:textColor="#AAAAAA"
+                android:textSize="60sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -40,12 +48,22 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
+                    android:layout_height="45dp"
                     android:background="#CCCCCC">
 
                     <Button
-                        android:id="@+id/btPrev"
+                        android:id="@+id/undoButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/border_button"
+                        android:text="지우기"
+                        android:textColor="#000000"
+                        android:textSize="20sp" />
+
+                    <Button
+                        android:id="@+id/previousBt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
@@ -56,7 +74,7 @@
                         android:textSize="20sp" />
 
                     <Button
-                        android:id="@+id/btNext"
+                        android:id="@+id/nextBt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
@@ -65,43 +83,28 @@
                         android:text="다음"
                         android:textColor="#000000"
                         android:textSize="20sp" />
+
                 </LinearLayout>
 
-                <com.myscript.atk.sltw.SingleLineWidget
-                    android:id="@+id/widget"
+                <me.panavtec.drawableview.DrawableView
+                    android:id="@+id/paintView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_height="252dp"
                     android:background="#FFFFFF"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:background="#CCCCCC">
+                <at.markushi.ui.CircleButton
+                    android:id="@+id/circleButton"
+                    android:layout_width="88dp"
+                    android:layout_height="67dp"
+                    android:layout_weight="1"
+                    android:onClick="readSentenceClick"
+                    android:src="@drawable/ic_volume_up_black_24dp"
+                    app:cb_color="@color/colorAccent"
+                    app:cb_pressedRingWidth="8dip"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
 
-                    <Button
-                        android:id="@+id/btClear"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/border_button"
-                        android:text="지우기"
-                        android:textColor="#000000"
-                        android:textSize="20sp" />
-
-                </LinearLayout>
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/tvWord"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="TEST"
-                android:textColor="#AAAAAA"
-                android:textSize="60sp" />
 
         </FrameLayout>
     </LinearLayout>
