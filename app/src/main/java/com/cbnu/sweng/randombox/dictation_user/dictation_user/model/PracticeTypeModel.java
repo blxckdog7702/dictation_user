@@ -2,9 +2,6 @@ package com.cbnu.sweng.randombox.dictation_user.dictation_user.model;
 
 import java.util.ArrayList;
 
-/**
- * Created by user on 2017-09-30.
- */
 
 public class PracticeTypeModel {
 

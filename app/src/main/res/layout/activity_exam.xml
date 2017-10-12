@@ -24,7 +24,7 @@
 
     </LinearLayout>
 
-    <com.cbnu.sweng.randombox.dictation_user.dictation_user.CustomEditText
+    <com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.CustomEditText
         android:id="@+id/textField"
         android:text="@string/input_text"
         android:layout_width="match_parent"

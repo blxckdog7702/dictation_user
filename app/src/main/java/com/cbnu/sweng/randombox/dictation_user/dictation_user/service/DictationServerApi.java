@@ -117,7 +117,7 @@ public interface DictationServerApi {
     //test1
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://dev-dictation-server.herokuapp.com")
-            .baseUrl("https://dictation-server-minung.c9users.io")
+            //.baseUrl("https://dictation-server-minung.c9users.io")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 }

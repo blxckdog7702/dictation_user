@@ -15,24 +15,18 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup,android:icon,android:label,android:supportsRtl,android:theme">
         <activity
-            android:name=".view.SplashActivity"
+            android:name=".ui.SplashActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".view.sign.SignInActivity" />
-        <activity android:name=".view.exam.ExamResultPage" />
-        <activity android:name=".view.exam.ExamResultDetailedPage" />
+        <activity android:name=".ui.exam.ExamResultPage" />
+        <activity android:name=".ui.exam.ExamResultDetailedPage" />
+        <activity android:name=".ui.practice.SelectPracticeTypeActivity" />
         <activity
-            android:name=".view.exam.ReadyPage"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".view.sign.SignUpActivity" />
+            android:name=".ui.exam.ReadyPage"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".ui.sign.SignUpActivity" />
         <activity
-            android:name=".view.exam.ExamPage"
+            android:name=".ui.exam.ExamPage"
             android:screenOrientation="landscape" />
 
         <service android:name=".service.MyFirebaseMessagingService">
@@ -46,17 +40,30 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".view.practice.SelectTypeMainActivity">
+        <activity android:name=".ui.base.BaseActivity" />
+        <activity android:name=".ui.practice.WordPracticeActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".ui.practice.DictationPracticeActivity" />
+        <activity android:name=".ui.practice.VowelOrConsonantPracticeActivity" />
+        <activity android:name=".ui.practice.VowelAndConsonantPracticeActivity" />
+        <activity android:name=".ui.base.BaseDrawerActivity" />
+        <activity android:name=".ui.myprofile.RecordManagerActivity" />
+
+        <activity android:name=".ui.sign.SignInActivity"
+
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
-        <activity android:name=".view.BaseMainActivity" />
-        <activity android:name=".view.practice.WordPracticeActivity" />
-        <activity android:name=".view.practice.DictationPracticeActivity" />
-        <activity android:name=".view.practice.VowelOrConsonantPracticeActivity" />
-        <activity android:name=".view.practice.VowelAndConsonantPracticeActivity" />
-        <activity android:name=".view.TestActivity">
-
-        </activity>
+        <activity
+            android:name=".ui.myprofile.CheckMyInfo"
+            android:label="@string/title_activity_check_my_info"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ui.myprofile.RecordResultActivity"></activity>
     </application>
 
 </manifest>

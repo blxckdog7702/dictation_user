@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cbnu.sweng.randombox.dictation_user.dictation_user.view.sign.SignUpActivity"
+    tools:context="com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign.SignUpActivity"
     android:background="#DDDDDD">
 
     <android.support.v7.widget.Toolbar
@@ -37,6 +37,24 @@
     </EditText>
 
     <EditText
+        android:id="@+id/etTeacherNameUp"
+        android:layout_width="fill_parent"
+        android:layout_height="48.0dip"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/etStudentInfoUp"
+        android:layout_marginLeft="20.0dip"
+        android:layout_marginRight="20.0dip"
+        android:background="#ffffffff"
+        android:hint="선생님ID"
+        android:imeOptions="actionNext"
+        android:paddingLeft="20.0dip"
+        android:textColor="#333333"
+        android:textColorHint="#aaaaaa">
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
         android:id="@+id/etSchoolNameUp"
         android:textColor="#333333"
         android:textColorHint="#aaaaaa"
@@ -63,7 +81,7 @@
         android:layout_height="48.0dip"
         android:layout_marginLeft="20.0dip"
         android:layout_marginRight="20.0dip"
-        android:layout_marginBottom="10.0dip"
+        android:layout_marginBottom="2.0dip"
         android:hint="학년 / 반 / 출석번호"
         android:layout_below="@id/etSchoolNameUp"
         android:layout_centerHorizontal="true"
@@ -87,13 +105,12 @@
         android:background="@drawable/border_sign"
         android:layout_width="fill_parent"
         android:layout_height="40.0dip"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="65dp"
         android:layout_marginLeft="20.0dip"
         android:layout_marginRight="20.0dip"
-        android:layout_marginBottom="10.0dip"
         android:text="가입하기"
-        android:layout_below="@id/layout"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/layout"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
 

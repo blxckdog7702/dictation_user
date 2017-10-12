@@ -37,9 +37,16 @@ dependencies {
 
     compile project(path: ':myscript-certificate')
 
+
+
+
+
+
+
     compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:cardview-v7:25.0.0'
-    compile 'com.android.support:recyclerview-v7:25.0.0'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:cardview-v7:25.3.1'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.jakewharton:butterknife:8.8.0'
     compile 'info.hoang8f:fbutton:1.0.5'
@@ -49,7 +56,15 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.google.firebase:firebase-core:10.2.6'
     compile 'com.google.firebase:firebase-messaging:10.2.6'
+    compile 'com.squareup.picasso:picasso:2.5.0'
+    compile 'com.mxn.soul:flowingdrawer-core:2.0.0'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.yalantis:contextmenu:1.0.7'
     compile 'nl.dionsegijn:konfetti:1.1.0'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    compile 'me.panavtec:drawableview:0.6.0'
+    compile 'com.github.markushi:circlebutton:1.1'
+
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.0'
 }

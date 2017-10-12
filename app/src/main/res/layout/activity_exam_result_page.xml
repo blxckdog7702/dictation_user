@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:fbutton="http://schemas.android.com/apk/res-auto"
-    tools:context="com.cbnu.sweng.randombox.dictation_user.dictation_user.view.exam.ExamResultPage"
+    tools:context="com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.exam.ExamResultPage"
     android:background="#FFFFFF">
 
     <LinearLayout
