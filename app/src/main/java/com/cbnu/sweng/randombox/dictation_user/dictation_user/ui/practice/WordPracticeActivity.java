@@ -28,74 +28,30 @@ public class WordPracticeActivity extends Draw {
         setContentView(R.layout.activity_draw);
 
         ButterKnife.bind(this);
-        initUi();
-
     }
-    private void initUi() {
-        drawableView = (DrawableView) findViewById(R.id.paintView);
-        Button strokeWidthMinusButton = (Button) findViewById(R.id.strokeWidthMinusButton);
-        Button strokeWidthPlusButton = (Button) findViewById(R.id.strokeWidthPlusButton);
-        Button changeColorButton = (Button) findViewById(R.id.changeColorButton);
-        Button undoButton = (Button) findViewById(R.id.undoButton);
 
-        config.setStrokeColor(getResources().getColor(android.R.color.black));
-        config.setShowCanvasBounds(true);
-        config.setStrokeWidth(20.0f);
-        config.setMinZoom(1.0f);
-        config.setMaxZoom(3.0f);
-        config.setCanvasHeight(1080);
-        config.setCanvasWidth(1920);
-        drawableView.setConfig(config);
+    @Override
+    protected void setWords(){
+        Integer[] images = {R.drawable.word_apple, R.drawable.word_bachu, R.drawable.word_bae, R.drawable.word_bam,
+                R.drawable.word_banana, R.drawable.word_boksunga, R.drawable.word_busut, R.drawable.word_chamwa,
+                R.drawable.word_ddalki, R.drawable.word_ddangken, R.drawable.word_gam, R.drawable.word_gazzi,
+                R.drawable.word_gochu, R.drawable.word_boksunga, R.drawable.word_goguma, R.drawable.word_grape,
+                R.drawable.word_gyul, R.drawable.word_kiwwi, R.drawable.word_manel, R.drawable.word_melon,
+                R.drawable.word_mu, R.drawable.word_onion, R.drawable.word_subak, R.drawable.word_pineapple};
+        String[] titles = {"사 과", "배 추", "배", "밤",
+                "바 나 나", "복 숭 아", "버 섯", "참 외",
+                "딸 기", "당 근", "감", "가 지",
+                "고 추", "복 숭 아", "고 구 마", "포 도",
+                "귤", "키 위", "마 늘", "메 론",
+                "무", "양 파", "수 박", "파 인 애 플"};
 
-        strokeWidthPlusButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override public void onClick(View v) {
-                config.setStrokeWidth(config.getStrokeWidth() + 10);
-            }
-        });
-        strokeWidthMinusButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override public void onClick(View v) {
-                config.setStrokeWidth(config.getStrokeWidth() - 10);
-            }
-        });
-        changeColorButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override public void onClick(View v) {
-                Random random = new Random();
-                config.setStrokeColor(
-                        Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256)));
-            }
-        });
-        undoButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override public void onClick(View v) {
-                drawableView.undo();
-            }
-        });
+        words = new ArrayMap<>();
+        wordSize = titles.length;
+        for(int i = 0; i < wordSize; i++){
+            words.put(images[i], titles[i]);
+        }
+        keys = new ArrayList(words.keySet());
+        Collections.shuffle(keys);
     }
-//    @Override
-//    protected void setWords(){
-//        Integer[] images = {R.drawable.word_apple, R.drawable.word_bachu, R.drawable.word_bae, R.drawable.word_bam,
-//                R.drawable.word_banana, R.drawable.word_boksunga, R.drawable.word_busut, R.drawable.word_chamwa,
-//                R.drawable.word_ddalki, R.drawable.word_ddangken, R.drawable.word_gam, R.drawable.word_gazzi,
-//                R.drawable.word_gochu, R.drawable.word_boksunga, R.drawable.word_goguma, R.drawable.word_grape,
-//                R.drawable.word_gyul, R.drawable.word_kiwwi, R.drawable.word_manel, R.drawable.word_melon,
-//                R.drawable.word_mu, R.drawable.word_onion, R.drawable.word_subak, R.drawable.word_pineapple};
-//        String[] titles = {"사 과", "배 추", "배", "밤",
-//                "바 나 나", "복 숭 아", "버 섯", "참 외",
-//                "딸 기", "당 근", "감", "가 지",
-//                "고 추", "복 숭 아", "고 구 마", "포 도",
-//                "귤", "키 위", "마 늘", "메 론",
-//                "무", "양 파", "수 박", "파 인 애 플"};
-//
-//        words = new ArrayMap<>();
-//        wordSize = titles.length;
-//        for(int i = 0; i < wordSize; i++){
-//            words.put(images[i], titles[i]);
-//        }
-//        keys = new ArrayList(words.keySet());
-//        Collections.shuffle(keys);
-//    }
 
 }

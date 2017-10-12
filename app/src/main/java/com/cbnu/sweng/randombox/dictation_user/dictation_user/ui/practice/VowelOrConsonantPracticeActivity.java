@@ -5,10 +5,11 @@ import android.util.ArrayMap;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BasePracticeActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign.Draw;
 
 import java.util.ArrayList;
 
-public class VowelOrConsonantPracticeActivity extends BasePracticeActivity {
+public class VowelOrConsonantPracticeActivity extends Draw {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

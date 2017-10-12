@@ -36,8 +36,10 @@ public abstract class BasePracticeActivity extends AppCompatActivity implements 
     protected int wordNum = 0;
     protected int wordSize = 0;
     @BindView(R.id.widget) SingleLineWidget widget;
+
     @BindView(R.id.tvWord) TextView tvWord;
     @BindView(R.id.ivWord) ImageView ivWord;
+
     @OnClick(R.id.btClear)
     void onClickBtClear(){
         widget.clear();
