@@ -52,6 +52,28 @@
                     android:background="#CCCCCC">
 
                     <Button
+                        android:id="@+id/eraseBt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/border_button"
+                        android:text="슥삭슥삭"
+                        android:textColor="#000000"
+                        android:textSize="20sp" />
+
+                    <Button
+                        android:id="@+id/penBt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/border_button"
+                        android:text="펜"
+                        android:textColor="#000000"
+                        android:textSize="20sp" />
+
+                    <Button
                         android:id="@+id/undoButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

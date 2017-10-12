@@ -2,6 +2,7 @@ package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base;
 
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
@@ -24,6 +25,7 @@ import com.myscript.atk.sltw.SingleLineWidgetApi;
 import com.myscript.certificate.MyCertificate;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,9 +72,20 @@ public abstract class BasePracticeActivity extends AppCompatActivity {
         else{
             Toast.makeText(getApplicationContext(), "다음 낱말이 없습니다.", Toast.LENGTH_LONG).show();
         }
-        //widget.clear();
         drawableView.clear();
 
+    }
+
+    @OnClick(R.id.eraseBt) // 지우기
+    void onClickEraseBt () {
+        config.setStrokeColor(Color.WHITE);
+        config.setStrokeWidth(config.getStrokeWidth() + 30);
+    }
+
+    @OnClick(R.id.penBt) // 펜으로 전환
+    void onClickPenBt() {
+        config.setStrokeColor(Color.BLACK);
+        config.setStrokeWidth(20.0f);
     }
 
     public void readSentenceClick (View view){ // 낱말 읽기(tts)
@@ -128,6 +141,7 @@ public abstract class BasePracticeActivity extends AppCompatActivity {
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_practice);
+        ButterKnife.bind(this);
         initUi();
     }
 
@@ -146,10 +160,12 @@ public abstract class BasePracticeActivity extends AppCompatActivity {
     private void initUi() {
         drawableView = (DrawableView) findViewById(R.id.paintView);
         drawableView.setAlpha(0.5f);
-        Button strokeWidthMinusButton = (Button) findViewById(R.id.nextBt);
-        Button strokeWidthPlusButton = (Button) findViewById(R.id.previousBt);
-        // Button changeColorButton = (Button) findViewById(R.id.changeColorButton); // 선 색깔 바꾸는 버튼
-        Button undoButton = (Button) findViewById(R.id.undoButton);
+        Button nextBt = (Button) findViewById(R.id.nextBt);
+        Button previousBt = (Button) findViewById(R.id.previousBt);
+        Button eraseBt = (Button) findViewById(R.id.eraseBt); // 손으로 지우기
+        Button penBt = (Button) findViewById(R.id.penBt);
+
+        Button undoButton = (Button) findViewById(R.id.undoButton); // 한 획씩 지우기
 
         config.setStrokeColor(getResources().getColor(android.R.color.black));
         config.setShowCanvasBounds(true);
@@ -160,18 +176,18 @@ public abstract class BasePracticeActivity extends AppCompatActivity {
         config.setCanvasWidth(1920);
         drawableView.setConfig(config);
 
-        strokeWidthPlusButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override public void onClick(View v) {
-                config.setStrokeWidth(config.getStrokeWidth() + 10);
-            }
-        });
-        strokeWidthMinusButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override public void onClick(View v) {
-                config.setStrokeWidth(config.getStrokeWidth() - 10);
-            }
-        });
+//        previousBt.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override public void onClick(View v) {
+//                config.setStrokeWidth(config.getStrokeWidth() + 10);
+//            }
+//        });
+//        nextBt.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override public void onClick(View v) {
+//                config.setStrokeWidth(config.getStrokeWidth() - 10);
+//            }
+//        });
 //        changeColorButton.setOnClickListener(new View.OnClickListener() {
 //
 //            @Override public void onClick(View v) { // 선 색깔 바꾸는 메소드
@@ -180,6 +196,7 @@ public abstract class BasePracticeActivity extends AppCompatActivity {
 //                        Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256)));
 //            }
 //        });
+
         undoButton.setOnClickListener(new View.OnClickListener() {
 
             @Override public void onClick(View v) {
