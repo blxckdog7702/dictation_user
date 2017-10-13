@@ -120,9 +120,9 @@ public class ApiRequester {
 		dictationServerApi = DictationServerApi.retrofit.create(DictationServerApi.class);
 	}
 
-	//quiz list를 리턴한다
-	public void getTeachersQuizzes(UserCallback<List<Quiz>> userCallback) throws IOException{
-		Call<List<Quiz>> call = dictationServerApi.getTeachersQuizzes();
+	//선생님의 quiz list를 리턴한다
+	public void getTeachersQuizzes(String teacherID,UserCallback<List<Quiz>> userCallback) throws IOException{
+		Call<List<Quiz>> call = dictationServerApi.getTeachersQuizzes(teacherID);
 		call.enqueue(new ObjectCallback<List<Quiz>>(userCallback));
 	}
 
