@@ -75,9 +75,9 @@ public interface DictationServerApi {
 	//선생님 가입
 	@POST("/teachers")
 	Call<Teacher> signUpTeacher(@Body JsonObject teacher);
-    //학생 수정
-    @GET("/quizzes")
-    Call<List<Quiz>> getTeachersQuizzes();
+	//선생님 퀴즈 목록 가져오기
+  @GET("/teachers/{teacher_id}/quizzes")
+  Call<List<Quiz>> getTeachersQuizzes(@Path("teacher_id") String teacherID);
     //선생님 로그인 아이디로 검색
     @GET("/teachers/login_id/{login_id}")
     Call<Teacher> searchTeacherByLoginID(@Path("login_id") String loginID);
