@@ -76,20 +76,26 @@ public class RecordFragment extends Fragment {
                     Log.e("RecordFragment", "Server Error");
                 }
             });
-            for(Teacher teacher : teachers){
-                apiRequester.getTeachersQuizHistories(teacher.getLoginId(), new ApiRequester.UserCallback<List<QuizHistory>>() {
+            if(teachers != null){
+                for(Teacher teacher : teachers){
+                    apiRequester.getTeachersQuizHistories(teacher.getLoginId(), new ApiRequester.UserCallback<List<QuizHistory>>() {
 
-                    @Override
-                    public void onSuccess(List<QuizHistory> result) {
-                        quizHistories = (ArrayList<QuizHistory>) result;
-                    }
+                        @Override
+                        public void onSuccess(List<QuizHistory> result) {
+                            quizHistories = (ArrayList<QuizHistory>) result;
+                        }
 
-                    @Override
-                    public void onFail() {
-                        Log.e("RecordFragment", "Server Error");
-                    }
-                });
+                        @Override
+                        public void onFail() {
+                            Log.e("RecordFragment", "Server Error");
+                        }
+                    });
+                }
             }
+            else{
+                tvRecord.setText("등록된 쌘쌔가 없습니다.");
+            }
+
         }
         catch (IOException e) {
             e.printStackTrace();

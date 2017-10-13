@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.SelectExamOrPractice;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
@@ -342,7 +343,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 mRunnable = new Runnable() {
                                     @Override
                                     public void run() {
-                                        Intent e = new Intent(SignUpActivity.this, SelectPracticeTypeActivity.class);
+                                        Intent e = new Intent(SignUpActivity.this, SelectExamOrPractice.class);
 
                                         startActivity(e);
                                     }

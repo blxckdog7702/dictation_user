@@ -81,29 +81,29 @@ public class ReadyPage extends AppCompatActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-                //TODO 서버에서 교사정보 가져와서 설정하기
-                ApiRequester apiRequester = new ApiRequester();
-                apiRequester.searchTeacherByLoginID(etTeacherId.getText().toString(), new ApiRequester.UserCallback<Teacher>() {
-                    @Override
-                    public void onSuccess(Teacher result) {
-                        teacher = new Teacher();
-                    }
+                    public void afterTextChanged(Editable editable) {
+                        //TODO 서버에서 교사정보 가져와서 설정하기
+                        ApiRequester apiRequester = new ApiRequester();
+                        apiRequester.searchTeacherByLoginID(etTeacherId.getText().toString(), new ApiRequester.UserCallback<Teacher>() {
+                            @Override
+                            public void onSuccess(Teacher result) {
+                                teacher = new Teacher();
+                            }
 
-                    @Override
-                    public void onFail() {
-                        Log.e("ReadyPage", "Server Error!");
-                    }
-                });
-                if (teacher != null) { // 교사정보 있으면
-                    isTeacherInfo = true;
-                    tvTeacherSchoolName.setText(teacher.getSchool());
-                    tvTeacherName.setText(teacher.getName());
-                } else { // 없으면
-                    tvTeacherSchoolName.setText("아이디를 다시 입력해주세요.");
-                    tvTeacherSchoolName.setPadding(20, 5, 20, 5);
-                    tvTeacherName.setText("아이디를 다시 입력해주세요.");
-                    tvTeacherName.setPadding(20, 5, 20, 5);
+                            @Override
+                            public void onFail() {
+                                Log.e("ReadyPage", "Server Error!");
+                            }
+                        });
+                        if (teacher != null) { // 교사정보 있으면
+                            isTeacherInfo = true;
+                            tvTeacherSchoolName.setText(teacher.getSchool());
+                            tvTeacherName.setText(teacher.getName());
+                        } else { // 없으면
+                            tvTeacherSchoolName.setText("아이디를 다시 입력해주세요.");
+                            tvTeacherSchoolName.setPadding(20, 5, 20, 5);
+                            tvTeacherName.setText("아이디를 다시 입력해주세요.");
+                            tvTeacherName.setPadding(20, 5, 20, 5);
                 }
             }
         });

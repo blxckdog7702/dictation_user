@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.adapter.ChartDataAdapter;
@@ -33,6 +34,7 @@ import butterknife.ButterKnife;
 public class StatsFragment extends BaseChartFragment {
 
     @BindView(R.id.lvStats) ListView lvStats;
+    @BindView(R.id.tvStats) TextView tvStats;
     private ArrayList<ChartItem> chartItems;
     private ArrayList<Teacher> teachers;
     private ArrayList<QuizHistory> quizHistories;
@@ -112,20 +114,26 @@ public class StatsFragment extends BaseChartFragment {
                     Log.e("RecordFragment", "Server Error");
                 }
             });
-            for(Teacher teacher : teachers){
-                apiRequester.getTeachersQuizHistories(teacher.getLoginId(), new ApiRequester.UserCallback<List<QuizHistory>>() {
+            if(teachers != null){
+                for(Teacher teacher : teachers){
+                    apiRequester.getTeachersQuizHistories(teacher.getLoginId(), new ApiRequester.UserCallback<List<QuizHistory>>() {
 
-                    @Override
-                    public void onSuccess(List<QuizHistory> result) {
-                        quizHistories = (ArrayList<QuizHistory>) result;
-                    }
+                        @Override
+                        public void onSuccess(List<QuizHistory> result) {
+                            quizHistories = (ArrayList<QuizHistory>) result;
+                        }
 
-                    @Override
-                    public void onFail() {
-                        Log.e("RecordFragment", "Server Error");
-                    }
-                });
+                        @Override
+                        public void onFail() {
+                            Log.e("RecordFragment", "Server Error");
+                        }
+                    });
+                }
             }
+            else{
+                tvStats.setText("등록된 선생님이 없습니다.");
+            }
+
         }
         catch (IOException e) {
             e.printStackTrace();
