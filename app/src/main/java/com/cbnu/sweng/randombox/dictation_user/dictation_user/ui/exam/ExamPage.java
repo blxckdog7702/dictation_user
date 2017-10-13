@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizHistory;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.BuildConfig;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.CustomEditText;
@@ -350,7 +352,27 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
         }
         quizResult.setQuestionResult(questionResults);
         quizResult.setQuizNumber(Integer.parseInt(quizNumber));
-        quizResult.setStudentName("반상민");
+        quizResult.setStudentName(Student.getInstance().getName());
+
+        ApiRequester apiRequester = new ApiRequester();
+        try {
+            apiRequester.endQuiz(quizHitoryID, Student.getInstance().getStudentId().toString(),
+                                    quizResult, new ApiRequester.UserCallback<QuizHistory>(){
+
+                        @Override
+                        public void onSuccess(QuizHistory result) {
+                            Log.v("ExamPage", "Send data to server");
+                        }
+
+                        @Override
+                        public void onFail() {
+                            Log.e("ExamPage", "Server Error!");
+                        }
+                    });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Util.getInstance().moveActivity(this, ExamResultPage.class, quizResult, (ArrayList<Question>) questions);
     }

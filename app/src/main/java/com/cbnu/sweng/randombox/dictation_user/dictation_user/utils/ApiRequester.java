@@ -25,10 +25,7 @@ public class ApiRequester {
 	DictationServerApi dictationServerApi;
 	Gson gson;
 	JsonParser parser;
-
 	Callback callback;
-
-
 
 	public interface UserCallback<T>{
 		void onSuccess(T result);
@@ -112,7 +109,6 @@ public class ApiRequester {
 			callback.onFail();
 		}
 	}
-
 
 	public ApiRequester() {
 		parser = new JsonParser();

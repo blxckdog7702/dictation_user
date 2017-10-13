@@ -14,6 +14,15 @@ import java.util.List;
 
 public class Student implements Serializable{
 
+    public volatile static Student student;
+
+    public static Student getInstance() {
+        if(student == null){
+            student = new Student();
+        }
+        return student;
+    }
+
     @SerializedName("_id")
     @Expose
     private String id;
@@ -44,7 +53,7 @@ public class Student implements Serializable{
 
     @SerializedName("quiz_results")
     @Expose
-    private List<String> quizResults = null;
+    private List<QuizResult> quizResults = null;
 
     public String getId() {
         return id;
@@ -102,11 +111,11 @@ public class Student implements Serializable{
         this.v = v;
     }
 
-    public List<String> getQuizResults() {
+    public List<QuizResult> getQuizResults() {
         return quizResults;
     }
 
-    public void setQuizResults(List<String> quizResults) {
+    public void setQuizResults(List<QuizResult> quizResults) {
         this.quizResults = quizResults;
     }
 
