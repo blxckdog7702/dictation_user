@@ -41,29 +41,27 @@
         </service>
 
         <activity android:name=".ui.base.BaseActivity" />
-        <activity android:name=".ui.practice.WordPracticeActivity"
-            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".ui.practice.WordPracticeActivity"
+            android:screenOrientation="landscape" />
         <activity android:name=".ui.practice.DictationPracticeActivity" />
         <activity android:name=".ui.practice.VowelOrConsonantPracticeActivity" />
         <activity android:name=".ui.practice.VowelAndConsonantPracticeActivity" />
         <activity android:name=".ui.base.BaseDrawerActivity" />
         <activity android:name=".ui.myprofile.RecordManagerActivity" />
-
-        <activity android:name=".ui.sign.SignInActivity"
-
-            >
+        <activity android:name=".ui.sign.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".ui.myprofile.CheckMyInfo"
             android:label="@string/title_activity_check_my_info"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ui.myprofile.RecordResultActivity"></activity>
+        <activity android:name=".ui.myprofile.RecordResultActivity" />
+        <activity android:name=".ui.myprofile.TeacherList"></activity>
     </application>
 
 </manifest>

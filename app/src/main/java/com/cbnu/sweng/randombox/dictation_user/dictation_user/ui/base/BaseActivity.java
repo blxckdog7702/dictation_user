@@ -24,6 +24,7 @@ import android.widget.EditText;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile.CheckMyInfo;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile.RecordManagerActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile.TeacherList;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.SelectPracticeTypeActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign.SignInActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign.SignUpActivity;
@@ -187,20 +188,21 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
         if(position == 0){
 
         }
-        else if(position == 1){
+        else if(position == 1){ // 내 정보 관리
             Intent t = new Intent(BaseActivity.this, CheckMyInfo.class);
             startActivity(t);
         }
-        else if(position == 2){
+        else if(position == 2){ // 존나 카리스마 있어
 
         }
-        else if(position == 3){
-
+        else if(position == 3){ // 내 선생님 관리
+            Intent e = new Intent(BaseActivity.this, TeacherList.class);
+            startActivity(e);
         }
-        else if(position == 4){
+        else if(position == 4){ // 내 성적 관리
             Util.getInstance().moveActivity(this, RecordManagerActivity.class);
         }
-        else if(position == 5){
+        else if(position == 5){ // 로그아웃
             new AlertDialog.Builder(this)
                     .setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?")
                     .setPositiveButton("로그아웃", new DialogInterface.OnClickListener() {
