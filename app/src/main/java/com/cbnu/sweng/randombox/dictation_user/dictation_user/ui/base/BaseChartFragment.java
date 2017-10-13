@@ -6,8 +6,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BaseDrawerActivity;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -25,23 +23,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
-/**
- * Baseclass of all Activities of the Demo Application.
- * 
- * @author Philipp Jahoda
- */
 public abstract class BaseChartFragment extends Fragment {
-
-    protected String[] mMonths = new String[] {
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"
-    };
-
-    protected String[] mParties = new String[] {
-            "Party A", "Party B", "Party C", "Party D", "Party E", "Party F", "Party G", "Party H",
-            "Party I", "Party J", "Party K", "Party L", "Party M", "Party N", "Party O", "Party P",
-            "Party Q", "Party R", "Party S", "Party T", "Party U", "Party V", "Party W", "Party X",
-            "Party Y", "Party Z"
-    };
 
     protected Typeface mTfRegular;
     protected Typeface mTfLight;
@@ -54,24 +36,15 @@ public abstract class BaseChartFragment extends Fragment {
         mTfLight = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf");
     }
 
-    protected float getRandom(float range, float startsfrom) {
-        return (float) (Math.random() * range) + startsfrom;
-    }
+    public LineData generateLineData(ArrayList<Integer> values) {
 
-    /**
-     * generates a random ChartData object with just one DataSet
-     *
-     * @return
-     */
-    public LineData generateLineData() {
+        ArrayList<Entry> entries = new ArrayList<>();
 
-        ArrayList<Entry> entries = new ArrayList<Entry>();
-
-        for (int i = 0; i < 12; i++) {
-            entries.add(new Entry(i, (int) (Math.random() * 65) + 40));
+        for (int i = 0; i < values.size(); i++) {
+            entries.add(new Entry(i, values.get(i)));
         }
 
-        LineDataSet d = new LineDataSet(entries, "New DataSet " +  ", (1)");
+        LineDataSet d = new LineDataSet(entries, "");
         d.setLineWidth(2.5f);
         d.setCircleRadius(4.5f);
         d.setHighLightColor(Color.rgb(244, 117, 117));
@@ -81,20 +54,15 @@ public abstract class BaseChartFragment extends Fragment {
         return cd;
     }
 
-    /**
-     * generates a random ChartData object with just one DataSet
-     *
-     * @return
-     */
-    public BarData generateBarData() {
+    public BarData generateBarData(ArrayList<Integer> values) {
 
-        ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
+        ArrayList<BarEntry> entries = new ArrayList<>();
 
-        for (int i = 0; i < 12; i++) {
-            entries.add(new BarEntry(i, (int) (Math.random() * 70) + 30));
+        for (int i = 0; i < values.size(); i++) {
+            entries.add(new BarEntry(i, values.get(i)));
         }
 
-        BarDataSet d = new BarDataSet(entries, "New DataSet ");
+        BarDataSet d = new BarDataSet(entries, "");
         d.setColors(ColorTemplate.VORDIPLOM_COLORS);
         d.setHighLightAlpha(255);
 
@@ -103,17 +71,12 @@ public abstract class BaseChartFragment extends Fragment {
         return cd;
     }
 
-    /**
-     * generates a random ChartData object with just one DataSet
-     *
-     * @return
-     */
-    public PieData generatePieData() {
+    public PieData generatePieData(ArrayList<Integer> values, String[] marker) {
 
-        ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
+        ArrayList<PieEntry> entries = new ArrayList<>();
 
-        for (int i = 0; i < 4; i++) {
-            entries.add(new PieEntry((float) ((Math.random() * 70) + 30), "Quarter " + (i+1)));
+        for (int i = 0; i < values.size(); i++) {
+            entries.add(new PieEntry(values.get(i), marker[i]));
         }
 
         PieDataSet d = new PieDataSet(entries, "");
@@ -125,20 +88,19 @@ public abstract class BaseChartFragment extends Fragment {
         d.setValueLinePart1OffsetPercentage(80.f);
         d.setValueLinePart1Length(0.2f);
         d.setValueLinePart2Length(0.4f);
-        //dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         d.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
 
         PieData cd = new PieData(d);
         return cd;
     }
 
-    public BubbleData generateBubbleata() {
+    public BubbleData generateBubbleata(ArrayList<Integer> values) {
 
-        ArrayList<BubbleEntry> entries = new ArrayList<BubbleEntry>();
+        ArrayList<BubbleEntry> entries = new ArrayList<>();
 
         for (int i = 0; i < 4; i++) {
-            float val = (float) (Math.random() * 70);
-            float size = (float) (Math.random() * 70);
+            float val = values.get(i);
+            float size = values.get(i);
 
             entries.add(new BubbleEntry(i, val, size));
         }
@@ -155,12 +117,12 @@ public abstract class BaseChartFragment extends Fragment {
         return bd;
     }
 
-    public CombinedData generateCombinedData() {
+    public CombinedData generateCombinedData(LineData lineData, BarData barData) {
 
         CombinedData d = new CombinedData();
 
-        d.setData(generateLineData());
-        d.setData(generateBarData());
+        d.setData(lineData);
+        d.setData(barData);
         d.setValueTypeface(mTfLight);
 
         return d;

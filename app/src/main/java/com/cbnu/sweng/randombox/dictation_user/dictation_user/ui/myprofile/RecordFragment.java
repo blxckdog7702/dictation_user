@@ -3,21 +3,26 @@ package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.adapter.RecordAdapter;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizHistory;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizResult;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.RecordModel;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.RecyclerItemClickListener;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Teacher;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,15 +31,11 @@ public class RecordFragment extends Fragment {
 
     private RecordAdapter recordAdapter;
     private ArrayList<RecordModel> recordModels = new ArrayList<>();
-    private Integer rank[] = {1,2,3,4,5,6,7,8,9,10};
-    private Integer score[] = {100, 90, 80, 70, 60, 50, 40, 30, 20, 10};
-    private String comment[] = {"참 잘했어요!","참 잘했어요!", "참 잘했어요!", "조금 더 힘내세요!", "조금 더 힘내세요!",
-                                "조금 더 힘내세요!", "많이 분발해야겠어요!", "많이 분발해야겠어요!", "많이 분발해야겠어요!", "많이 분발해야겠어요!"};
-    private String date[] = {"2017-10-17 금요일","2017-10-16 목요일","2017-10-15 수요일","2017-10-14 화요일","2017-10-13 월요일",
-                                "2017-10-12 금요일","2017-10-11 목요일","2017-10-10 수요일","2017-10-9 화요일","2017-10-8 월요일"};
-    private int dataNum = 10;
+    private ArrayList<Teacher> teachers;
+    private ArrayList<QuizHistory> quizHistories;
 
     @BindView(R.id.rvRecord) RecyclerView rvRecord;
+    @BindView(R.id.tvRecord) TextView tvRecord;
 
     @Nullable
     @Override
@@ -42,6 +43,7 @@ public class RecordFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_record, container, false);
         ButterKnife.bind(this, view);
 
+        getServerData();
         initModels();
         setupView();
 
@@ -60,24 +62,70 @@ public class RecordFragment extends Fragment {
 
     }
 
+    private void getServerData(){
+        ApiRequester apiRequester = new ApiRequester();
+        try {
+            apiRequester.getStudentsTeachers(Student.getInstance().getId(), new ApiRequester.UserCallback<List<Teacher>>() {
+                @Override
+                public void onSuccess(List<Teacher> result) {
+                    teachers = (ArrayList<Teacher>) result;
+                }
+
+                @Override
+                public void onFail() {
+                    Log.e("RecordFragment", "Server Error");
+                }
+            });
+            for(Teacher teacher : teachers){
+                apiRequester.getTeachersQuizHistories(teacher.getLoginId(), new ApiRequester.UserCallback<List<QuizHistory>>() {
+
+                    @Override
+                    public void onSuccess(List<QuizHistory> result) {
+                        quizHistories = (ArrayList<QuizHistory>) result;
+                    }
+
+                    @Override
+                    public void onFail() {
+                        Log.e("RecordFragment", "Server Error");
+                    }
+                });
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            Log.e("RecordFragment0", e.getMessage().toString());
+        }
+    }
+
     private void initModels() {
         recordModels.clear();
-        for (int i = 0; i < dataNum; i++) {
-            RecordModel recordModel = new RecordModel();
-            recordModel.setDate(date[i]);
-            recordModel.setRank(rank[i]);
-            recordModel.setScore(score[i]);
-            if(score[i] >= 80){
-                recordModel.setComment("참 잘했어요!");
+        if(quizHistories != null){
+            for(QuizHistory quizHistory : quizHistories){
+                RecordModel recordModel = new RecordModel();
+                for(QuizResult quizResult :quizHistory.getQuizResults()){
+                    if(Student.getInstance().getName().equals(quizResult.getStudentName())){
+                        recordModel.setRank(quizResult.getLank());
+                        recordModel.setScore(quizResult.getScore());
+                        if(recordModel.getScore() >= 80){
+                            recordModel.setComment("참 잘했어요!");
+                        }
+                        else if(recordModel.getScore() >= 50){
+                            recordModel.setComment("조금 더 힘내세요!");
+                        }
+                        else{
+                            recordModel.setComment("많이 분발해야겠어요!");
+                        }
+                        break;
+                    }
+                }
+                recordModel.setDate(quizHistory.getDate());
+                recordModels.add(recordModel);
             }
-            else if(score[i] >= 50){
-                recordModel.setComment("조금 더 힘내세요!");
-            }
-            else{
-                recordModel.setComment("많이 분발해야겠어요!");
-            }
-            recordModels.add(recordModel);
         }
+        else{
+            tvRecord.setText("시험 결과가 없습니다!.");
+        }
+
     }
 
 }

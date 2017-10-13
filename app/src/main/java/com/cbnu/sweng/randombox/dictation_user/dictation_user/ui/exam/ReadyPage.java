@@ -9,12 +9,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Teacher;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.service.MyFirebaseMessagingService;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -27,6 +30,7 @@ public class ReadyPage extends AppCompatActivity {
 
     private Boolean isReceiveKey = false;
     private Boolean isTeacherInfo = false;
+    private Teacher teacher = null;
     @BindView(R.id.tvTeacherSchoolName) TextView tvTeacherSchoolName;
     @BindView(R.id.tvTeacherName) TextView tvTeacherName;
     @BindView(R.id.etTeacherId) EditText etTeacherId;
@@ -79,28 +83,28 @@ public class ReadyPage extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 //TODO 서버에서 교사정보 가져와서 설정하기
-//                if (false) { // 교사정보 있으면
-//                    tvTeacherSchoolName.setText("OK");
-//                    tvTeacherName.setText("OK");
-//                } else { // 없으면
-//                    tvTeacherSchoolName.setText("아이디를 다시 입력해주세요.");
-//                    tvTeacherSchoolName.setPadding(20, 5, 20, 5);
-//                    tvTeacherName.setText("아이디를 다시 입력해주세요.");
-//                    tvTeacherName.setPadding(20, 5, 20, 5);
-//                }
-                if(etTeacherId.getText().toString().equals("test")){
+                ApiRequester apiRequester = new ApiRequester();
+                apiRequester.searchTeacherByLoginID(etTeacherId.getText().toString(), new ApiRequester.UserCallback<Teacher>() {
+                    @Override
+                    public void onSuccess(Teacher result) {
+                        teacher = new Teacher();
+                    }
+
+                    @Override
+                    public void onFail() {
+                        Log.e("ReadyPage", "Server Error!");
+                    }
+                });
+                if (teacher != null) { // 교사정보 있으면
                     isTeacherInfo = true;
-                    tvTeacherName.setText("손의범");
-                    tvTeacherSchoolName.setText("한국초등학교");
-                }
-                else {
-                    etTeacherId.setPadding(20, 5, 20, 5);
-                    tvTeacherSchoolName.setText("해당 아이디가 없습니다.");
+                    tvTeacherSchoolName.setText(teacher.getSchool());
+                    tvTeacherName.setText(teacher.getName());
+                } else { // 없으면
+                    tvTeacherSchoolName.setText("아이디를 다시 입력해주세요.");
                     tvTeacherSchoolName.setPadding(20, 5, 20, 5);
                     tvTeacherName.setText("아이디를 다시 입력해주세요.");
                     tvTeacherName.setPadding(20, 5, 20, 5);
                 }
-
             }
         });
     }
