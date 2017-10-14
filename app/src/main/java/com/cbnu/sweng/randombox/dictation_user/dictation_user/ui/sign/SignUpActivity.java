@@ -40,7 +40,6 @@ public class SignUpActivity extends AppCompatActivity {
     SharedPreferences setting;
     SharedPreferences.Editor editor;
 
-    Student student = new Student();
     ApiRequester apiRequester = new ApiRequester();
 
     private Handler mHandler;
@@ -297,7 +296,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
         else {
             Student.getInstance().setName(myname);
-            Student.getInstance().setSchool(myschoolname);
+            Student.getInstance().setSchool(myschool);
             Student.getInstance().setGrade(mygrade);
             Student.getInstance().setClass_(myclass);
             Student.getInstance().setStudentId(myStudentId);
@@ -366,62 +365,28 @@ public class SignUpActivity extends AppCompatActivity {
                 ApiRequester.getInstance().applyMatching(myteacher, Student.getInstance().getId(), new ApiRequester.UserCallback<Boolean>() {
                     @Override
                     public void onSuccess(Boolean result) {
-                        String studentname = etStudentNameUp.getText().toString();
-                        String schoolname = etSchoolNameUp.getText().toString();
-                        String studentInfo = etStudentInfoUp.getText().toString();
 
                         editor.putString("myname", myname);
                         editor.putString("myschool", myschool);
                         editor.putString("mygrade", mygrade);
                         editor.putString("myclass", myclass);
                         editor.putString("myStudentId", String.valueOf(myStudentId));
-
-
                         editor.commit();
 
                         Toast.makeText(getApplicationContext(), "회원가입이 완료 되었습니다.", Toast.LENGTH_SHORT).show();
-                        mRunnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent e = new Intent(SignUpActivity.this, SelectExamOrPractice.class);
-
-                                        startActivity(e);
-                                    }
-                                };
-                                mHandler = new Handler();
-                                mHandler.postDelayed(mRunnable, 5000);
-                            }
-                            @Override
-                            public void onFail() {
-                                Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
-                            }
-                        });
+                        Intent e = new Intent(SignUpActivity.this, SelectExamOrPractice.class);
+                        startActivity(e);
                     }
-                }
-                @Override
-                public void onFail() {
-                    Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
-                }
-            });
-        }
+                    @Override
+                    public void onFail() {
+                        Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
+                    }
+                });
+            }
+            @Override
+            public void onFail() {
+                Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
+            }
+        });
     }
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
-        ButterKnife.bind(this);
-
-        setting = getSharedPreferences("setting", 0);
-        editor= setting.edit();
-
-    }
-
-    private void setStateApdapter(int state){
-        ArrayAdapter<String> StateAdapter = new ArrayAdapter<String>(SignUpActivity.this,
-                android.R.layout.simple_spinner_item,
-                getResources().getStringArray(state));
-        StateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spState.setAdapter(StateAdapter);
-    }
-
 }

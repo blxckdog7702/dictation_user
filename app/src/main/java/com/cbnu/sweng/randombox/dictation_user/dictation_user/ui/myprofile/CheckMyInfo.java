@@ -44,8 +44,6 @@ public class CheckMyInfo extends AppCompatActivity {
     SharedPreferences setting;
     SharedPreferences.Editor editor;
 
-    Student student = new Student();
-    ApiRequester apiRequester = new ApiRequester();
 
     private String myname; // 수정 API로 넘어가는 값
     private String myschool; // 수정 API로 넘어가는 값
@@ -81,13 +79,13 @@ public class CheckMyInfo extends AppCompatActivity {
         myschool = showschoolname.getText().toString();
         myinfo = showinfo.getText().toString();
 
-        student.setName(myname);
-        student.setSchool(myschool);
-        student.setGrade(mygrade);
-        student.setClass_(myclass);
-        student.setStudentId(myStudentId);
+        Student.getInstance().setName(myname);
+        Student.getInstance().setSchool(myschool);
+        Student.getInstance().setGrade(mygrade);
+        Student.getInstance().setClass_(myclass);
+        Student.getInstance().setStudentId(myStudentId);
 
-        apiRequester.updateStudent(id, student, new ApiRequester.UserCallback<Student>() {
+        ApiRequester.getInstance().updateStudent(id, Student.getInstance().getStudent(), new ApiRequester.UserCallback<Student>() {
             @Override
             public void onSuccess(Student result) {
                 Toast.makeText(getApplicationContext(), "수정이 완료되었습니다.", Toast.LENGTH_LONG).show();
@@ -142,7 +140,7 @@ public class CheckMyInfo extends AppCompatActivity {
 
                         selectedschool = schoolname.getText().toString();
 
-                        apiRequester.searchSchools(strCity, strState, selectedschool, new ApiRequester.UserCallback<List<School>>() {
+                        ApiRequester.getInstance().searchSchools(strCity, strState, selectedschool, new ApiRequester.UserCallback<List<School>>() {
                             @Override
                             public void onSuccess(List<School> result)
                             {

@@ -45,7 +45,6 @@ public class SignInActivity extends AppCompatActivity {
     SharedPreferences setting;
     SharedPreferences.Editor editor;
 
-    Student student = new Student();
     ApiRequester apiRequester = new ApiRequester();
     private Handler mHandler;
     private Runnable mRunnable;
@@ -311,13 +310,13 @@ public class SignInActivity extends AppCompatActivity {
 
         else
         {
-            student.setName(myname);
-            student.setSchool(myschool);
-            student.setGrade(mygrade);
-            student.setClass_(myclass);
-            student.setStudentId(myStudentId);
+            Student.getInstance().setName(myname);
+            Student.getInstance().setSchool(myschool);
+            Student.getInstance().setGrade(mygrade);
+            Student.getInstance().setClass_(myclass);
+            Student.getInstance().setStudentId(myStudentId);
 
-            apiRequester.loginStudent(student, new ApiRequester.UserCallback<Student>() {
+            apiRequester.loginStudent(Student.getInstance(), new ApiRequester.UserCallback<Student>() {
                 @Override
                 public void onSuccess(Student result) {
                     if(result == null)

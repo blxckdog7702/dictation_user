@@ -104,7 +104,7 @@ public class ReadyPage extends AppCompatActivity {
     }
 
     private void getServerData(){
-        ApiRequester.getInstance().getStudentsTeachers(Student.getInstance().getStudentId().toString(),
+        ApiRequester.getInstance().getStudentsTeachers(Student.getInstance().getId().toString(),
                                                             new ApiRequester.UserCallback<List<Teacher>>() {
             @Override
             public void onSuccess(List<Teacher> result) {
@@ -128,7 +128,7 @@ public class ReadyPage extends AppCompatActivity {
             spTeacherId.setAdapter(adapter);
         }
         else{
-            //
+            Toast.makeText(getApplicationContext(), "등록된 선생님이 없습니다.", Toast.LENGTH_SHORT).show();
         }
 
     }
