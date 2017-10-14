@@ -336,7 +336,14 @@ public class CheckMyInfo extends AppCompatActivity {
 
         mygrade = setting.getString("mygrade", "");
         myclass = setting.getString("myclass", "");
-        myStudentId = Integer.parseInt(setting.getString("myStudentId", ""));
+
+        if(setting.getString("myStudentId", "") == null || setting.getString("myStudentId", "").trim().equals("")){
+            myStudentId = 0;
+        }
+        else
+        {
+            myStudentId = Integer.parseInt(setting.getString("myStudentId", ""));
+        }
 
         showinfo.setText(mygrade+"학년 "+myclass+"반 "+myStudentId+"번");
 

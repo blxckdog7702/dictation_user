@@ -81,7 +81,14 @@ public class SignInActivity extends AppCompatActivity {
     @OnClick(R.id.nonsignperson)
     void onClickNonSignPerson()
     {
-        Intent i = new Intent(SignInActivity.this, SelectPracticeTypeActivity.class);
+        setting = getSharedPreferences("setting", MODE_PRIVATE);
+        SharedPreferences.Editor editor = setting.edit();// editor가져오기
+
+        editor.clear();
+        editor.commit(); // 파일에 최종 반영
+
+
+        Intent i = new Intent(SignInActivity.this, SelectExamOrPractice.class);
         startActivity(i);
     }
 
@@ -379,13 +386,13 @@ public class SignInActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // TODO Auto-generated method stub
                 if(isChecked){
-                    String studentname = etStudentNameIn.getText().toString();
-                    String schoolname = etSchoolNameIn.getText().toString();
-                    String studentInfo = etStudentInfoIn.getText().toString();
 
-                    editor.putString("studentname", studentname);
-                    editor.putString("schoolname", schoolname);
-                    editor.putString("studentInfo", studentInfo);
+                    editor.putString("myname", myname);
+                    editor.putString("myschool", myschool);
+                    editor.putString("mygrade", mygrade);
+                    editor.putString("myclass", myclass);
+                    editor.putString("myStudentId", String.valueOf(myStudentId));
+
                     editor.putBoolean("Auto_Login_enabled", true);
                     editor.commit();
 
