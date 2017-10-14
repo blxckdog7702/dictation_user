@@ -318,51 +318,42 @@ public class SignInActivity extends AppCompatActivity {
             student.setClass_(myclass);
             student.setStudentId(myStudentId);
 
-            apiRequester.checkDuplicateStudent(student, new ApiRequester.UserCallback<Boolean>() {
+            apiRequester.loginStudent(student, new ApiRequester.UserCallback<Student>() {
                 @Override
-                public void onSuccess(Boolean result) {
-                    if (result == true) {
-                        Toast.makeText(getApplicationContext(), "로그인중..", Toast.LENGTH_SHORT).show();
-
-                        apiRequester.loginStudent(student, new ApiRequester.UserCallback<Student>() {
-                            @Override
-                            public void onSuccess(Student result) {
-                                Toast.makeText(getApplicationContext(), "로그인 완료!", Toast.LENGTH_SHORT).show();
-
-                                id = result.getId();
-                                mRunnable = new Runnable() {
-                                    @Override
-                                    public void run() {
-
-                                        editor.putString("myname", myname);
-                                        editor.putString("myschool", myschool);
-                                        editor.putString("mygrade", mygrade);
-                                        editor.putString("myclass", myclass);
-                                        editor.putString("myStudentId", String.valueOf(myStudentId));
-                                        editor.putString("id", id);
-
-                                        editor.commit();
-
-                                        Intent e = new Intent(SignInActivity.this, SelectExamOrPractice.class);
-                                        startActivity(e);
-                                    }
-                                };
-                                mHandler = new Handler();
-                                mHandler.postDelayed(mRunnable, 3000);
-                            }
-                            @Override
-                            public void onFail() {
-                            }
-                        });
+                public void onSuccess(Student result) {
+                    if(result == null)
+                    {
+                        Toast.makeText(getApplicationContext(), "정보없어", Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
-                        Toast.makeText(getApplicationContext(), "입력한 정보가 없습니다. 회원가입을 해주세요.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "로그인 완료!", Toast.LENGTH_SHORT).show();
+
+                        id = result.getId();
+                        mRunnable = new Runnable() {
+                            @Override
+                            public void run() {
+
+                                editor.putString("myname", myname);
+                                editor.putString("myschool", myschool);
+                                editor.putString("mygrade", mygrade);
+                                editor.putString("myclass", myclass);
+                                editor.putString("myStudentId", String.valueOf(myStudentId));
+                                editor.putString("id", id);
+
+                                editor.commit();
+
+                                Intent e = new Intent(SignInActivity.this, SelectExamOrPractice.class);
+                                startActivity(e);
+                            }
+                        };
+                        mHandler = new Handler();
+                        mHandler.postDelayed(mRunnable, 3000);
                     }
+
                 }
                 @Override
                 public void onFail() {
-                    Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
                 }
             });
         }
