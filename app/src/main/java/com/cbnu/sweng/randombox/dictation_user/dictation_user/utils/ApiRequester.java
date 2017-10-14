@@ -246,5 +246,17 @@ public class ApiRequester {
 		Call<okhttp3.ResponseBody> call = dictationServerApi.unConnectedMatching(studentID, teacherID);
 		call.enqueue(new ResultCallback(userCallback));
 	}
+	//학생 정보 가져오기
+	public void getStudent(String studentID, UserCallback<Student> userCallback){
+		Call<Student> call = dictationServerApi.getStudent(studentID);
+		call.enqueue(new ObjectCallback<>(userCallback));
+	}
+
+	//학생 정보 수정하기
+	public void updateStudent(String studentID, Student student, UserCallback<Student> userCallback){
+		student.setId(null);
+		Call<Student> call = dictationServerApi.updateStudent(studentID, parser.parse(gson.toJson(student)).getAsJsonObject());
+		call.enqueue(new ObjectCallback<>(userCallback));
+	}
 
 }

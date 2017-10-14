@@ -23,6 +23,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -32,6 +33,13 @@ import retrofit2.http.Query;
  */
 
 public interface DictationServerApi {
+	//학생 정보 가져오기
+	@GET("/students/{student_id}")
+	Call<Student> getStudent(@Path("student_id") String studentID);
+
+	//학생 정보 수정하기
+	@PUT("/students/{student_id}")
+	Call<Student> updateStudent(@Path("student_id") String studentID, @Body JsonObject student);
 	//등록된 선생님 목록보기
 	@GET("/students/{student_id}/teachers")
 	Call<List<Teacher>> getStudentsTeachers(@Path("student_id") String studentID);
