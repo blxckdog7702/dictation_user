@@ -53,6 +53,7 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
     private String SubmittedAnswers[] = new String[10];
     private String quizHitoryID;
     private String quizNumber;
+    private String teacherID;
     private int questionNumber = 1;
 
     private Quiz quiz = null;
@@ -107,7 +108,7 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
 
         ApiRequester apiRequester = new ApiRequester();
         try {
-            apiRequester.getTeachersQuizzes(new ApiRequester.UserCallback<List<Quiz>>() {
+            apiRequester.getTeachersQuizzes(teacherID, new ApiRequester.UserCallback<List<Quiz>>() {
                 @Override
                 public void onSuccess(List<Quiz> quizs) {
                     for(Quiz temp : quizs)
