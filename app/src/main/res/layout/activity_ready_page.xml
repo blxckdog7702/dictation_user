@@ -60,19 +60,18 @@
                     android:paddingBottom="5dp">
                 </TextView>
 
-                <EditText
-                    android:id="@+id/etTeacherId"
+                <Spinner
+                    android:id="@+id/spTeacherId"
                     android:textSize="@dimen/text_size"
                     android:textAlignment="center"
                     android:textColor="#000000"
                     android:maxLength="10"
-                    android:background="#FFFFFF"
-                    android:layout_width="100dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp" />
+                    android:background="@android:drawable/btn_dropdown"
+                    android:spinnerMode="dropdown" />
 
             </LinearLayout>
 

@@ -10,11 +10,16 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Teacher;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.service.MyFirebaseMessagingService;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
@@ -22,19 +27,24 @@ import com.dd.processbutton.iml.ActionProcessButton;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 
 public class ReadyPage extends AppCompatActivity {
 
     private Boolean isReceiveKey = false;
     private Boolean isTeacherInfo = false;
-    private Teacher teacher = null;
+    private ArrayList<Teacher> teachers;
+    private Teacher selectedTeacher;
     @BindView(R.id.tvTeacherSchoolName) TextView tvTeacherSchoolName;
     @BindView(R.id.tvTeacherName) TextView tvTeacherName;
-    @BindView(R.id.etTeacherId) EditText etTeacherId;
     @BindView(R.id.btExamReady) ActionProcessButton btExamReady;
+    @BindView(R.id.spTeacherId) Spinner spTeacherId;
 
     @OnClick(R.id.btExamReady)
     void onClickBtExamReady() {
@@ -63,50 +73,64 @@ public class ReadyPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        setContentView(R.layout.activity_main_page);
+        setContentView(R.layout.activity_ready_page);
         ButterKnife.bind(this);
         FirebaseMessaging.getInstance().subscribeToTopic("teacherId");
         FirebaseInstanceId.getInstance().getToken();
         registerReceiver(myReceiver, new IntentFilter(MyFirebaseMessagingService.START_INTENT));
 
-        etTeacherId.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        getServerData();
+        initTeacherId();
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-                    public void afterTextChanged(Editable editable) {
-                        //TODO 서버에서 교사정보 가져와서 설정하기
-                        ApiRequester apiRequester = new ApiRequester();
-                        apiRequester.searchTeacherByLoginID(etTeacherId.getText().toString(), new ApiRequester.UserCallback<Teacher>() {
-                            @Override
-                            public void onSuccess(Teacher result) {
-                                teacher = new Teacher();
-                            }
-
-                            @Override
-                            public void onFail() {
-                                Log.e("ReadyPage", "Server Error!");
-                            }
-                        });
-                        if (teacher != null) { // 교사정보 있으면
-                            isTeacherInfo = true;
-                            tvTeacherSchoolName.setText(teacher.getSchool());
-                            tvTeacherName.setText(teacher.getName());
-                        } else { // 없으면
-                            tvTeacherSchoolName.setText("아이디를 다시 입력해주세요.");
-                            tvTeacherSchoolName.setPadding(20, 5, 20, 5);
-                            tvTeacherName.setText("아이디를 다시 입력해주세요.");
-                            tvTeacherName.setPadding(20, 5, 20, 5);
+        spTeacherId.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                isTeacherInfo = true;
+                String selectedTeacherId = parent.getItemAtPosition(position).toString();
+                for(Teacher teacher : teachers){
+                    if(selectedTeacherId.equals(teacher.getLoginId())){
+                        tvTeacherSchoolName.setText(teacher.getSchool());
+                        tvTeacherName.setText(teacher.getName());
+                        selectedTeacher = teacher;
+                        break;
+                    }
                 }
+
+            } // to close the onItemSelected
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+
             }
         });
+    }
+
+    private void getServerData(){
+        ApiRequester.getInstance().getStudentsTeachers(Student.getInstance().getStudentId().toString(),
+                                                            new ApiRequester.UserCallback<List<Teacher>>() {
+            @Override
+            public void onSuccess(List<Teacher> result) {
+                teachers = (ArrayList<Teacher>) result;
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+        });
+    }
+
+    private void initTeacherId(){
+        if(teachers != null){
+            String[] items = new String[teachers.size()];
+            for(int i = 0; i < teachers.size(); i++){
+                items[i] = teachers.get(i).getLoginId();
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
+            spTeacherId.setAdapter(adapter);
+        }
+        else{
+            //
+        }
+
     }
 
     private BroadcastReceiver myReceiver = new BroadcastReceiver() {
@@ -121,6 +145,7 @@ public class ReadyPage extends AppCompatActivity {
                 Intent intent2 = new Intent(ReadyPage.this, ExamPage.class);
                 intent2.putExtra("quizHistoryId", historyId);
                 intent2.putExtra("quizNumber", quizNumber);
+                intent2.putExtra("Teacher", selectedTeacher);
                 startActivity(intent2);
             }
         }

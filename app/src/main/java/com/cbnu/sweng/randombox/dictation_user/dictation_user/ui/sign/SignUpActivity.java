@@ -39,7 +39,6 @@ import butterknife.OnClick;
 public class SignUpActivity extends AppCompatActivity {
 
     ApiRequester apiRequester = new ApiRequester();
-    Student student = new Student();
     private Handler mHandler;
     private Runnable mRunnable;
 
@@ -64,6 +63,8 @@ public class SignUpActivity extends AppCompatActivity {
     String myschoolname; // 실제 가입할 때 넘어가는 값들
     String myteacher; // 실제 가입할 때 넘어가는 값들
     String name[];
+
+    Boolean isApplyMatching = false;
 
     @BindArray(R.array.strArrayCity)
     String [] strArrayCity;
@@ -292,73 +293,47 @@ public class SignUpActivity extends AppCompatActivity {
         myname = etStudentNameUp.getText().toString(); // 기재한 이름을 변수에 담음
         myteacher = etTeacherNameUp.getText().toString(); // 기재한 선생님ID를 변수에 담음
 
-        if(myname.equals("") || myschool.equals("") || mygrade.equals(""))
+        if(myname.isEmpty() || myschool.isEmpty() || mygrade.isEmpty())
         {
             Toast.makeText(getApplicationContext(), "정보를 입력해주세요..", Toast.LENGTH_SHORT).show();
         }
-        else
-        {
-            Log.d("TAG", myname); // 이름
-            Log.d("TAG", myschoolname); // 학교 명
-            Log.d("TAG", mygrade); // 학년
-            Log.d("TAG", myclass); // 반
-            Log.d("TAG", String.valueOf(myStudentId)); // 번호
+        else {
+            Student.getInstance().setName(myname);
+            Student.getInstance().setSchool(myschoolname);
+            Student.getInstance().setGrade(mygrade);
+            Student.getInstance().setClass_(myclass);
+            Student.getInstance().setStudentId(myStudentId);
 
-            student.setSchool(myschoolname);
-            student.setGrade(mygrade);
-            student.setClass_(myclass);
-            student.setStudentId(myStudentId);
-
-            apiRequester.checkDuplicateStudent(student, new ApiRequester.UserCallback<Boolean>() {
+            apiRequester.checkDuplicateStudent(Student.getInstance(), new ApiRequester.UserCallback<Boolean>() {
                 @Override
                 public void onSuccess(Boolean result) {
-                    if(result==true)
-                    {
-                        Toast.makeText(getApplicationContext(), "중복 되는 정보가 있습니다.", Toast.LENGTH_LONG).show();
+                    if(result){
+                        Toast.makeText(getApplicationContext(), "중복 되는 정보가 있습니다.", Toast.LENGTH_SHORT).show();
                     }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), "회원 가입 진행중..", Toast.LENGTH_LONG).show();
-
-                        student.setName(myname);
-                        student.setSchool(myschoolname);
-                        student.setGrade(mygrade);
-                        student.setClass_(myclass);
-
-                        apiRequester.signUpStudent(student, new ApiRequester.UserCallback<Student>() {
-                            @Override
-                            public void onSuccess(Student result) {
-
-                                String studentname = etStudentNameUp.getText().toString();
-                                String schoolname = etSchoolNameUp.getText().toString();
-                                String studentInfo = etStudentInfoUp.getText().toString();
-
-                                editor.putString("studentname", studentname);
-                                editor.putString("schoolname", schoolname);
-                                editor.putString("studentInfo", studentInfo);
-
-                                editor.commit();
-
-                                Toast.makeText(getApplicationContext(), "회원가입이 완료 되었습니다.", Toast.LENGTH_LONG).show();
-                                mRunnable = new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Intent e = new Intent(SignUpActivity.this, SelectExamOrPractice.class);
-
-                                        startActivity(e);
+                    else{
+                        if(myteacher.isEmpty()){
+                            signUp();
+                        }
+                        else{
+                            ApiRequester.getInstance().checkDuplicateTeacher(myteacher, new ApiRequester.UserCallback<Boolean>() {
+                                @Override
+                                public void onSuccess(Boolean result) {
+                                    if(result){
+                                        Toast.makeText(getApplicationContext(), "회원 가입 진행중..", Toast.LENGTH_SHORT).show();
+                                        signUp();
                                     }
-                                };
-                                mHandler = new Handler();
-                                mHandler.postDelayed(mRunnable, 5000);
-                            }
-                            @Override
-                            public void onFail() {
-                                Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
-                            }
-                        });
+                                    else{
+                                        Toast.makeText(getApplicationContext(), "등록된 선생님이 없습니다.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                @Override
+                                public void onFail() {
+
+                                }
+                            });
+                        }
                     }
                 }
-
                 @Override
                 public void onFail() {
                     Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
@@ -383,6 +358,51 @@ public class SignUpActivity extends AppCompatActivity {
                 getResources().getStringArray(state));
         StateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spState.setAdapter(StateAdapter);
+    }
+
+    private void signUp(){
+        apiRequester.signUpStudent(Student.getInstance().getStudent(), new ApiRequester.UserCallback<Student>() {
+            @Override
+            public void onSuccess(Student result) {
+                Student.getInstance().setStudent(result);
+                ApiRequester.getInstance().applyMatching(myteacher, Student.getInstance().getId(), new ApiRequester.UserCallback<Boolean>() {
+                    @Override
+                    public void onSuccess(Boolean result) {
+                        String studentname = etStudentNameUp.getText().toString();
+                        String schoolname = etSchoolNameUp.getText().toString();
+                        String studentInfo = etStudentInfoUp.getText().toString();
+
+                        editor.putString("studentname", studentname);
+                        editor.putString("schoolname", schoolname);
+                        editor.putString("studentInfo", studentInfo);
+
+                        editor.commit();
+
+                        Toast.makeText(getApplicationContext(), "회원가입이 완료 되었습니다.", Toast.LENGTH_SHORT).show();
+                        mRunnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent e = new Intent(SignUpActivity.this, SelectExamOrPractice.class);
+
+                                startActivity(e);
+                            }
+                        };
+                        mHandler = new Handler();
+                        mHandler.postDelayed(mRunnable, 5000);
+                    }
+
+                    @Override
+                    public void onFail() {
+                        Log.e("SignUp", "Server Error!");
+                    }
+                });
+
+            }
+            @Override
+            public void onFail() {
+                Log.e("SignUp", "Server Error!");
+            }
+        });
     }
 
 }

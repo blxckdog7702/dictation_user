@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizHistory;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Teacher;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.BuildConfig;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.CustomEditText;
@@ -55,6 +56,7 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
     private String quizNumber;
     private int questionNumber = 1;
 
+    private Teacher teacher;
     private Quiz quiz = null;
     private List<Question> questions = null;
     private ArrayList<ArrayMap<String, String>> qnas = new ArrayList<>();
@@ -68,6 +70,7 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
         Intent intent = getIntent();
         quizHitoryID = intent.getStringExtra("quizHistoryId");
         quizNumber = intent.getStringExtra("quizNumber");
+        teacher = (Teacher) intent.getSerializableExtra("Teacher");
         registerReceiver(myReceiver, new IntentFilter(MyFirebaseMessagingService.QUIZ_CONTROL_INTENT));
 
         mTextField = (CustomEditText) findViewById(R.id.textField);
@@ -107,7 +110,7 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
 
         ApiRequester apiRequester = new ApiRequester();
         try {
-            apiRequester.getTeachersQuizzes(new ApiRequester.UserCallback<List<Quiz>>() {
+            apiRequester.getTeachersQuizzes(teacher.getLoginId(), new ApiRequester.UserCallback<List<Quiz>>() {
                 @Override
                 public void onSuccess(List<Quiz> quizs) {
                     for(Quiz temp : quizs)

@@ -42,7 +42,6 @@ import butterknife.OnClick;
 public class SignInActivity extends AppCompatActivity {
 
     ApiRequester apiRequester = new ApiRequester();
-    Student student = new Student();
     private Handler mHandler;
     private Runnable mRunnable;
 
@@ -328,19 +327,19 @@ public class SignInActivity extends AppCompatActivity {
             Log.d("TAG", myclass); // 반
             Log.d("TAG", String.valueOf(myStudentId)); // 번호
 
-            student.setSchool(myschoolname);
-            student.setGrade(mygrade);
-            student.setClass_(myclass);
-            student.setStudentId(myStudentId);
-            student.setName(myname);
+            Student.getInstance().setSchool(myschoolname);
+            Student.getInstance().setGrade(mygrade);
+            Student.getInstance().setClass_(myclass);
+            Student.getInstance().setStudentId(myStudentId);
+            Student.getInstance().setName(myname);
 
-            apiRequester.checkDuplicateStudent(student, new ApiRequester.UserCallback<Boolean>() {
+            apiRequester.checkDuplicateStudent(Student.getInstance(), new ApiRequester.UserCallback<Boolean>() {
                 @Override
                 public void onSuccess(Boolean result) {
                     if (result == true) {
                         Toast.makeText(getApplicationContext(), "로그인중..", Toast.LENGTH_SHORT).show();
 
-                        apiRequester.loginStudent(student, new ApiRequester.UserCallback<Student>() {
+                        apiRequester.loginStudent(Student.getInstance(), new ApiRequester.UserCallback<Student>() {
                             @Override
                             public void onSuccess(Student result) {
 
@@ -361,7 +360,7 @@ public class SignInActivity extends AppCompatActivity {
 
 
                                         Intent e = new Intent(SignInActivity.this, SelectPracticeTypeActivity.class);
-                                        e.putExtra("student", student);
+                                        e.putExtra("student", Student.getInstance());
                                         startActivity(e);
                                     }
                                 };

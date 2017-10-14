@@ -1,26 +1,36 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.model;
 
-import android.app.Application;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by user on 2017-08-14.
- */
-
 public class Student implements Serializable{
 
     public volatile static Student student;
+    private Student(){}
 
     public static Student getInstance() {
-        if(student == null){
-            student = new Student();
+        if (student == null) {
+            synchronized (Student.class) {
+                if (student == null) {
+                    student = new Student();
+                }
+            }
         }
         return student;
+    }
+
+    public Student(String id, String school, String grade, String _class, int studentid, String name, int v, List<QuizResult> quizResults){
+        this.setId(id);
+        this.setSchool(school);
+        this.setGrade(grade);
+        this.setClass_(_class);
+        this.setStudentId(studentid);
+        this.setName(name);
+        this.setV(v);
+        this.setQuizResults(quizResults);
     }
 
     @SerializedName("_id")
@@ -51,9 +61,21 @@ public class Student implements Serializable{
     @Expose
     private Integer v;
 
+    @SerializedName("teachers")
+    @Expose
+    private List<Teacher> teachers;
+
     @SerializedName("quiz_results")
     @Expose
     private List<QuizResult> quizResults = null;
+
+    public static Student getStudent() {
+        return student;
+    }
+
+    public static void setStudent(Student student) {
+        Student.student = student;
+    }
 
     public String getId() {
         return id;
@@ -119,4 +141,11 @@ public class Student implements Serializable{
         this.quizResults = quizResults;
     }
 
+    public List<Teacher> getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(List<Teacher> teachers) {
+        this.teachers = teachers;
+    }
 }

@@ -27,6 +27,15 @@ public class ApiRequester {
 	JsonParser parser;
 	Callback callback;
 
+	public volatile static ApiRequester apiRequester;
+
+	public static ApiRequester getInstance() {
+		if(apiRequester == null){
+			apiRequester = new ApiRequester();
+		}
+		return apiRequester;
+	}
+
 	public interface UserCallback<T>{
 		void onSuccess(T result);
 		void onFail();

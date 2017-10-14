@@ -16,7 +16,6 @@
         tools:replace="android:allowBackup,android:icon,android:label,android:supportsRtl,android:theme">
         <activity
             android:name=".ui.SplashActivity"
-            android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

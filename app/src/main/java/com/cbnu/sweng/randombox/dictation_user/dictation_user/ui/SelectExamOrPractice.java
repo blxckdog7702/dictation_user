@@ -2,9 +2,11 @@ package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.exam.ExamResultDetailedPage;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.exam.ReadyPage;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.SelectPracticeTypeActivity;

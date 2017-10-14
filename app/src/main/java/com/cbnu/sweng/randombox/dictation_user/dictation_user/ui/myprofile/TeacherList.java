@@ -37,11 +37,10 @@ public class TeacherList extends AppCompatActivity {
 
         for(int i=0; i<20; i++)
         {
-            Student item = new Student();
-            item.setName("장다혜");
-            item.setSchool("증안초등학교");
+            Student.getInstance().setName("장다혜");
+            Student.getInstance().setSchool("증안초등학교");
 
-            myDataset.add(item);
+            myDataset.add(Student.getInstance());
         }
 
 
