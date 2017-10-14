@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.SelectExamOrPractice;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
@@ -41,38 +42,34 @@ import butterknife.OnClick;
 
 public class SignInActivity extends AppCompatActivity {
 
-    ApiRequester apiRequester = new ApiRequester();
-    private Handler mHandler;
-    private Runnable mRunnable;
-
-
     SharedPreferences setting;
     SharedPreferences.Editor editor;
 
-    CheckBox Auto_Login;
+    Student student = new Student();
+    ApiRequester apiRequester = new ApiRequester();
+    private Handler mHandler;
+    private Runnable mRunnable;
+    private CheckBox Auto_Login;
 
+    private Button schoolsearch; // 다이얼로그 학교검색 버튼
+    private EditText schoolname; // 다이얼로그에 있는 학교이름 란
+    private String selectedschool; // 학교검색 API 로 넘어가는 학교 값
+    private int temp;
+
+    private String myname; // 실제 로그인 때 넘어가는 값들
+    private String myschool; // 실제 로그인 때 넘어가는 값들
+    private String myinfo; // 실제 로그인 때 넘어가는 값들
+    private String myclass; // 실제 로그인 때 넘어가는 값들
+    private String mygrade; // 실제 로그인 때 넘어가는 값들
+    private String myteacher; // 실제 가입할 때 넘어가는 값들
+    private int myStudentId; // 번호
+
+    private String id;
+
+    private String name[];
 
     Spinner spState;
     Spinner spCity;
-    Button schoolsearch;
-    EditText schoolname; // 두번째 다이얼로그에 띄워지는 선택한 학교 이름
-    String selectedschool;
-    int temp;
-    String myschool;
-
-
-    String myname; // 실제 가입할 때 넘어가는 값들
-
-    String myinfo; // 실제 가입할 때 넘어가는 값들
-    String myclass;
-    String mygrade;
-    int myStudentId;
-
-    String myschoolname; // 실제 가입할 때 넘어가는 값들(변수에 담겨있음)
-    String myteacher; // 실제 가입할 때 넘어가는 값들
-
-    String name[];
-
     @BindArray(R.array.strArrayCity)
     String [] strArrayCity;
     @BindView(R.id.etSchoolNameIn) EditText etSchoolNameIn;
@@ -124,7 +121,6 @@ public class SignInActivity extends AppCompatActivity {
                         }
 
                         selectedschool = schoolname.getText().toString();
-                        Log.d("TAG", selectedschool);
 
                         apiRequester.searchSchools(strCity, strState, selectedschool, new ApiRequester.UserCallback<List<School>>() {
 
@@ -140,8 +136,6 @@ public class SignInActivity extends AppCompatActivity {
                                     int size = result.size();
                                     name = new String[size];
                                     int i = -1;
-
-                                    Log.d("TAG", "성공");
 
                                     for(School school : result){
                                         i++;
@@ -188,7 +182,6 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which){
                 etSchoolNameIn.setText(myschool);
-                myschoolname = etSchoolNameIn.getText().toString();
             }
         });
         builder.setNegativeButton("취소",
@@ -288,7 +281,6 @@ public class SignInActivity extends AppCompatActivity {
                 etStudentInfoIn.setText(Integer.toString(strGrade) + "학년 " + Integer.toString(strClass) + "반 " + Integer.toString(strAttendenceNum) + "번 "
                 );
                 myinfo = Integer.toString(strGrade) + "학년 " + Integer.toString(strClass) + "반 " + Integer.toString(strAttendenceNum) + "번 ";
-
                 mygrade = Integer.toString(strGrade);
                 myclass = Integer.toString(strClass);
             }
@@ -308,76 +300,56 @@ public class SignInActivity extends AppCompatActivity {
     void onClickBtSignIn()
     {
         myname = etStudentNameIn.getText().toString(); // 기재한 이름을 변수에 담음
-        //myteacher = etTeacherNameUp.getText().toString(); // 기재한 선생님ID를 변수에 담음
-
-        if(myname==null || myschoolname==null || mygrade==null)
+        if(myname==null || myschool==null || mygrade==null)
         {
             Toast.makeText(getApplicationContext(), "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
         }
-        else if(myname.length()==0 || myschoolname.length()==0 || mygrade.length()==0)
+        else if(myname.length()==0 || myschool.length()==0 || mygrade.length()==0)
         {
             Toast.makeText(getApplicationContext(), "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
         }
 
         else
         {
-            Log.d("TAG", myname); // 이름
-            Log.d("TAG", myschoolname); // 학교 명
-            Log.d("TAG", mygrade); // 학년
-            Log.d("TAG", myclass); // 반
-            Log.d("TAG", String.valueOf(myStudentId)); // 번호
+            student.setName(myname);
+            student.setSchool(myschool);
+            student.setGrade(mygrade);
+            student.setClass_(myclass);
+            student.setStudentId(myStudentId);
 
-            Student.getInstance().setSchool(myschoolname);
-            Student.getInstance().setGrade(mygrade);
-            Student.getInstance().setClass_(myclass);
-            Student.getInstance().setStudentId(myStudentId);
-            Student.getInstance().setName(myname);
-
-            apiRequester.checkDuplicateStudent(Student.getInstance(), new ApiRequester.UserCallback<Boolean>() {
+            apiRequester.loginStudent(student, new ApiRequester.UserCallback<Student>() {
                 @Override
-                public void onSuccess(Boolean result) {
-                    if (result == true) {
-                        Toast.makeText(getApplicationContext(), "로그인중..", Toast.LENGTH_SHORT).show();
-
-                        apiRequester.loginStudent(Student.getInstance(), new ApiRequester.UserCallback<Student>() {
-                            @Override
-                            public void onSuccess(Student result) {
-
-                                Toast.makeText(getApplicationContext(), "로그인 완료!", Toast.LENGTH_SHORT).show();
-                                mRunnable = new Runnable() {
-                                    @Override
-                                    public void run() {
-
-                                                    String studentname = etStudentNameIn.getText().toString();
-                                                    String schoolname = etSchoolNameIn.getText().toString();
-                                                    String studentInfo = etStudentInfoIn.getText().toString();
-
-                                                    editor.putString("studentname", studentname);
-                                                    editor.putString("schoolname", schoolname);
-                                                    editor.putString("studentInfo", studentInfo);
-;
-                                                    editor.commit();
-
-
-                                        Intent e = new Intent(SignInActivity.this, SelectPracticeTypeActivity.class);
-                                        e.putExtra("student", Student.getInstance());
-                                        startActivity(e);
-                                    }
-                                };
-                                mHandler = new Handler();
-                                mHandler.postDelayed(mRunnable, 3000);
-                            }
-                            @Override
-
-                            public void onFail() {
-
-                            }
-                        });
+                public void onSuccess(Student result) {
+                    if(result == null)
+                    {
+                        Toast.makeText(getApplicationContext(), "정보없어", Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
-                        Toast.makeText(getApplicationContext(), "입력한 정보가 없습니다. 회원가입을 해주세요.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "로그인 완료!", Toast.LENGTH_SHORT).show();
+
+                        id = result.getId();
+                        mRunnable = new Runnable() {
+                            @Override
+                            public void run() {
+
+                                editor.putString("myname", myname);
+                                editor.putString("myschool", myschool);
+                                editor.putString("mygrade", mygrade);
+                                editor.putString("myclass", myclass);
+                                editor.putString("myStudentId", String.valueOf(myStudentId));
+                                editor.putString("id", id);
+
+                                editor.commit();
+
+                                Intent e = new Intent(SignInActivity.this, SelectExamOrPractice.class);
+                                startActivity(e);
+                            }
+                        };
+                        mHandler = new Handler();
+                        mHandler.postDelayed(mRunnable, 3000);
                     }
+
                 }
                 @Override
                 public void onFail() {

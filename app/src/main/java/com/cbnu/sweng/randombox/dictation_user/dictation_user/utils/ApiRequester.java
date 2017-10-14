@@ -255,7 +255,6 @@ public class ApiRequester {
 		Call<okhttp3.ResponseBody> call = dictationServerApi.unConnectedMatching(studentID, teacherID);
 		call.enqueue(new ResultCallback(userCallback));
 	}
-
 	//학생 정보 가져오기
 	public void getStudent(String studentID, UserCallback<Student> userCallback){
 		Call<Student> call = dictationServerApi.getStudent(studentID);

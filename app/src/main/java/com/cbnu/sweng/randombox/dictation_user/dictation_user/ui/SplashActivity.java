@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign.SignInActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign.SignUpActivity;
 
 public class SplashActivity extends AppCompatActivity {
@@ -23,7 +24,7 @@ public class SplashActivity extends AppCompatActivity {
         {
             @Override
             public void run() {
-                Intent loginIntent = new Intent(SplashActivity.this, SignUpActivity.class);
+                Intent loginIntent = new Intent(SplashActivity.this, SignInActivity.class);
                 SplashActivity.this.startActivity(loginIntent);
                 SplashActivity.this.finish();
             }

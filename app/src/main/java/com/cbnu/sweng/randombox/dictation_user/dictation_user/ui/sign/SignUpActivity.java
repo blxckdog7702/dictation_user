@@ -25,7 +25,6 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.School;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.SelectPracticeTypeActivity;
 
 import com.shawnlin.numberpicker.NumberPicker;
 
@@ -38,34 +37,34 @@ import butterknife.OnClick;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    ApiRequester apiRequester = new ApiRequester();
-    private Handler mHandler;
-    private Runnable mRunnable;
-
     SharedPreferences setting;
     SharedPreferences.Editor editor;
 
-    Spinner spState;
-    Spinner spCity;
-    Button schoolsearch;
-    EditText schoolname;
-    String selectedschool;
-    int temp;
-    String myschool;
+    Student student = new Student();
+    ApiRequester apiRequester = new ApiRequester();
 
-    String myname; // 실제 가입할 때 넘어가는 값들
+    private Handler mHandler;
+    private Runnable mRunnable;
 
-    String myinfo; // 실제 가입할 때 넘어가는 값들
-    String myclass;
-    String mygrade;
-    int myStudentId;
+    private Button schoolsearch; // 다이얼로그 학교검색 버튼
+    private EditText schoolname; // 다이얼로그에 있는 학교이름 란
+    private String selectedschool; // 학교검색 API 로 넘어가는 학교 값
+    private int temp;
 
-    String myschoolname; // 실제 가입할 때 넘어가는 값들
-    String myteacher; // 실제 가입할 때 넘어가는 값들
-    String name[];
+    private String myname; // 실제 가입할 때 넘어가는 값들
+    private String myschool;// 실제 가입할 때 넘어가는 값들
+    private String myinfo; // 실제 가입할 때 넘어가는 값들
+    private String myclass; // 실제 가입할 때 넘어가는 값들
+    private String mygrade; // 실제 가입할 때 넘어가는 값들
+    private int myStudentId; // 번호
+    private String myteacher; // 실제 가입할 때 넘어가는 값들
+
+    private String name[];
 
     Boolean isApplyMatching = false;
 
+    Spinner spState; // 도
+    Spinner spCity; // 시
     @BindArray(R.array.strArrayCity)
     String [] strArrayCity;
     @BindView(R.id.etSchoolNameUp) EditText etSchoolNameUp;
@@ -167,7 +166,6 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which){
                 etSchoolNameUp.setText(myschool);
-                myschoolname = etSchoolNameUp.getText().toString();
             }
         });
         builder.setNegativeButton("취소",
@@ -372,9 +370,12 @@ public class SignUpActivity extends AppCompatActivity {
                         String schoolname = etSchoolNameUp.getText().toString();
                         String studentInfo = etStudentInfoUp.getText().toString();
 
-                        editor.putString("studentname", studentname);
-                        editor.putString("schoolname", schoolname);
-                        editor.putString("studentInfo", studentInfo);
+                        editor.putString("myname", myname);
+                        editor.putString("myschool", myschool);
+                        editor.putString("mygrade", mygrade);
+                        editor.putString("myclass", myclass);
+                        editor.putString("myStudentId", String.valueOf(myStudentId));
+
 
                         editor.commit();
 
@@ -384,25 +385,43 @@ public class SignUpActivity extends AppCompatActivity {
                             public void run() {
                                 Intent e = new Intent(SignUpActivity.this, SelectExamOrPractice.class);
 
-                                startActivity(e);
+                                        startActivity(e);
+                                    }
+                                };
+                                mHandler = new Handler();
+                                mHandler.postDelayed(mRunnable, 5000);
                             }
-                        };
-                        mHandler = new Handler();
-                        mHandler.postDelayed(mRunnable, 5000);
+                            @Override
+                            public void onFail() {
+                                Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
+                            }
+                        });
                     }
+                }
+                @Override
+                public void onFail() {
+                    Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
+                }
+            });
+        }
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sign_up);
+        ButterKnife.bind(this);
 
-                    @Override
-                    public void onFail() {
-                        Log.e("SignUp", "Server Error!");
-                    }
-                });
+        setting = getSharedPreferences("setting", 0);
+        editor= setting.edit();
 
-            }
-            @Override
-            public void onFail() {
-                Log.e("SignUp", "Server Error!");
-            }
-        });
+    }
+
+    private void setStateApdapter(int state){
+        ArrayAdapter<String> StateAdapter = new ArrayAdapter<String>(SignUpActivity.this,
+                android.R.layout.simple_spinner_item,
+                getResources().getStringArray(state));
+        StateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spState.setAdapter(StateAdapter);
     }
 
 }

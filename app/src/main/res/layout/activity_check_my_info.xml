@@ -7,6 +7,19 @@
     tools:context="com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign.SignUpActivity"
     android:background="#DDDDDD">
 
+    <Button
+        android:id="@+id/deletebt"
+        android:layout_width="fill_parent"
+        android:layout_height="40.0dip"
+        android:layout_below="@+id/btEdit"
+        android:layout_marginLeft="250.0dip"
+        android:layout_marginRight="20.0dip"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/border_sign"
+        android:text="탈퇴하기"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/text_size" />
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -29,7 +42,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginRight="20.0dip"
         android:layout_marginBottom="2.0dip"
-        android:focusable="false"
+
         android:imeOptions="actionNext"
         android:layout_below="@+id/toolbar"
         android:layout_centerHorizontal="true">
@@ -51,7 +64,8 @@
         android:layout_below="@id/showname"
         android:layout_centerHorizontal="true"
         android:imeOptions="actionDone"
-        android:focusable="false"/>
+        android:focusable="false"
+        />
 
     <EditText
         android:id="@+id/showinfo"
@@ -67,7 +81,8 @@
         android:layout_below="@id/showschoolname"
         android:layout_centerHorizontal="true"
         android:imeOptions="actionDone"
-        android:focusable="false"/>
+        android:focusable="false"
+        />
 
     <LinearLayout
         android:id="@+id/layout"
@@ -86,12 +101,12 @@
         android:background="@drawable/border_sign"
         android:layout_width="fill_parent"
         android:layout_height="40.0dip"
-        android:layout_marginTop="65dp"
         android:layout_marginLeft="20.0dip"
         android:layout_marginRight="20.0dip"
         android:text="수정하기"
+        android:layout_marginTop="21dp"
         android:layout_below="@+id/layout"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
 
