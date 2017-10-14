@@ -371,9 +371,9 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
 
-        etStudentNameIn.setText("");
-        etSchoolNameIn.setText("");
-        etStudentInfoIn.setText("");
+//        etStudentNameIn.setText("");
+//        etSchoolNameIn.setText("");
+//        etStudentInfoIn.setText("");
 
         Auto_Login = (CheckBox) findViewById(R.id.cbAutoLogin);
         goSignUp.setPaintFlags(goSignUp.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -387,11 +387,11 @@ public class SignInActivity extends AppCompatActivity {
                 // TODO Auto-generated method stub
                 if(isChecked){
 
-                    editor.putString("myname", myname);
-                    editor.putString("myschool", myschool);
-                    editor.putString("mygrade", mygrade);
-                    editor.putString("myclass", myclass);
-                    editor.putString("myStudentId", String.valueOf(myStudentId));
+                    editor.putString("my_name", myname);
+                    editor.putString("my_school", myschool);
+                    editor.putString("my_grade", mygrade);
+                    editor.putString("my_class", myclass);
+                    editor.putString("my_StudentId", String.valueOf(myStudentId));
 
                     editor.putBoolean("Auto_Login_enabled", true);
                     editor.commit();
@@ -403,14 +403,13 @@ public class SignInActivity extends AppCompatActivity {
             }
 
         });
-
         if(setting.getBoolean("Auto_Login_enabled", false)){
-            etStudentNameIn.setText(setting.getString("studentname", ""));
-            etSchoolNameIn.setText(setting.getString("schoolname", ""));
-            etStudentInfoIn.setText(setting.getString("studentInfo", ""));
-            Auto_Login.setChecked(true);
+            etStudentNameIn.setText(setting.getString("my_name", ""));
+            etSchoolNameIn.setText(setting.getString("my_school", ""));
+            etStudentInfoIn.setText("");
+            Auto_Login.setChecked(false);
 
-            Intent intent = new Intent(SignInActivity.this, SelectPracticeTypeActivity.class);
+            Intent intent = new Intent(SignInActivity.this, SelectExamOrPractice.class);
             startActivity(intent);
         }
     }
