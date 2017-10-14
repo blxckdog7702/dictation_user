@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.SelectExamOrPractice;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
@@ -68,6 +69,8 @@ public class SignInActivity extends AppCompatActivity {
     String myclass;
     String mygrade;
     int myStudentId;
+
+    private String id;
 
     String myschoolname; // 실제 가입할 때 넘어가는 값들(변수에 담겨있음)
     String myteacher; // 실제 가입할 때 넘어가는 값들
@@ -343,8 +346,11 @@ public class SignInActivity extends AppCompatActivity {
                         apiRequester.loginStudent(student, new ApiRequester.UserCallback<Student>() {
                             @Override
                             public void onSuccess(Student result) {
-
                                 Toast.makeText(getApplicationContext(), "로그인 완료!", Toast.LENGTH_SHORT).show();
+                                Log.d("@@@@@@@@@", "끄아아아아");
+                                Log.d("@@@@@@@@@", result.getId());
+
+                                id = result.getId();
                                 mRunnable = new Runnable() {
                                     @Override
                                     public void run() {
@@ -356,12 +362,12 @@ public class SignInActivity extends AppCompatActivity {
                                                     editor.putString("studentname", studentname);
                                                     editor.putString("schoolname", schoolname);
                                                     editor.putString("studentInfo", studentInfo);
-;
+                                                    editor.putString("id", id);
+
                                                     editor.commit();
 
 
-                                        Intent e = new Intent(SignInActivity.this, SelectPracticeTypeActivity.class);
-                                        e.putExtra("student", student);
+                                        Intent e = new Intent(SignInActivity.this, SelectExamOrPractice.class);
                                         startActivity(e);
                                     }
                                 };

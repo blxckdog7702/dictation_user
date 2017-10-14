@@ -47,6 +47,10 @@ public class Student implements Serializable{
     @Expose
     private String name;
 
+    @SerializedName("info")
+    @Expose
+    private String info;
+
     @SerializedName("__v")
     @Expose
     private Integer v;
@@ -97,6 +101,14 @@ public class Student implements Serializable{
 
     public String getName() {
         return name;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public String getInfo() {
+        return info;
     }
 
     public void setName(String name) {

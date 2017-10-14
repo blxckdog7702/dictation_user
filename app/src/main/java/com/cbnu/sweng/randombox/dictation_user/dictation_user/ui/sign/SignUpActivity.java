@@ -46,24 +46,24 @@ public class SignUpActivity extends AppCompatActivity {
     SharedPreferences setting;
     SharedPreferences.Editor editor;
 
-    Spinner spState;
-    Spinner spCity;
-    Button schoolsearch;
-    EditText schoolname;
-    String selectedschool;
-    int temp;
-    String myschool;
+    Spinner spState; // 도
+    Spinner spCity; // 시
 
-    String myname; // 실제 가입할 때 넘어가는 값들
+    private Button schoolsearch; // 다이얼로그 학교검색 버튼
+    private EditText schoolname; // 다이얼로그에 있는 학교이름 란
+    private String selectedschool; // 학교검색 API 로 넘어가는 학교 값
+    private int temp;
+    private String myschool;
 
-    String myinfo; // 실제 가입할 때 넘어가는 값들
-    String myclass;
-    String mygrade;
-    int myStudentId;
+    private String myname; // 실제 가입할 때 넘어가는 값들
+    private String myschoolname; // 실제 가입할 때 넘어가는 값들
+    private String myinfo; // 실제 가입할 때 넘어가는 값들
+    private String myclass; // 실제 가입할 때 넘어가는 값들
+    private String mygrade; // 실제 가입할 때 넘어가는 값들
+    int myStudentId; // 번호
 
-    String myschoolname; // 실제 가입할 때 넘어가는 값들
-    String myteacher; // 실제 가입할 때 넘어가는 값들
-    String name[];
+    private String myteacher; // 실제 가입할 때 넘어가는 값들
+    private String name[];
 
     @BindArray(R.array.strArrayCity)
     String [] strArrayCity;
@@ -324,6 +324,7 @@ public class SignUpActivity extends AppCompatActivity {
                         student.setSchool(myschoolname);
                         student.setGrade(mygrade);
                         student.setClass_(myclass);
+                        student.setStudentId(myStudentId);
 
                         apiRequester.signUpStudent(student, new ApiRequester.UserCallback<Student>() {
                             @Override
