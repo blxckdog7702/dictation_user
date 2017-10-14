@@ -38,33 +38,33 @@ import butterknife.OnClick;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    ApiRequester apiRequester = new ApiRequester();
-    Student student = new Student();
-    private Handler mHandler;
-    private Runnable mRunnable;
-
     SharedPreferences setting;
     SharedPreferences.Editor editor;
 
-    Spinner spState; // 도
-    Spinner spCity; // 시
+    Student student = new Student();
+    ApiRequester apiRequester = new ApiRequester();
+
+    private Handler mHandler;
+    private Runnable mRunnable;
 
     private Button schoolsearch; // 다이얼로그 학교검색 버튼
     private EditText schoolname; // 다이얼로그에 있는 학교이름 란
     private String selectedschool; // 학교검색 API 로 넘어가는 학교 값
     private int temp;
-    private String myschool;
 
     private String myname; // 실제 가입할 때 넘어가는 값들
-    private String myschoolname; // 실제 가입할 때 넘어가는 값들
+    private String myschool;// 실제 가입할 때 넘어가는 값들
     private String myinfo; // 실제 가입할 때 넘어가는 값들
     private String myclass; // 실제 가입할 때 넘어가는 값들
     private String mygrade; // 실제 가입할 때 넘어가는 값들
-    int myStudentId; // 번호
-
     private String myteacher; // 실제 가입할 때 넘어가는 값들
+    private int myStudentId; // 번호
+
     private String name[];
 
+
+    Spinner spState; // 도
+    Spinner spCity; // 시
     @BindArray(R.array.strArrayCity)
     String [] strArrayCity;
     @BindView(R.id.etSchoolNameUp) EditText etSchoolNameUp;
@@ -166,7 +166,6 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which){
                 etSchoolNameUp.setText(myschool);
-                myschoolname = etSchoolNameUp.getText().toString();
             }
         });
         builder.setNegativeButton("취소",
@@ -298,13 +297,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
         else
         {
-            Log.d("TAG", myname); // 이름
-            Log.d("TAG", myschoolname); // 학교 명
-            Log.d("TAG", mygrade); // 학년
-            Log.d("TAG", myclass); // 반
-            Log.d("TAG", String.valueOf(myStudentId)); // 번호
-
-            student.setSchool(myschoolname);
+            student.setSchool(myschool);
             student.setGrade(mygrade);
             student.setClass_(myclass);
             student.setStudentId(myStudentId);
@@ -321,7 +314,7 @@ public class SignUpActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "회원 가입 진행중..", Toast.LENGTH_LONG).show();
 
                         student.setName(myname);
-                        student.setSchool(myschoolname);
+                        student.setSchool(myschool);
                         student.setGrade(mygrade);
                         student.setClass_(myclass);
                         student.setStudentId(myStudentId);
@@ -359,7 +352,6 @@ public class SignUpActivity extends AppCompatActivity {
                         });
                     }
                 }
-
                 @Override
                 public void onFail() {
                     Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
@@ -371,11 +363,11 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        ButterKnife.bind(this);
 
         setting = getSharedPreferences("setting", 0);
         editor= setting.edit();
 
-        ButterKnife.bind(this);
     }
 
     private void setStateApdapter(int state){

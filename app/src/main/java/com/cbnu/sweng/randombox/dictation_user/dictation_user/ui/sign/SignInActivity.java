@@ -42,41 +42,35 @@ import butterknife.OnClick;
 
 public class SignInActivity extends AppCompatActivity {
 
-    ApiRequester apiRequester = new ApiRequester();
-    Student student = new Student();
-    private Handler mHandler;
-    private Runnable mRunnable;
-
-
     SharedPreferences setting;
     SharedPreferences.Editor editor;
 
-    CheckBox Auto_Login;
+    Student student = new Student();
+    ApiRequester apiRequester = new ApiRequester();
 
+    private Handler mHandler;
+    private Runnable mRunnable;
+    private CheckBox Auto_Login;
 
-    Spinner spState;
-    Spinner spCity;
-    Button schoolsearch;
-    EditText schoolname; // 두번째 다이얼로그에 띄워지는 선택한 학교 이름
-    String selectedschool;
-    int temp;
-    String myschool;
+    private Button schoolsearch; // 다이얼로그 학교검색 버튼
+    private EditText schoolname; // 다이얼로그에 있는 학교이름 란
+    private String selectedschool; // 학교검색 API 로 넘어가는 학교 값
+    private int temp;
 
-
-    String myname; // 실제 가입할 때 넘어가는 값들
-
-    String myinfo; // 실제 가입할 때 넘어가는 값들
-    String myclass;
-    String mygrade;
-    int myStudentId;
+    private String myname; // 실제 로그인 때 넘어가는 값들
+    private String myschool; // 실제 로그인 때 넘어가는 값들
+    private String myinfo; // 실제 로그인 때 넘어가는 값들
+    private String myclass; // 실제 로그인 때 넘어가는 값들
+    private String mygrade; // 실제 로그인 때 넘어가는 값들
+    private String myteacher; // 실제 가입할 때 넘어가는 값들
+    private int myStudentId; // 번호
 
     private String id;
 
-    String myschoolname; // 실제 가입할 때 넘어가는 값들(변수에 담겨있음)
-    String myteacher; // 실제 가입할 때 넘어가는 값들
+    private String name[];
 
-    String name[];
-
+    Spinner spState;
+    Spinner spCity;
     @BindArray(R.array.strArrayCity)
     String [] strArrayCity;
     @BindView(R.id.etSchoolNameIn) EditText etSchoolNameIn;
@@ -128,7 +122,6 @@ public class SignInActivity extends AppCompatActivity {
                         }
 
                         selectedschool = schoolname.getText().toString();
-                        Log.d("TAG", selectedschool);
 
                         apiRequester.searchSchools(strCity, strState, selectedschool, new ApiRequester.UserCallback<List<School>>() {
 
@@ -144,8 +137,6 @@ public class SignInActivity extends AppCompatActivity {
                                     int size = result.size();
                                     name = new String[size];
                                     int i = -1;
-
-                                    Log.d("TAG", "성공");
 
                                     for(School school : result){
                                         i++;
@@ -192,7 +183,6 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which){
                 etSchoolNameIn.setText(myschool);
-                myschoolname = etSchoolNameIn.getText().toString();
             }
         });
         builder.setNegativeButton("취소",
@@ -292,7 +282,6 @@ public class SignInActivity extends AppCompatActivity {
                 etStudentInfoIn.setText(Integer.toString(strGrade) + "학년 " + Integer.toString(strClass) + "반 " + Integer.toString(strAttendenceNum) + "번 "
                 );
                 myinfo = Integer.toString(strGrade) + "학년 " + Integer.toString(strClass) + "반 " + Integer.toString(strAttendenceNum) + "번 ";
-
                 mygrade = Integer.toString(strGrade);
                 myclass = Integer.toString(strClass);
             }
@@ -312,26 +301,18 @@ public class SignInActivity extends AppCompatActivity {
     void onClickBtSignIn()
     {
         myname = etStudentNameIn.getText().toString(); // 기재한 이름을 변수에 담음
-        //myteacher = etTeacherNameUp.getText().toString(); // 기재한 선생님ID를 변수에 담음
-
-        if(myname==null || myschoolname==null || mygrade==null)
+        if(myname==null || myschool==null || mygrade==null)
         {
             Toast.makeText(getApplicationContext(), "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
         }
-        else if(myname.length()==0 || myschoolname.length()==0 || mygrade.length()==0)
+        else if(myname.length()==0 || myschool.length()==0 || mygrade.length()==0)
         {
             Toast.makeText(getApplicationContext(), "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
         }
 
         else
         {
-            Log.d("TAG", myname); // 이름
-            Log.d("TAG", myschoolname); // 학교 명
-            Log.d("TAG", mygrade); // 학년
-            Log.d("TAG", myclass); // 반
-            Log.d("TAG", String.valueOf(myStudentId)); // 번호
-
-            student.setSchool(myschoolname);
+            student.setSchool(myschool);
             student.setGrade(mygrade);
             student.setClass_(myclass);
             student.setStudentId(myStudentId);
@@ -347,8 +328,6 @@ public class SignInActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Student result) {
                                 Toast.makeText(getApplicationContext(), "로그인 완료!", Toast.LENGTH_SHORT).show();
-                                Log.d("@@@@@@@@@", "끄아아아아");
-                                Log.d("@@@@@@@@@", result.getId());
 
                                 id = result.getId();
                                 mRunnable = new Runnable() {
@@ -363,9 +342,7 @@ public class SignInActivity extends AppCompatActivity {
                                                     editor.putString("schoolname", schoolname);
                                                     editor.putString("studentInfo", studentInfo);
                                                     editor.putString("id", id);
-
                                                     editor.commit();
-
 
                                         Intent e = new Intent(SignInActivity.this, SelectExamOrPractice.class);
                                         startActivity(e);
@@ -375,9 +352,7 @@ public class SignInActivity extends AppCompatActivity {
                                 mHandler.postDelayed(mRunnable, 3000);
                             }
                             @Override
-
                             public void onFail() {
-
                             }
                         });
                     }

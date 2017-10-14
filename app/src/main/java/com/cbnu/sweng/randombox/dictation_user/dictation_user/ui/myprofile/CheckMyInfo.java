@@ -44,12 +44,8 @@ public class CheckMyInfo extends AppCompatActivity {
     SharedPreferences setting;
     SharedPreferences.Editor editor;
 
-
     Student student = new Student();
     ApiRequester apiRequester = new ApiRequester();
-
-    private Handler mHandler;
-    private Runnable mRunnable;
 
     private String myname; // 수정 API로 넘어가는 값
     private String myschool; // 수정 API로 넘어가는 값
@@ -89,21 +85,10 @@ public class CheckMyInfo extends AppCompatActivity {
         student.setSchool(myschool);
         student.setInfo(myinfo);
 
-        Log.d("CHECK", student.getName());
-        Log.d("CHECK", student.getSchool());
-        Log.d("CHECK", student.getInfo());
-        Log.d("CHECK", id);
-
-
         apiRequester.updateStudent(id, student, new ApiRequester.UserCallback<Student>() {
             @Override
             public void onSuccess(Student result) {
                 Toast.makeText(getApplicationContext(), "수정이 완료되었습니다.", Toast.LENGTH_LONG).show();
-                Log.d("FINISH", student.getName());
-                Log.d("FINISH", student.getSchool());
-                Log.d("FINISH", student.getInfo());
-                Log.d("FINISH", id);
-
                 editor.putString("studentname", student.getName());
                 editor.putString("schoolname", student.getSchool());
                 editor.putString("studentInfo", student.getInfo());
@@ -118,7 +103,6 @@ public class CheckMyInfo extends AppCompatActivity {
             @Override
             public void onFail() {
                 Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
-
             }
         });
     }
@@ -151,7 +135,6 @@ public class CheckMyInfo extends AppCompatActivity {
                         }
 
                         selectedschool = schoolname.getText().toString();
-                        Log.d("TAG", selectedschool);
 
                         apiRequester.searchSchools(strCity, strState, selectedschool, new ApiRequester.UserCallback<List<School>>() {
                             @Override
@@ -167,14 +150,11 @@ public class CheckMyInfo extends AppCompatActivity {
                                     name = new String[size];
                                     int i = -1;
 
-                                    Log.d("TAG", "성공");
-
                                     for(School school : result){
                                         i++;
                                         System.out.println(school.getName());
                                         name[i] = school.getName();
                                     }
-
                                     AlertDialog.Builder builder3 =
                                             new AlertDialog.Builder(CheckMyInfo.this);
                                     builder3.setTitle("학교를 선택해 주세요.")
@@ -196,7 +176,6 @@ public class CheckMyInfo extends AppCompatActivity {
                                                                     temp = which;
                                                                 }
                                                             }).setNegativeButton("취소", null);    // 리스너
-
                                     AlertDialog dialog = builder3.create();
                                     dialog.show();
                                 }
@@ -204,8 +183,6 @@ public class CheckMyInfo extends AppCompatActivity {
                             @Override
                             public void onFail()
                             {
-                                Log.d("TAG", "실패");
-
                             }
                         });
                     }
@@ -215,7 +192,6 @@ public class CheckMyInfo extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which){
                 showschoolname.setText(myschool);
-//                myschoolname = showschoolname.getText().toString();
             }
         });
         builder.setNegativeButton("취소",
@@ -298,7 +274,6 @@ public class CheckMyInfo extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
-
     }
 
     @OnClick(R.id.showinfo)
@@ -343,8 +318,6 @@ public class CheckMyInfo extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "탈퇴할꺼라우", Toast.LENGTH_SHORT).show();
     }
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -360,10 +333,6 @@ public class CheckMyInfo extends AppCompatActivity {
             id = setting.getString("id", "");
         }
 
-
-
-
-
     private void setStateApdapter(int state){
         ArrayAdapter<String> StateAdapter = new ArrayAdapter<String>(CheckMyInfo.this,
                 android.R.layout.simple_spinner_item,
@@ -371,7 +340,4 @@ public class CheckMyInfo extends AppCompatActivity {
         StateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spState.setAdapter(StateAdapter);
     }
-
-
-
 }
