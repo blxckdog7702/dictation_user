@@ -312,11 +312,11 @@ public class SignInActivity extends AppCompatActivity {
 
         else
         {
+            student.setName(myname);
             student.setSchool(myschool);
             student.setGrade(mygrade);
             student.setClass_(myclass);
             student.setStudentId(myStudentId);
-            student.setName(myname);
 
             apiRequester.checkDuplicateStudent(student, new ApiRequester.UserCallback<Boolean>() {
                 @Override
@@ -334,15 +334,14 @@ public class SignInActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
 
-                                                    String studentname = etStudentNameIn.getText().toString();
-                                                    String schoolname = etSchoolNameIn.getText().toString();
-                                                    String studentInfo = etStudentInfoIn.getText().toString();
+                                        editor.putString("myname", myname);
+                                        editor.putString("myschool", myschool);
+                                        editor.putString("mygrade", mygrade);
+                                        editor.putString("myclass", myclass);
+                                        editor.putString("myStudentId", String.valueOf(myStudentId));
+                                        editor.putString("id", id);
 
-                                                    editor.putString("studentname", studentname);
-                                                    editor.putString("schoolname", schoolname);
-                                                    editor.putString("studentInfo", studentInfo);
-                                                    editor.putString("id", id);
-                                                    editor.commit();
+                                        editor.commit();
 
                                         Intent e = new Intent(SignInActivity.this, SelectExamOrPractice.class);
                                         startActivity(e);

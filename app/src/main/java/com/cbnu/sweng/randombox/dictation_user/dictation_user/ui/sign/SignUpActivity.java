@@ -57,8 +57,8 @@ public class SignUpActivity extends AppCompatActivity {
     private String myinfo; // 실제 가입할 때 넘어가는 값들
     private String myclass; // 실제 가입할 때 넘어가는 값들
     private String mygrade; // 실제 가입할 때 넘어가는 값들
-    private String myteacher; // 실제 가입할 때 넘어가는 값들
     private int myStudentId; // 번호
+    private String myteacher; // 실제 가입할 때 넘어가는 값들
 
     private String name[];
 
@@ -323,13 +323,11 @@ public class SignUpActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Student result) {
 
-                                String studentname = etStudentNameUp.getText().toString();
-                                String schoolname = etSchoolNameUp.getText().toString();
-                                String studentInfo = etStudentInfoUp.getText().toString();
-
-                                editor.putString("studentname", studentname);
-                                editor.putString("schoolname", schoolname);
-                                editor.putString("studentInfo", studentInfo);
+                                editor.putString("myname", myname);
+                                editor.putString("myschool", myschool);
+                                editor.putString("mygrade", mygrade);
+                                editor.putString("myclass", myclass);
+                                editor.putString("myStudentId", String.valueOf(myStudentId));
 
                                 editor.commit();
 

@@ -83,15 +83,21 @@ public class CheckMyInfo extends AppCompatActivity {
 
         student.setName(myname);
         student.setSchool(myschool);
-        student.setInfo(myinfo);
+        student.setGrade(mygrade);
+        student.setClass_(myclass);
+        student.setStudentId(myStudentId);
 
         apiRequester.updateStudent(id, student, new ApiRequester.UserCallback<Student>() {
             @Override
             public void onSuccess(Student result) {
                 Toast.makeText(getApplicationContext(), "수정이 완료되었습니다.", Toast.LENGTH_LONG).show();
-                editor.putString("studentname", student.getName());
-                editor.putString("schoolname", student.getSchool());
-                editor.putString("studentInfo", student.getInfo());
+
+                editor.putString("myname", myname);
+                editor.putString("myschool", myschool);
+                editor.putString("mygrade", mygrade);
+                editor.putString("myclass", myclass);
+                editor.putString("myStudentId", String.valueOf(myStudentId));
+
                 editor.putString("id", id);
 
                 editor.commit();
@@ -327,10 +333,16 @@ public class CheckMyInfo extends AppCompatActivity {
         setting = getSharedPreferences("setting", MODE_PRIVATE);
         editor= setting.edit();
 
-        showname.setText(setting.getString("studentname", ""));
-            showschoolname.setText(setting.getString("schoolname", ""));
-            showinfo.setText(setting.getString("studentInfo", ""));
-            id = setting.getString("id", "");
+        showname.setText(setting.getString("myname", ""));
+        showschoolname.setText(setting.getString("myschool", ""));
+
+        mygrade = setting.getString("mygrade", "");
+        myclass = setting.getString("myclass", "");
+        myStudentId = Integer.parseInt(setting.getString("myStudentId", ""));
+
+        showinfo.setText(mygrade+"학년 "+myclass+"반 "+myStudentId+"번");
+
+        id = setting.getString("id", "");
         }
 
     private void setStateApdapter(int state){
