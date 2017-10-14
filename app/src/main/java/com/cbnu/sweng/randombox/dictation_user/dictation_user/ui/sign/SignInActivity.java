@@ -371,10 +371,6 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
 
-//        etStudentNameIn.setText("");
-//        etSchoolNameIn.setText("");
-//        etStudentInfoIn.setText("");
-
         Auto_Login = (CheckBox) findViewById(R.id.cbAutoLogin);
         goSignUp.setPaintFlags(goSignUp.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
