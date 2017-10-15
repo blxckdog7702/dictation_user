@@ -30,13 +30,15 @@ public class SelectExamOrPractice extends AppCompatActivity {
 
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_exam_or_practice);
-
         ButterKnife.bind(this);
+    }
 
+    @Override
+    public void onBackPressed() {
+            Util.getInstance().onBackPressed(this);
     }
 }

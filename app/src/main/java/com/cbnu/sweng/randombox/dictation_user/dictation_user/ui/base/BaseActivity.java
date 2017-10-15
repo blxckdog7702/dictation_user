@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile.CheckMyInfo;
@@ -45,6 +46,9 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
 
     private FragmentManager fragmentManager;
     private ContextMenuDialogFragment mMenuDialogFragment;
+
+    SharedPreferences setting;
+    SharedPreferences.Editor editor;
 
     public @Nullable @BindView(R.id.toolbar) Toolbar toolbar;
 
@@ -189,18 +193,56 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
 
         }
         else if(position == 1){ // 내 정보 관리
-            Intent t = new Intent(BaseActivity.this, CheckMyInfo.class);
-            startActivity(t);
+            setting = getSharedPreferences("setting", MODE_PRIVATE);
+            editor = setting.edit();// editor가져오기
+
+            if(setting.getString("myStudentId", "") == null || setting.getString("myStudentId", "").trim().equals("")){
+                Toast.makeText(getApplicationContext(), "로그인을 해주세요", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Intent t = new Intent(BaseActivity.this, CheckMyInfo.class);
+                startActivity(t);
+            }
         }
         else if(position == 2){ // 존나 카리스마 있어
+            setting = getSharedPreferences("setting", MODE_PRIVATE);
+            editor = setting.edit();// editor가져오기
+
+            if(setting.getString("myStudentId", "") == null || setting.getString("myStudentId", "").trim().equals("")){
+                Toast.makeText(getApplicationContext(), "로그인을 해주세요", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                // 이동할 액티비티 작성
+            }
 
         }
         else if(position == 3){ // 내 선생님 관리
-            Intent e = new Intent(BaseActivity.this, TeacherList.class);
-            startActivity(e);
+            setting = getSharedPreferences("setting", MODE_PRIVATE);
+            editor = setting.edit();// editor가져오기
+
+            if(setting.getString("myStudentId", "") == null || setting.getString("myStudentId", "").trim().equals("")){
+                Toast.makeText(getApplicationContext(), "로그인을 해주세요", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Intent e = new Intent(BaseActivity.this, TeacherList.class);
+                startActivity(e);
+            }
+
         }
         else if(position == 4){ // 내 성적 관리
-            Util.getInstance().moveActivity(this, RecordManagerActivity.class);
+            setting = getSharedPreferences("setting", MODE_PRIVATE);
+            editor = setting.edit();// editor가져오기
+
+            if(setting.getString("myStudentId", "") == null || setting.getString("myStudentId", "").trim().equals("")){
+                Toast.makeText(getApplicationContext(), "로그인을 해주세요", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Util.getInstance().moveActivity(this, RecordManagerActivity.class);
+            }
         }
         else if(position == 5){ // 로그아웃
             new AlertDialog.Builder(this)
@@ -208,12 +250,10 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
                     .setPositiveButton("로그아웃", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
 
-                            SharedPreferences sf = getSharedPreferences("setting", MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sf.edit();// editor가져오기
+                            setting = getSharedPreferences("setting", MODE_PRIVATE);
+                            editor = setting.edit();// editor가져오기
 
-                            editor.remove("studentname"); // 삭제
-                            editor.remove("schoolname"); // 삭제
-                            editor.remove("studentInfo"); // 삭제
+                            editor.clear();
                             editor.commit(); // 파일에 최종 반영
 
                             Intent i = new Intent(BaseActivity.this, SignInActivity.class);
@@ -224,7 +264,6 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
                     })
                     .setNegativeButton("취소", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-
                         }
                     })
                     .show();
