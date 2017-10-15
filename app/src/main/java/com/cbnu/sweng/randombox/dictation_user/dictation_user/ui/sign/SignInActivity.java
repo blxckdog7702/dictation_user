@@ -400,8 +400,8 @@ public class SignInActivity extends AppCompatActivity {
 
         });
         if(setting.getBoolean("Auto_Login_enabled", false)){
-            etStudentNameIn.setText(setting.getString("my_name", ""));
-            etSchoolNameIn.setText(setting.getString("my_school", ""));
+            etStudentNameIn.setText("");
+            etSchoolNameIn.setText("");
             etStudentInfoIn.setText("");
             Auto_Login.setChecked(false);
 
