@@ -15,7 +15,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuErrorWord;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuErrorWordList;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizHistory;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.RectifyCount;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Teacher;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
@@ -340,8 +343,66 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
         Grader grader = new Grader();
         ArrayList<GradeModel> gradeModels = grader.execute(qnas);
         QuizResult quizResult = new QuizResult();
+        RectifyCount rectifyCount = new RectifyCount();
 
         for(GradeModel gradeModel : gradeModels){
+            if(gradeModel.getRectify() != null){
+                for(PnuErrorWordList pnuErrorWordList : gradeModel.getRectify().getPnuErrorWordList()){
+                    Log.d("asdad : ", pnuErrorWordList.getError().toString());
+                    if(pnuErrorWordList.getError().equals("PASS")){
+                        for(int i = 0; i < pnuErrorWordList.getPnuErrorWord().length; i++){
+                            Log.d("asdad : ", ""+pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                            if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 1){
+                                rectifyCount.setProperty1(rectifyCount.getProperty1()
+                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                            }
+                            else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 2){
+                                rectifyCount.setProperty1(rectifyCount.getProperty2()
+                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                            }
+                            else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 3){
+                                rectifyCount.setProperty1(rectifyCount.getProperty3()
+                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                            }
+                            else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 4){
+                                rectifyCount.setProperty1(rectifyCount.getProperty4()
+                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                            }
+                            else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 5){
+                                rectifyCount.setProperty1(rectifyCount.getProperty5()
+                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                            }
+                            else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 6){
+                                rectifyCount.setProperty1(rectifyCount.getProperty6()
+                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                            }
+                            else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 7){
+                                rectifyCount.setProperty1(rectifyCount.getProperty7()
+                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                            }
+                            else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 8){
+                                rectifyCount.setProperty1(rectifyCount.getProperty8()
+                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                            }
+                            else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 9){
+                                rectifyCount.setProperty1(rectifyCount.getProperty9()
+                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                            }
+                            else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 10){
+                                rectifyCount.setProperty1(rectifyCount.getProperty10()
+                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                            }
+
+                        }
+                    }
+                    else{
+                        continue;
+                    }
+                }
+            }
+            else{
+                continue;
+            }
             QuestionResult questionResult = new QuestionResult();
             questionResult.setCorrect(gradeModel.getCorrect());
             questionResult.setRectify(gradeModel.getRectify());
@@ -355,9 +416,10 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
         quizResult.setQuestionResult(questionResults);
         quizResult.setQuizNumber(Integer.parseInt(quizNumber));
         quizResult.setStudentName(Student.getInstance().getName());
+        quizResult.setRectifyCount(rectifyCount);
 
         try {
-            ApiRequester.getInstance().endQuiz(quizHitoryID, Student.getInstance().getStudentId().toString(),
+            ApiRequester.getInstance().endQuiz(quizHitoryID, Student.getInstance().getId(),
                                     quizResult, new ApiRequester.UserCallback<QuizHistory>(){
 
                         @Override

@@ -1,5 +1,6 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -46,6 +47,7 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
 
     private FragmentManager fragmentManager;
     private ContextMenuDialogFragment mMenuDialogFragment;
+    Context context = this;
 
     SharedPreferences setting;
     SharedPreferences.Editor editor;

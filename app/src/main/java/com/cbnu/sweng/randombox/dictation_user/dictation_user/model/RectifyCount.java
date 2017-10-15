@@ -3,38 +3,40 @@ package com.cbnu.sweng.randombox.dictation_user.dictation_user.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class RectifyCount {
+import java.io.Serializable;
+
+public class RectifyCount implements Serializable {
 
 	@SerializedName("property1")
 	@Expose
-	private Integer property1;
+	private Integer property1 = 0;
 	@SerializedName("property2")
 	@Expose
-	private Integer property2;
+	private Integer property2 = 0;
 	@SerializedName("property3")
 	@Expose
-	private Integer property3;
+	private Integer property3 = 0;
 	@SerializedName("property4")
 	@Expose
-	private Integer property4;
+	private Integer property4 = 0;
 	@SerializedName("property5")
 	@Expose
-	private Integer property5;
+	private Integer property5 = 0;
 	@SerializedName("property6")
 	@Expose
-	private Integer property6;
+	private Integer property6 = 0;
 	@SerializedName("property7")
 	@Expose
-	private Integer property7;
+	private Integer property7 = 0;
 	@SerializedName("property8")
 	@Expose
-	private Integer property8;
+	private Integer property8 = 0;
 	@SerializedName("property9")
 	@Expose
-	private Integer property9;
+	private Integer property9 = 0;
 	@SerializedName("property10")
 	@Expose
-	private Integer property10;
+	private Integer property10 = 0;
 
 	public Integer getProperty1() {
 		return property1;

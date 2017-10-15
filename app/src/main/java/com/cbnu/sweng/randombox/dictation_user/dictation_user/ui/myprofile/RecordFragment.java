@@ -55,7 +55,7 @@ public class RecordFragment extends Fragment {
                 for(Teacher teacher : teachers){
                     if(teacher.getLoginId().equals(selectedTeacherId)){
                         try {
-                            ApiRequester.getInstance().getTeachersQuizHistories(selectedTeacherId, new ApiRequester.UserCallback<List<QuizHistory>>() {
+                            ApiRequester.getInstance().getTeachersQuizHistories(teacher.getId(), new ApiRequester.UserCallback<List<QuizHistory>>() {
                                 @Override
                                 public void onSuccess(List<QuizHistory> result) {
                                     quizHistories = (ArrayList<QuizHistory>) result;
@@ -96,18 +96,18 @@ public class RecordFragment extends Fragment {
     }
 
     private void getServerData(){
-            ApiRequester.getInstance().getStudentsTeachers(Student.getInstance().getId(), new ApiRequester.UserCallback<List<Teacher>>() {
-                @Override
-                public void onSuccess(List<Teacher> result) {
-                    teachers = (ArrayList<Teacher>) result;
-                    initTeacherId();
-                }
+        ApiRequester.getInstance().getStudentsTeachers(Student.getInstance().getId(), new ApiRequester.UserCallback<List<Teacher>>() {
+            @Override
+            public void onSuccess(List<Teacher> result) {
+                teachers = (ArrayList<Teacher>) result;
+                initTeacherId();
+            }
 
-                @Override
-                public void onFail() {
-                    Log.e("RecordFragment", "Server Error");
-                }
-            });
+            @Override
+            public void onFail() {
+                Log.e("RecordFragment", "Server Error");
+            }
+        });
     }
 
     private void initModels() {
@@ -137,6 +137,7 @@ public class RecordFragment extends Fragment {
         }
         else{
             tvRecord.setText("시험 결과가 없습니다!.");
+            Log.v("RecordFragment", "initModel NULL");
         }
     }
 
@@ -151,8 +152,7 @@ public class RecordFragment extends Fragment {
         }
         else{
             tvRecord.setText("등록된 쌘쌔가 없습니다.");
+            Log.v("RecordFragment", "initTeacherId NULL");
         }
-
     }
-
 }

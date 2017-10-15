@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,6 +32,7 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.School;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.SelectPracticeTypeActivity;
 
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.Util;
 import com.shawnlin.numberpicker.NumberPicker;
 
 import java.util.List;
@@ -305,7 +307,8 @@ public class SignInActivity extends AppCompatActivity {
     void onClickBtSignIn()
     {
         myname = etStudentNameIn.getText().toString(); // 기재한 이름을 변수에 담음
-        if(myname.isEmpty()|| myschool.isEmpty() || mygrade.isEmpty()) {
+
+        if(TextUtils.isEmpty(myname)|| TextUtils.isEmpty(myschool) || TextUtils.isEmpty(mygrade)) {
             Toast.makeText(getApplicationContext(), "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
         }
         else {
@@ -364,13 +367,6 @@ public class SignInActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // TODO Auto-generated method stub
                 if(isChecked){
-
-                    editor.putString("my_name", myname);
-                    editor.putString("my_school", myschool);
-                    editor.putString("my_grade", mygrade);
-                    editor.putString("my_class", myclass);
-                    editor.putString("my_StudentId", String.valueOf(myStudentId));
-
                     editor.putBoolean("Auto_Login_enabled", true);
                     editor.commit();
 
@@ -379,16 +375,32 @@ public class SignInActivity extends AppCompatActivity {
                     editor.commit();
                 }
             }
-
         });
         if(setting.getBoolean("Auto_Login_enabled", false)){
-            etStudentNameIn.setText(setting.getString("my_name", ""));
-            etSchoolNameIn.setText(setting.getString("my_school", ""));
-            etStudentInfoIn.setText("");
-            Auto_Login.setChecked(false);
+            Student.getInstance().setName(setting.getString("my_name", ""));
+            Student.getInstance().setSchool(setting.getString("my_school", ""));
+            Student.getInstance().setGrade(setting.getString("mygrade", ""));
+            Student.getInstance().setClass_(setting.getString("myclass", ""));
+            Student.getInstance().setStudentId(Integer.parseInt(setting.getString("myStudentId", "")));
 
-            Intent intent = new Intent(SignInActivity.this, SelectExamOrPractice.class);
-            startActivity(intent);
+            ApiRequester.getInstance().loginStudent(Student.getInstance(), new ApiRequester.UserCallback<Student>() {
+                @Override
+                public void onSuccess(Student result) {
+                    if(result == null)
+                    {
+                        Toast.makeText(getApplicationContext(), "사용자 정보가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Student.getInstance().setStudent(result);
+                        Util.getInstance().moveActivity(getApplicationContext(), SelectExamOrPractice.class);
+                    }
+                }
+                @Override
+                public void onFail() {
+                    Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 

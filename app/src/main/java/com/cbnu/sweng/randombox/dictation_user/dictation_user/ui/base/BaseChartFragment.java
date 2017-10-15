@@ -54,7 +54,7 @@ public abstract class BaseChartFragment extends Fragment {
         return cd;
     }
 
-    public BarData generateBarData(ArrayList<Integer> values) {
+    public BarData generateBarData(ArrayList<Float> values) {
 
         ArrayList<BarEntry> entries = new ArrayList<>();
 
@@ -98,7 +98,7 @@ public abstract class BaseChartFragment extends Fragment {
 
         ArrayList<BubbleEntry> entries = new ArrayList<>();
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < values.size(); i++) {
             float val = values.get(i);
             float size = values.get(i);
 

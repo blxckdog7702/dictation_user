@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -288,7 +289,7 @@ public class SignUpActivity extends AppCompatActivity {
         myname = etStudentNameUp.getText().toString(); // 기재한 이름을 변수에 담음
         myteacher = etTeacherNameUp.getText().toString(); // 기재한 선생님ID를 변수에 담음
 
-        if(myname.isEmpty() || myschool.isEmpty() || mygrade.isEmpty())
+        if(TextUtils.isEmpty(myname) || TextUtils.isEmpty(myschool) || TextUtils.isEmpty(mygrade))
         {
             Toast.makeText(getApplicationContext(), "정보를 입력해주세요..", Toast.LENGTH_SHORT).show();
         }
@@ -306,7 +307,7 @@ public class SignUpActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "중복 되는 정보가 있습니다.", Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        if(myteacher.isEmpty()){
+                        if(TextUtils.isEmpty(myteacher)){
                             signUp();
                         }
                         else{

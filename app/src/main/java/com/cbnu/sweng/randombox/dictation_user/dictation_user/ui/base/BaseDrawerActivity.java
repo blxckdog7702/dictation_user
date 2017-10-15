@@ -1,5 +1,6 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base;
 
+import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -11,6 +12,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.SelectExamOrPractice;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.exam.ReadyPage;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile.RecordManagerActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.SelectPracticeTypeActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.CircleTransformation;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.Util;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
@@ -53,7 +58,21 @@ public class BaseDrawerActivity extends BaseActivity {
         vNavigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                Toast.makeText(getApplicationContext(),menuItem.getTitle(),Toast.LENGTH_SHORT).show();
+                if(menuItem.getTitle().equals("홈")){
+                    Util.getInstance().moveActivity(context, SelectExamOrPractice.class);
+                }
+                else if(menuItem.getTitle().equals("시험보기")){
+                    Util.getInstance().moveActivity(context, ReadyPage.class);
+                }
+                else if(menuItem.getTitle().equals("공부하기")){
+                    Util.getInstance().moveActivity(context, SelectPracticeTypeActivity.class);
+                }
+                else if(menuItem.getTitle().equals("내성적 열람")){
+                    Util.getInstance().moveActivity(context, RecordManagerActivity.class);
+                }
+                else{
+                    //
+                }
                 return false;
             }
         }) ;

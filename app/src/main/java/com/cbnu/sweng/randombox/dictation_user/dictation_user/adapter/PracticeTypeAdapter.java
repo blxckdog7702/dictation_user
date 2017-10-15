@@ -30,8 +30,6 @@ public class PracticeTypeAdapter extends RecyclerView.Adapter<PracticeTypeAdapte
     private ArrayList<PracticeTypeModel> practiceTypeModels;
     private Context context;
 
-    private PracTypeViewHolder holder;
-
     public PracticeTypeAdapter(Context context, ArrayList<PracticeTypeModel> practiceTypeModels) {
         this.context = context;
         this.practiceTypeModels = practiceTypeModels;
@@ -47,7 +45,6 @@ public class PracticeTypeAdapter extends RecyclerView.Adapter<PracticeTypeAdapte
     @Override
     public void onBindViewHolder(final PracTypeViewHolder holder, final int position) {
         final PracticeTypeModel practiceTypeModel = practiceTypeModels.get(position);
-        this.holder = holder;
 
         float imageWidth = ((Util.getInstance().getDisplayWidth(context)
                                 - (Util.getInstance().getDisplayHeigth(context))) / 2);
