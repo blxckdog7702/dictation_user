@@ -108,9 +108,8 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
         widget.setText(mTextField.getText().toString());
         isCorrectionMode = 0;
 
-        ApiRequester apiRequester = new ApiRequester();
         try {
-            apiRequester.getTeachersQuizzes(teacher.getLoginId(), new ApiRequester.UserCallback<List<Quiz>>() {
+            ApiRequester.getInstance().getTeachersQuizzes(teacher.getId(), new ApiRequester.UserCallback<List<Quiz>>() {
                 @Override
                 public void onSuccess(List<Quiz> quizs) {
                     for(Quiz temp : quizs)
@@ -304,26 +303,26 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
 //        8. 콩쥐가 울고
 //        9. 항아리가 깨졌습니다.
 //        10. 다람쥐가 도와줍니다.
-//        SubmittedAnswers[0] = "아 버지가 방에 들어가쉰다.";
-//        SubmittedAnswers[1] = "잠을 잡니다.";
-//        SubmittedAnswers[2] = "책을";
-//        SubmittedAnswers[3] = "꼬리를 흔듬니다.";
-//        SubmittedAnswers[4] = "시소 미끄럼틀";
-//        SubmittedAnswers[5] = "노리터에서 노라요";
-//        SubmittedAnswers[6] = "다람쥐";
-//        SubmittedAnswers[7] = "다람쥐";
-//        SubmittedAnswers[8] = "다람쥐";
-//        SubmittedAnswers[9] = "다람지가 도아줌니다.";
-        SubmittedAnswers[0] = "세수를 합니다.";
+        SubmittedAnswers[0] = "아 버지가 방에 들어가쉰다.";
         SubmittedAnswers[1] = "잠을 잡니다.";
-        SubmittedAnswers[2] = "책을 읽습니다.";
-        SubmittedAnswers[3] = "꼬리를 흔듭니다.";
+        SubmittedAnswers[2] = "책을";
+        SubmittedAnswers[3] = "꼬리를 흔듬니다.";
         SubmittedAnswers[4] = "시소 미끄럼틀";
-        SubmittedAnswers[5] = "놀이터에서 놀아요.";
-        SubmittedAnswers[6] = "그네를 타요.";
-        SubmittedAnswers[7] = "콩쥐가 울고";
-        SubmittedAnswers[8] = "항아리가 깨졌습니다.";
-        SubmittedAnswers[9] = "다람쥐가 도와줍니다.";
+        SubmittedAnswers[5] = "노리터에서 노라요";
+        SubmittedAnswers[6] = "다람쥐";
+        SubmittedAnswers[7] = "다람쥐";
+        SubmittedAnswers[8] = "다람쥐";
+        SubmittedAnswers[9] = "다람지가 도아줌니다.";
+//        SubmittedAnswers[0] = "세수를 합니다.";
+//        SubmittedAnswers[1] = "잠을 잡니다.";
+//        SubmittedAnswers[2] = "책을 읽습니다.";
+//        SubmittedAnswers[3] = "꼬리를 흔듭니다.";
+//        SubmittedAnswers[4] = "시소 미끄럼틀";
+//        SubmittedAnswers[5] = "놀이터에서 놀아요.";
+//        SubmittedAnswers[6] = "그네를 타요.";
+//        SubmittedAnswers[7] = "콩쥐가 울고";
+//        SubmittedAnswers[8] = "항아리가 깨졌습니다.";
+//        SubmittedAnswers[9] = "다람쥐가 도와줍니다.";
 
         Toast.makeText(getApplicationContext(),
                 "시험이 종료되었습니다.",
@@ -357,9 +356,8 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
         quizResult.setQuizNumber(Integer.parseInt(quizNumber));
         quizResult.setStudentName(Student.getInstance().getName());
 
-        ApiRequester apiRequester = new ApiRequester();
         try {
-            apiRequester.endQuiz(quizHitoryID, Student.getInstance().getStudentId().toString(),
+            ApiRequester.getInstance().endQuiz(quizHitoryID, Student.getInstance().getStudentId().toString(),
                                     quizResult, new ApiRequester.UserCallback<QuizHistory>(){
 
                         @Override

@@ -52,13 +52,12 @@
         android:layout_width="fill_parent"
         android:layout_height="48.0dip"
         android:layout_marginLeft="20.0dip"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="14dp"
         android:layout_marginRight="20.0dip"
-        android:layout_marginBottom="2.0dip"
         android:hint="이름"
         android:imeOptions="actionNext"
         android:layout_below="@+id/toolbar"
-        android:layout_centerHorizontal="true">
+        android:layout_alignStart="@+id/etSchoolNameIn">
     <requestFocus />
     </EditText>
 

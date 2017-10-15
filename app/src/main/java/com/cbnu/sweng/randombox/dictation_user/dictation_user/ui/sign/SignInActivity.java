@@ -45,7 +45,6 @@ public class SignInActivity extends AppCompatActivity {
     SharedPreferences setting;
     SharedPreferences.Editor editor;
 
-    ApiRequester apiRequester = new ApiRequester();
     private Handler mHandler;
     private Runnable mRunnable;
     private CheckBox Auto_Login;
@@ -121,7 +120,7 @@ public class SignInActivity extends AppCompatActivity {
 
                         selectedschool = schoolname.getText().toString();
 
-                        apiRequester.searchSchools(strCity, strState, selectedschool, new ApiRequester.UserCallback<List<School>>() {
+                        ApiRequester.getInstance().searchSchools(strCity, strState, selectedschool, new ApiRequester.UserCallback<List<School>>() {
 
                             @Override
                             public void onSuccess(List<School> result)
@@ -299,24 +298,17 @@ public class SignInActivity extends AppCompatActivity {
     void onClickBtSignIn()
     {
         myname = etStudentNameIn.getText().toString(); // 기재한 이름을 변수에 담음
-        if(myname==null || myschool==null || mygrade==null)
-        {
+        if(myname.isEmpty()|| myschool.isEmpty() || mygrade.isEmpty()) {
             Toast.makeText(getApplicationContext(), "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
         }
-        else if(myname.length()==0 || myschool.length()==0 || mygrade.length()==0)
-        {
-            Toast.makeText(getApplicationContext(), "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
-        }
-
-        else
-        {
+        else {
             Student.getInstance().setName(myname);
             Student.getInstance().setSchool(myschool);
             Student.getInstance().setGrade(mygrade);
             Student.getInstance().setClass_(myclass);
             Student.getInstance().setStudentId(myStudentId);
 
-            apiRequester.loginStudent(Student.getInstance(), new ApiRequester.UserCallback<Student>() {
+            ApiRequester.getInstance().loginStudent(Student.getInstance(), new ApiRequester.UserCallback<Student>() {
                 @Override
                 public void onSuccess(Student result) {
                     if(result == null)
@@ -325,34 +317,24 @@ public class SignInActivity extends AppCompatActivity {
                     }
                     else
                     {
+                        Student.getInstance().setStudent(result);
                         Toast.makeText(getApplicationContext(), "로그인 완료!", Toast.LENGTH_SHORT).show();
 
-                        id = result.getId();
-                        mRunnable = new Runnable() {
-                            @Override
-                            public void run() {
+                        editor.putString("myname", myname);
+                        editor.putString("myschool", myschool);
+                        editor.putString("mygrade", mygrade);
+                        editor.putString("myclass", myclass);
+                        editor.putString("myStudentId", String.valueOf(myStudentId));
+                        editor.putString("id", Student.getInstance().getId());
+                        editor.commit();
 
-                                editor.putString("myname", myname);
-                                editor.putString("myschool", myschool);
-                                editor.putString("mygrade", mygrade);
-                                editor.putString("myclass", myclass);
-                                editor.putString("myStudentId", String.valueOf(myStudentId));
-                                editor.putString("id", id);
-
-                                editor.commit();
-
-                                Intent e = new Intent(SignInActivity.this, SelectExamOrPractice.class);
-                                startActivity(e);
-                            }
-                        };
-                        mHandler = new Handler();
-                        mHandler.postDelayed(mRunnable, 3000);
+                        Intent e = new Intent(SignInActivity.this, SelectExamOrPractice.class);
+                        startActivity(e);
                     }
-
                 }
                 @Override
                 public void onFail() {
-                    Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -403,7 +385,7 @@ public class SignInActivity extends AppCompatActivity {
             etStudentInfoIn.setText(setting.getString("studentInfo", ""));
             Auto_Login.setChecked(true);
 
-            Intent intent = new Intent(SignInActivity.this, SelectPracticeTypeActivity.class);
+            Intent intent = new Intent(SignInActivity.this, SelectExamOrPractice.class);
             startActivity(intent);
         }
     }

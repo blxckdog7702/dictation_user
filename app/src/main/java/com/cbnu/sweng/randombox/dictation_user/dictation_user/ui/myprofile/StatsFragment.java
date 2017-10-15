@@ -39,6 +39,13 @@ public class StatsFragment extends BaseChartFragment {
     private ArrayList<Teacher> teachers;
     private ArrayList<QuizHistory> quizHistories;
 
+    ArrayList<Integer> myProperty = new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0));
+    ArrayList<Integer> groupProperty = new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0));
+    ArrayList<Integer> myScore = new ArrayList<>();
+    ArrayList<Double> groupAverage = new ArrayList<>();
+    String[] marker = {"Property1","Property2","Property3","Property4","Property5",
+                        "Property6","Property7","Property8","Property9","Property10",};
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,19 +55,11 @@ public class StatsFragment extends BaseChartFragment {
         ButterKnife.bind(this, view);
 
         getServerData();
-        initModels();
-        setupView();
 
         return view;
     }
 
     private void initModels() {
-        ArrayList<Integer> myProperty = new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0));
-        ArrayList<Integer> groupProperty = new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0));
-        ArrayList<Integer> myScore = new ArrayList<>();
-        ArrayList<Double> groupAverage = new ArrayList<>();
-        String[] marker = {"Property1","Property2","Property3","Property4","Property5",
-                "Property6","Property7","Property8","Property9","Property10",};
         for(QuizHistory quizHistory : quizHistories){
             groupAverage.add(quizHistory.getAverage());
             groupProperty.set(0, groupProperty.get(0) + quizHistory.getRectifyCount().getProperty1());
@@ -89,56 +88,54 @@ public class StatsFragment extends BaseChartFragment {
                 }
             }
         }
+    }
+
+    private void setupView() {
         chartItems = new ArrayList<>();
         chartItems.add(new PieChartItem(generatePieData(myProperty, marker), getActivity()));
         chartItems.add(new CombinedChartItem(generateCombinedData(generateLineData(groupProperty), generateBarData(myScore)), getActivity()));
         chartItems.add(new BubbleChartItem(generateBubbleata(groupProperty), getActivity()));
-    }
 
-    private void setupView() {
         ChartDataAdapter cda = new ChartDataAdapter(getActivity(), chartItems);
         lvStats.setAdapter(cda);
     }
 
     private void getServerData(){
-        ApiRequester apiRequester = new ApiRequester();
-        try {
-            apiRequester.getStudentsTeachers(Student.getInstance().getId(), new ApiRequester.UserCallback<List<Teacher>>() {
-                @Override
-                public void onSuccess(List<Teacher> result) {
-                    teachers = (ArrayList<Teacher>) result;
-                }
+        ApiRequester.getInstance().getStudentsTeachers(Student.getInstance().getId(), new ApiRequester.UserCallback<List<Teacher>>() {
+            @Override
+            public void onSuccess(List<Teacher> result) {
+                teachers = (ArrayList<Teacher>) result;
+                if(teachers != null){
+                    for(Teacher teacher : teachers){
+                        try {
+                            ApiRequester.getInstance().getTeachersQuizHistories(teacher.getLoginId(), new ApiRequester.UserCallback<List<QuizHistory>>() {
 
-                @Override
-                public void onFail() {
-                    Log.e("RecordFragment", "Server Error");
-                }
-            });
-            if(teachers != null){
-                for(Teacher teacher : teachers){
-                    apiRequester.getTeachersQuizHistories(teacher.getLoginId(), new ApiRequester.UserCallback<List<QuizHistory>>() {
+                                @Override
+                                public void onSuccess(List<QuizHistory> result) {
+                                    quizHistories = (ArrayList<QuizHistory>) result;
+                                    initModels();
+                                    setupView();
+                                }
 
-                        @Override
-                        public void onSuccess(List<QuizHistory> result) {
-                            quizHistories = (ArrayList<QuizHistory>) result;
+                                @Override
+                                public void onFail() {
+                                    Log.e("RecordFragment", "Server Error");
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-
-                        @Override
-                        public void onFail() {
-                            Log.e("RecordFragment", "Server Error");
-                        }
-                    });
+                    }
+                }
+                else{
+                    tvStats.setText("등록된 선생님이 없습니다.");
                 }
             }
-            else{
-                tvStats.setText("등록된 선생님이 없습니다.");
-            }
 
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            Log.e("RecordFragment0", e.getMessage().toString());
-        }
+            @Override
+            public void onFail() {
+                Log.e("RecordFragment", "Server Error");
+            }
+        });
     }
-
 }

@@ -40,8 +40,6 @@ public class SignUpActivity extends AppCompatActivity {
     SharedPreferences setting;
     SharedPreferences.Editor editor;
 
-    ApiRequester apiRequester = new ApiRequester();
-
     private Handler mHandler;
     private Runnable mRunnable;
 
@@ -103,7 +101,7 @@ public class SignUpActivity extends AppCompatActivity {
                         selectedschool = schoolname.getText().toString();
                         Log.d("TAG", selectedschool);
 
-                        apiRequester.searchSchools(strCity, strState, selectedschool, new ApiRequester.UserCallback<List<School>>() {
+                        ApiRequester.getInstance().searchSchools(strCity, strState, selectedschool, new ApiRequester.UserCallback<List<School>>() {
                             @Override
                             public void onSuccess(List<School> result)
                             {
@@ -301,7 +299,7 @@ public class SignUpActivity extends AppCompatActivity {
             Student.getInstance().setClass_(myclass);
             Student.getInstance().setStudentId(myStudentId);
 
-            apiRequester.checkDuplicateStudent(Student.getInstance(), new ApiRequester.UserCallback<Boolean>() {
+            ApiRequester.getInstance().checkDuplicateStudent(Student.getInstance(), new ApiRequester.UserCallback<Boolean>() {
                 @Override
                 public void onSuccess(Boolean result) {
                     if(result){
@@ -358,7 +356,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void signUp(){
-        apiRequester.signUpStudent(Student.getInstance().getStudent(), new ApiRequester.UserCallback<Student>() {
+        ApiRequester.getInstance().signUpStudent(Student.getInstance().getStudent(), new ApiRequester.UserCallback<Student>() {
             @Override
             public void onSuccess(Student result) {
                 Student.getInstance().setStudent(result);

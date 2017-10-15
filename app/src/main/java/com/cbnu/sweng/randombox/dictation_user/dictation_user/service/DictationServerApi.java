@@ -116,12 +116,6 @@ public interface DictationServerApi {
     @POST("/quiz/end")
     Call<QuizHistory> endQuiz(@Body JsonObject endedQuiz);
 
-//    //test2
-//    public static final Retrofit retrofit = new Retrofit.Builder()
-//            .baseUrl("https://dev-dictation-server.herokuapp.com")
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build();
-
     //test1
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://dev-dictation-server.herokuapp.com")

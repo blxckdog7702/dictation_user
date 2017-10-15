@@ -119,7 +119,7 @@ public class ApiRequester {
 		}
 	}
 
-	public ApiRequester() {
+	private ApiRequester() {
 		parser = new JsonParser();
 		gson = new Gson();
 		dictationServerApi = DictationServerApi.retrofit.create(DictationServerApi.class);
