@@ -37,6 +37,16 @@ public class Util {
         Intent intent = new Intent(context, ActivityToOpen);
         context.startActivity(intent);
     }
+    public void moveActivity(Context context, final Class<? extends Activity> ActivityToOpen, int i) {
+        Intent intent = new Intent(context, ActivityToOpen);
+        intent.putExtra("int", i);
+        context.startActivity(intent);
+    }
+    public void moveActivity(Context context, final Class<? extends Activity> ActivityToOpen, String s) {
+        Intent intent = new Intent(context, ActivityToOpen);
+        intent.putExtra("String", s);
+        context.startActivity(intent);
+    }
     public void moveActivity(Context context, final Class<? extends Activity> ActivityToOpen,
                              QuizResult quizResult, ArrayList<Question> questionsList) {
         Intent intent = new Intent(context, ActivityToOpen);

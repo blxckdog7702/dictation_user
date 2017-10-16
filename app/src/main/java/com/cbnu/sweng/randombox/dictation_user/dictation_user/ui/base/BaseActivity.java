@@ -1,5 +1,6 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,8 +45,9 @@ import butterknife.ButterKnife;
 
 public class BaseActivity extends AppCompatActivity implements OnMenuItemClickListener, OnMenuItemLongClickListener {
 
-    private FragmentManager fragmentManager;
-    private ContextMenuDialogFragment mMenuDialogFragment;
+    public FragmentManager fragmentManager;
+    public ContextMenuDialogFragment mMenuDialogFragment;
+    Context context = this;
 
     SharedPreferences setting;
     SharedPreferences.Editor editor;
@@ -168,6 +170,11 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:{
+                finish();
+                overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+                return true;
+            }
             case R.id.context_menu:
                 if (fragmentManager.findFragmentByTag(ContextMenuDialogFragment.TAG) == null) {
                     mMenuDialogFragment.show(fragmentManager, ContextMenuDialogFragment.TAG);
@@ -183,6 +190,7 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
             mMenuDialogFragment.dismiss();
         } else {
             finish();
+            overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
         }
     }
 

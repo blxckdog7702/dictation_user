@@ -25,7 +25,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordView
 
     private ArrayList<RecordModel> recordModels;
     private Context context;
-    private RecordViewHolder holder;
 
     public RecordAdapter(Context context, ArrayList<RecordModel> recordModels) {
         this.context = context;
@@ -35,14 +34,13 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordView
     @Override
     public RecordViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater mInflater = LayoutInflater.from(parent.getContext());
-        ViewGroup v = (ViewGroup) mInflater.inflate(R.layout.item_recycler_view, parent, false);
+        ViewGroup v = (ViewGroup) mInflater.inflate(R.layout.item_record, parent, false);
         return new RecordViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(final RecordViewHolder holder, final int position) {
         final RecordModel recordModel = recordModels.get(position);
-        this.holder = holder;
 
         holder.tvDate.setText(recordModel.getDate());
         holder.tvRank.setText(recordModel.getRank() + "등");
@@ -79,9 +77,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordView
 
         @OnClick(R.id.lrRecord)
         public void onCheck() {
-            //Util.getInstance().moveActivity(this, ExamResultPage.class, quizResult, (ArrayList<Question>) questions);
             Util.getInstance().moveActivity(context, RecordResultActivity.class);
-            Log.v("RecordAdapter", "Listener OK");
         }
     }
 }

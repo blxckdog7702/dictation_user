@@ -63,6 +63,7 @@ public class PieChartItem extends ChartItem {
         holder.chart.setCenterTextSize(9f);
         holder.chart.setUsePercentValues(true);
         holder.chart.setExtraOffsets(5, 10, 50, 10);
+        holder.chart.setEntryLabelColor(Color.BLACK);
 
         mChartData.setValueFormatter(new PercentFormatter());
         mChartData.setValueTypeface(mTf);

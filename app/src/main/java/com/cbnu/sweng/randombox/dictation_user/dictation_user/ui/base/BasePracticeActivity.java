@@ -33,7 +33,7 @@ import butterknife.OnClick;
 import me.panavtec.drawableview.DrawableView;
 import me.panavtec.drawableview.DrawableViewConfig;
 
-public abstract class BasePracticeActivity extends AppCompatActivity {
+public abstract class BasePracticeActivity extends BaseActivity {
 
     private TTSRequester mTTSRequester = null;
     private long mLastClickTime = 0;

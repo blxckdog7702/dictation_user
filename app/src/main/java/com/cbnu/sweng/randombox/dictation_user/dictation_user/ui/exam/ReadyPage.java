@@ -7,13 +7,11 @@ import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +20,7 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Teacher;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.service.MyFirebaseMessagingService;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BaseActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -35,7 +34,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class ReadyPage extends AppCompatActivity {
+public class ReadyPage extends BaseActivity {
 
     private Boolean isReceiveKey = false;
     private Boolean isTeacherInfo = false;
@@ -52,9 +51,10 @@ public class ReadyPage extends AppCompatActivity {
             if (btExamReady.getProgress() < 100) { // LOADING
                 btExamReady.setProgress(btExamReady.getProgress() + 25);
                 isReceiveKey = true;
+                subScribe(selectedTeacher.getLoginId());
             }
             else if (btExamReady.getProgress() == 100) { // SUCCESS
-
+                unsubScribe(selectedTeacher.getLoginId());
             }
         }
         else{
@@ -75,12 +75,10 @@ public class ReadyPage extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_ready_page);
         ButterKnife.bind(this);
-        FirebaseMessaging.getInstance().subscribeToTopic("teacherId");
         FirebaseInstanceId.getInstance().getToken();
         registerReceiver(myReceiver, new IntentFilter(MyFirebaseMessagingService.START_INTENT));
 
         getServerData();
-        initTeacherId();
 
         spTeacherId.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -104,11 +102,12 @@ public class ReadyPage extends AppCompatActivity {
     }
 
     private void getServerData(){
-        ApiRequester.getInstance().getStudentsTeachers(Student.getInstance().getId().toString(),
+        ApiRequester.getInstance().getStudentsTeachers(Student.getInstance().getId(),
                                                             new ApiRequester.UserCallback<List<Teacher>>() {
             @Override
             public void onSuccess(List<Teacher> result) {
                 teachers = (ArrayList<Teacher>) result;
+                initTeacherId();
             }
 
             @Override
@@ -150,4 +149,13 @@ public class ReadyPage extends AppCompatActivity {
             }
         }
     };
+
+    private void subScribe(String topic){
+        FirebaseMessaging.getInstance().subscribeToTopic(topic);
+    }
+
+    private void unsubScribe(String topic){
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic);
+    }
+
 }

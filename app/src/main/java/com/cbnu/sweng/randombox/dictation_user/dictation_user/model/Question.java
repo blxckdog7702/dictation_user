@@ -34,5 +34,4 @@ public class Question implements Serializable {
         this.sentence = answer;
     }
 
-
 }
