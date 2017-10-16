@@ -33,6 +33,7 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuestionResu
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Quiz;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.service.MyFirebaseMessagingService;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.myscript.atk.sltw.SingleLineWidget;
 import com.myscript.atk.sltw.SingleLineWidgetApi;
 import com.myscript.atk.text.CandidateInfo;
@@ -344,13 +345,11 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
         ArrayList<GradeModel> gradeModels = grader.execute(qnas);
         QuizResult quizResult = new QuizResult();
         RectifyCount rectifyCount = new RectifyCount();
-
         for(GradeModel gradeModel : gradeModels){
             if(gradeModel.getRectify() != null){
                 for(PnuErrorWordList pnuErrorWordList : gradeModel.getRectify().getPnuErrorWordList()){
                     if(pnuErrorWordList.getError().getMsg().equals("PASS")){
                         for(int i = 0; i < pnuErrorWordList.getPnuErrorWord().length; i++){
-                            Log.d("asdfasdf : ", ""+pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
                             if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 1){
                                 rectifyCount.setProperty1(rectifyCount.getProperty1() + 1);
                             }
@@ -390,9 +389,6 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
                     }
                 }
             }
-            else{
-                continue;
-            }
             QuestionResult questionResult = new QuestionResult();
             questionResult.setCorrect(gradeModel.getCorrect());
             questionResult.setRectify(gradeModel.getRectify());
@@ -404,7 +400,7 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
             }
         }
         quizResult.setQuestionResult(questionResults);
-        quizResult.setQuizNumber(Integer.parseInt(quizNumber));
+        quizResult.setQuiz(quiz);
         quizResult.setStudentName(Student.getInstance().getName());
         quizResult.setRectifyCount(rectifyCount);
 
@@ -428,6 +424,10 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
         }
 
         Util.getInstance().moveActivity(this, ExamResultPage.class, quizResult, (ArrayList<Question>) questions);
+        unsubScribe(teacher.getLoginId());
+    }
+    private void unsubScribe(String topic){
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic);
     }
 
     @Override

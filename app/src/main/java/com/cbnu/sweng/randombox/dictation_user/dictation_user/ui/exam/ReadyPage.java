@@ -25,6 +25,7 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class ReadyPage extends BaseActivity {
     private Boolean isReceiveKey = false;
     private Boolean isTeacherInfo = false;
     private ArrayList<Teacher> teachers;
-    private Teacher selectedTeacher;
+    private Teacher selectedTeacher = null;
     @BindView(R.id.tvTeacherSchoolName) TextView tvTeacherSchoolName;
     @BindView(R.id.tvTeacherName) TextView tvTeacherName;
     @BindView(R.id.btExamReady) ActionProcessButton btExamReady;
@@ -54,18 +55,12 @@ public class ReadyPage extends BaseActivity {
                 subScribe(selectedTeacher.getLoginId());
             }
             else if (btExamReady.getProgress() == 100) { // SUCCESS
-                unsubScribe(selectedTeacher.getLoginId());
+
             }
         }
         else{
             Toast.makeText(getApplicationContext(), "선생님 정보가 올바르지 않습니다.", Toast.LENGTH_LONG).show();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(myReceiver);
     }
 
     @Override
@@ -99,6 +94,12 @@ public class ReadyPage extends BaseActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(myReceiver);
     }
 
     private void getServerData(){
@@ -156,6 +157,19 @@ public class ReadyPage extends BaseActivity {
 
     private void unsubScribe(String topic){
         FirebaseMessaging.getInstance().unsubscribeFromTopic(topic);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mMenuDialogFragment != null && mMenuDialogFragment.isAdded()) {
+            mMenuDialogFragment.dismiss();
+        } else {
+            if(selectedTeacher != null){
+                unsubScribe(selectedTeacher.getLoginId());
+            }
+            finish();
+            overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+        }
     }
 
 }

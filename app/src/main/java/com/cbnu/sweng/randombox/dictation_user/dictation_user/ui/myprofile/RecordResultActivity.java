@@ -1,5 +1,6 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -11,7 +12,11 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizHistory;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizResult;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BaseChartActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.Util;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -26,6 +31,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -35,6 +41,11 @@ public class RecordResultActivity extends BaseChartActivity implements OnChartVa
 
     @BindView(R.id.pieChart) PieChart pieChart;
     private Typeface tf;
+    private ArrayList<Integer> myProperty = new ArrayList<>();
+    String[] marker = {"맞춤법","띄어쓰기","붙여쓰기","4번","5번",
+            "6번","7번","8번","9번","10번"};
+    String quizHistoryId;
+    QuizHistory quizHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +55,51 @@ public class RecordResultActivity extends BaseChartActivity implements OnChartVa
         setContentView(R.layout.activity_record_result);
 
         ButterKnife.bind(this);
+
+        Intent intent = getIntent();
+        quizHistoryId = intent.getStringExtra("String");
+
+        getServerData();
+    }
+
+    private void getServerData(){
+        try {
+            ApiRequester.getInstance().getQuizHistory(quizHistoryId, new ApiRequester.UserCallback<QuizHistory>() {
+                @Override
+                public void onSuccess(QuizHistory result) {
+                    quizHistory = result;
+                    if(quizHistory != null){
+                        initModel();
+                        setupView();
+                    }
+                }
+
+                @Override
+                public void onFail() {
+
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void initModel(){
+        if(quizHistory != null){
+            for(int i = 0; i < 10; i++){
+                myProperty.add(quizHistory.getRectifyCount().getProperty1());
+                myProperty.add(quizHistory.getRectifyCount().getProperty2());
+                myProperty.add(quizHistory.getRectifyCount().getProperty3());
+                myProperty.add(quizHistory.getRectifyCount().getProperty4());
+                myProperty.add(quizHistory.getRectifyCount().getProperty5());
+                myProperty.add(quizHistory.getRectifyCount().getProperty6());
+                myProperty.add(quizHistory.getRectifyCount().getProperty7());
+                myProperty.add(quizHistory.getRectifyCount().getProperty8());
+                myProperty.add(quizHistory.getRectifyCount().getProperty9());
+                myProperty.add(quizHistory.getRectifyCount().getProperty10());
+            }
+        }
+    }
+    private void setupView(){
         pieChart.getLayoutParams().height = (int) ((Util.getInstance().getDisplayHeigth(this) / 5) * 3);
 
         pieChart.setUsePercentValues(true);
@@ -81,7 +137,7 @@ public class RecordResultActivity extends BaseChartActivity implements OnChartVa
         // add a selection listener
         pieChart.setOnChartValueSelectedListener(this);
 
-        setData(4, 100);
+        setData(myProperty, marker);
 
         pieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
         // mChart.spin(2000, 0, 360);
@@ -105,15 +161,14 @@ public class RecordResultActivity extends BaseChartActivity implements OnChartVa
         pieChart.animateY(700);
     }
 
-    private void setData(int count, float range) {
+    private void setData(ArrayList<Integer> values, String[] marker) {
 
-        float mult = range;
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
-        for (int i = 0; i < count; i++) {
-            entries.add(new PieEntry((float) ((Math.random() * mult) + mult / 5), mParties[i % mParties.length]));
+        for (int i = 0; i < marker.length; i++) {
+            entries.add(new PieEntry(values.get(i), marker[i]));
         }
 
         PieDataSet dataSet = new PieDataSet(entries, "");

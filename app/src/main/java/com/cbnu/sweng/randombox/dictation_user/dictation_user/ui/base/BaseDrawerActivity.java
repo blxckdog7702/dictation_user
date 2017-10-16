@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,20 +60,32 @@ public class BaseDrawerActivity extends BaseActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 if(menuItem.getTitle().equals("홈")){
-                    Util.getInstance().moveActivity(context, SelectExamOrPractice.class);
-                    overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
+                    drawerlayout.closeMenu();
+                    if(!getLocalClassName().toString().equals("ui.SelectExamOrPractice")){
+                        Util.getInstance().moveActivity(context, SelectExamOrPractice.class);
+                        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+                    }
                 }
                 else if(menuItem.getTitle().equals("시험보기")){
-                    Util.getInstance().moveActivity(context, ReadyPage.class);
-                    overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+                    drawerlayout.closeMenu();
+                    if(!getLocalClassName().toString().equals("ui.exam.SelectExamOrPractice")){
+                        Util.getInstance().moveActivity(context, ReadyPage.class);
+                        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+                    }
                 }
                 else if(menuItem.getTitle().equals("공부하기")){
-                    Util.getInstance().moveActivity(context, SelectPracticeTypeActivity.class);
-                    overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+                    drawerlayout.closeMenu();
+                    if(!getLocalClassName().toString().equals("ui.practice.SelectPracticeTypeActivity")){
+                        Util.getInstance().moveActivity(context, SelectPracticeTypeActivity.class);
+                        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+                    }
                 }
                 else if(menuItem.getTitle().equals("내성적 열람")){
-                    Util.getInstance().moveActivity(context, RecordManagerActivity.class);
-                    overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+                    drawerlayout.closeMenu();
+                    if(!getLocalClassName().toString().equals("ui..myprofile.RecordManagerActivity")){
+                        Util.getInstance().moveActivity(context, RecordManagerActivity.class);
+                        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+                    }
                 }
                 else{
                     //

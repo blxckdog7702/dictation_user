@@ -81,15 +81,9 @@ public class SignInActivity extends AppCompatActivity {
     @OnClick(R.id.nonsignperson)
     void onClickNonSignPerson()
     {
-        setting = getSharedPreferences("setting", MODE_PRIVATE);
-        SharedPreferences.Editor editor = setting.edit();// editor가져오기
-
-        editor.clear();
-        editor.commit(); // 파일에 최종 반영
-
-
         Intent i = new Intent(SignInActivity.this, SelectExamOrPractice.class);
         startActivity(i);
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
     }
 
     @OnClick(R.id.goSignUp)
@@ -327,18 +321,20 @@ public class SignInActivity extends AppCompatActivity {
                     else
                     {
                         Student.getInstance().setStudent(result);
-                        Toast.makeText(getApplicationContext(), "로그인 완료!", Toast.LENGTH_SHORT).show();
-
-                        editor.putString("myname", myname);
-                        editor.putString("myschool", myschool);
-                        editor.putString("mygrade", mygrade);
-                        editor.putString("myclass", myclass);
+                        if(Auto_Login.isChecked()){
+                            editor.putBoolean("Auto_Login_enabled", true);
+                        }
+                        editor.putString("myname", Student.getInstance().getName());
+                        editor.putString("myschool", Student.getInstance().getSchool());
+                        editor.putString("mygrade", Student.getInstance().getGrade());
+                        editor.putString("myclass", Student.getInstance().getClass_());
                         editor.putString("myStudentId", String.valueOf(myStudentId));
                         editor.putString("id", Student.getInstance().getId());
                         editor.commit();
 
                         Intent e = new Intent(SignInActivity.this, SelectExamOrPractice.class);
                         startActivity(e);
+                        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
                     }
                 }
                 @Override
@@ -361,24 +357,10 @@ public class SignInActivity extends AppCompatActivity {
         setting = getSharedPreferences("setting", 0);
         editor= setting.edit();
 
-        Auto_Login.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // TODO Auto-generated method stub
-                if(isChecked){
-                    editor.putBoolean("Auto_Login_enabled", true);
-                    editor.commit();
-
-                }else{
-                    editor.clear();
-                    editor.commit();
-                }
-            }
-
-        });
+        Log.e("auto_login : ", "" + setting.getBoolean("Auto_Login_enabled", false));
         if(setting.getBoolean("Auto_Login_enabled", false)){
-            Student.getInstance().setName(setting.getString("my_name", ""));
-            Student.getInstance().setSchool(setting.getString("my_school", ""));
+            Student.getInstance().setName(setting.getString("myname", ""));
+            Student.getInstance().setSchool(setting.getString("myschool", ""));
             Student.getInstance().setGrade(setting.getString("mygrade", ""));
             Student.getInstance().setClass_(setting.getString("myclass", ""));
             Student.getInstance().setStudentId(Integer.parseInt(setting.getString("myStudentId", "")));
@@ -393,7 +375,8 @@ public class SignInActivity extends AppCompatActivity {
                     else
                     {
                         Student.getInstance().setStudent(result);
-                        Util.getInstance().moveActivity(getApplicationContext(), SelectExamOrPractice.class);
+                        Util.getInstance().moveActivity(SignInActivity.this, SelectExamOrPractice.class);
+                        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
                     }
                 }
                 @Override
@@ -401,12 +384,8 @@ public class SignInActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT).show();
                 }
             });
-
-            Intent intent = new Intent(SignInActivity.this, SelectExamOrPractice.class);
-            startActivity(intent);
         }
     }
-
 
     private void setStateApdapter(int state){
         ArrayAdapter<String> StateAdapter = new ArrayAdapter<String>(SignInActivity.this,

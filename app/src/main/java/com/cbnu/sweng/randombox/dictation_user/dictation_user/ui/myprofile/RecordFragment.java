@@ -115,24 +115,31 @@ public class RecordFragment extends Fragment {
         if(quizHistories != null){
             for(QuizHistory quizHistory : quizHistories){
                 RecordModel recordModel = new RecordModel();
-                for(QuizResult quizResult :quizHistory.getQuizResults()){
-                    if(Student.getInstance().getName().equals(quizResult.getStudentName())){
-                        recordModel.setRank(quizResult.getLank());
-                        recordModel.setScore(quizResult.getScore());
-                        if(recordModel.getScore() >= 80){
-                            recordModel.setComment("참 잘했어요!");
+                if(quizHistory.getQuizResults() != null){
+                    for(QuizResult quizResult :quizHistory.getQuizResults()){
+                        if(Student.getInstance().getName().equals(quizResult.getStudentName())){
+                            recordModel.setRank(quizResult.getRank());
+                            recordModel.setScore(quizResult.getScore());
+                            if(recordModel.getScore() >= 80){
+                                recordModel.setComment("참 잘했어요!");
+                            }
+                            else if(recordModel.getScore() >= 50){
+                                recordModel.setComment("조금 더 힘내세요!");
+                            }
+                            else{
+                                recordModel.setComment("많이 분발해야겠어요!");
+                            }
+                            break;
                         }
-                        else if(recordModel.getScore() >= 50){
-                            recordModel.setComment("조금 더 힘내세요!");
-                        }
-                        else{
-                            recordModel.setComment("많이 분발해야겠어요!");
-                        }
-                        break;
                     }
+                    recordModel.setDate(quizHistory.getDate());
+                    recordModel.setQuizhistoryId(quizHistory.getId());
+                    recordModels.add(recordModel);
                 }
-                recordModel.setDate(quizHistory.getDate());
-                recordModels.add(recordModel);
+                else{
+                    tvRecord.setText("시험 결과가 없습니다!.");
+                    Log.v("RecordFragment", "initModel NULL");
+                }
             }
         }
         else{

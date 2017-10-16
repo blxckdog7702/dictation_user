@@ -6,6 +6,7 @@ public class RecordModel {
     private int score;
     private String date;
     private String comment;
+    private String quizhistoryId;
 
     public int getRank() {
         return rank;
@@ -37,5 +38,13 @@ public class RecordModel {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getQuizhistoryId() {
+        return quizhistoryId;
+    }
+
+    public void setQuizhistoryId(String quizhistoryId) {
+        this.quizhistoryId = quizhistoryId;
     }
 }

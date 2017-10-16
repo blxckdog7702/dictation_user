@@ -96,12 +96,19 @@ public class StatsFragment extends BaseChartFragment {
     }
 
     private void initModels() {
+        myProperty.clear();
+        groupProperty.clear();
+        myScore.clear();
+        groupAverage.clear();
         if(quizHistories != null){
             for(int i = 0; i < 10; i++){
                 myProperty.add(i, 0);
                 groupProperty.add(i, 0);
             }
             for(QuizHistory quizHistory : quizHistories){
+                if(quizHistory.getAverage() == null){
+                    continue;
+                }
                 groupAverage.add(quizHistory.getAverage());
                 groupProperty.set(0, groupProperty.get(0) + quizHistory.getRectifyCount().getProperty1());
                 groupProperty.set(1, groupProperty.get(1) + quizHistory.getRectifyCount().getProperty2());
@@ -129,6 +136,7 @@ public class StatsFragment extends BaseChartFragment {
                     }
                 }
             }
+            tvStats.setText("");
             setupView();
         }
         else{

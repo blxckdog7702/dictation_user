@@ -59,7 +59,7 @@ public abstract class BaseChartFragment extends Fragment {
         ArrayList<BarEntry> entries = new ArrayList<>();
 
         for (int i = 0; i < y.size(); i++) {
-            entries.add(new BarEntry(i, Integer.valueOf(y.get(i).intValue())));
+            entries.add(new BarEntry(i, y.get(i).intValue()));
         }
 
         BarDataSet d = new BarDataSet(entries, "");

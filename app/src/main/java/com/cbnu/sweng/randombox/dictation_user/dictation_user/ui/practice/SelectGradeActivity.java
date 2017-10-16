@@ -14,18 +14,22 @@ public class SelectGradeActivity extends BaseDrawerActivity {
     @OnClick(R.id.btGrade1)
     void btGrade1() {
         Util.getInstance().moveActivity(this, SelectClassActivity.class, 1);
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
     }
     @OnClick(R.id.btGrade2)
     void btGrade2() {
         Util.getInstance().moveActivity(this, SelectClassActivity.class, 2);
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
     }
     @OnClick(R.id.btGrade3)
     void btGrade3() {
         Util.getInstance().moveActivity(this, SelectClassActivity.class, 3);
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
     }
     @OnClick(R.id.btGrade4)
     void btGrade4() {
         Util.getInstance().moveActivity(this, SelectClassActivity.class, 4);
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
     }
 
     @Override

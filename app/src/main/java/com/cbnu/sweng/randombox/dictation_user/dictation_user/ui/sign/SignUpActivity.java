@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.SelectExamOrPractice;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BaseActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
@@ -38,7 +41,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends BaseActivity {
 
     SharedPreferences setting;
     SharedPreferences.Editor editor;
@@ -347,7 +350,6 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
 
-        setupToolbar();
         setting = getSharedPreferences("setting", 0);
         editor= setting.edit();
 
@@ -375,6 +377,7 @@ public class SignUpActivity extends AppCompatActivity {
                         editor.putString("mygrade", mygrade);
                         editor.putString("myclass", myclass);
                         editor.putString("myStudentId", String.valueOf(myStudentId));
+                        editor.putBoolean("Auto_Login_enabled", true);
                         editor.commit();
 
                         Toast.makeText(getApplicationContext(), "회원가입이 완료 되었습니다.", Toast.LENGTH_SHORT).show();
@@ -400,21 +403,11 @@ public class SignUpActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
     }
 
-    private void setupToolbar() {
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-    }
-
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:{
-                finish();
-                overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        menu.findItem(R.id.context_menu).setVisible(false);
+        return true;
     }
 }

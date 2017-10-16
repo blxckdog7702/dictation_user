@@ -1,6 +1,8 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -61,6 +63,7 @@ public class DictationPracticeActivity extends AppCompatActivity implements Sing
     private String SubmittedAnswers[] = new String[10];
     private ArrayList<ArrayMap<String, String>> qnas = new ArrayList<>();
     private ArrayList<QuestionResult> questionResults = new ArrayList<>();
+    private String questionType;
 
     @OnClick(R.id.btPrev)
     void btPrev() {
@@ -143,13 +146,16 @@ public class DictationPracticeActivity extends AppCompatActivity implements Sing
         }
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_dictation_practice);
 
         ButterKnife.bind(this);
+
+        Intent intent = getIntent();
+        questionType = intent.getStringExtra("String");
 
         mTextField = (CustomEditText) findViewById(R.id.textField);
         mTextField.setOnSelectionChangedListener(this);
@@ -190,8 +196,7 @@ public class DictationPracticeActivity extends AppCompatActivity implements Sing
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+        Util.getInstance().onBackPressed(this);
     }
 
     private void initModel() {
@@ -316,7 +321,6 @@ public class DictationPracticeActivity extends AppCompatActivity implements Sing
             }
         }
         quizResult.setQuestionResult(questionResults);
-        quizResult.setQuizNumber(Integer.parseInt("9"));
         quizResult.setStudentName(Student.getInstance().getName());
         quizResult.setRectifyCount(rectifyCount);
 

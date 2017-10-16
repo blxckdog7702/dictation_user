@@ -9,6 +9,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,6 +24,7 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.School;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.SelectExamOrPractice;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BaseActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.SelectPracticeTypeActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign.SignInActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign.SignUpActivity;
@@ -39,7 +42,7 @@ import static com.cbnu.sweng.randombox.dictation_user.dictation_user.R.array.str
 import static com.cbnu.sweng.randombox.dictation_user.dictation_user.R.id.spCity;
 import static com.cbnu.sweng.randombox.dictation_user.dictation_user.R.id.spState;
 
-public class CheckMyInfo extends AppCompatActivity {
+public class CheckMyInfo extends BaseActivity {
 
     SharedPreferences setting;
     SharedPreferences.Editor editor;
@@ -280,6 +283,15 @@ public class CheckMyInfo extends AppCompatActivity {
         dialog.show();
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        menu.findItem(R.id.context_menu).setVisible(false);
+        return true;
+    }
+
     @OnClick(R.id.showinfo)
     void onClickShowInfo(){
         View mView = getLayoutInflater().inflate(R.layout.dialog_select_student_info, null);
@@ -348,7 +360,13 @@ public class CheckMyInfo extends AppCompatActivity {
         showinfo.setText(mygrade+"학년 "+myclass+"반 "+myStudentId+"번");
 
         id = setting.getString("id", "");
-        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+    }
 
     private void setStateApdapter(int state){
         ArrayAdapter<String> StateAdapter = new ArrayAdapter<String>(CheckMyInfo.this,

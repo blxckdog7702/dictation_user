@@ -171,9 +171,11 @@ public class Util {
             return;
         }
         if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            activity.finishAffinity();
             activity.moveTaskToBack(true);
-            activity.finish();
+            //activity.finish();
             android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(0);
             toast.cancel();
         }
     }

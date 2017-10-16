@@ -44,6 +44,7 @@ public class SelectClassActivity extends BaseDrawerActivity {
                 public void onClick(View v) {
                     studentGrade = v.getId();
                     Util.getInstance().moveActivity(SelectClassActivity.this, DictationPracticeActivity.class, studentClass + "-" + studentGrade);
+                    overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
                 }
             });
             tableRow.addView(btn);
