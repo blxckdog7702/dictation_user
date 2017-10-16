@@ -354,7 +354,7 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
             }
         }
         quizResult.setQuestionResult(questionResults);
-        quizResult.setQuizNumber(Integer.parseInt(quizNumber));
+        quizResult.setQuiz(quiz);
         quizResult.setStudentName(Student.getInstance().getName());
 
         ApiRequester apiRequester = new ApiRequester();

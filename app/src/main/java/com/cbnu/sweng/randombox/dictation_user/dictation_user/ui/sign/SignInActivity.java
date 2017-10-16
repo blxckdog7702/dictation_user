@@ -388,6 +388,8 @@ public class SignInActivity extends AppCompatActivity {
                     editor.putString("my_grade", mygrade);
                     editor.putString("my_class", myclass);
                     editor.putString("my_StudentId", String.valueOf(myStudentId));
+                    editor.putString("id", id);
+
 
                     editor.putBoolean("Auto_Login_enabled", true);
                     editor.commit();

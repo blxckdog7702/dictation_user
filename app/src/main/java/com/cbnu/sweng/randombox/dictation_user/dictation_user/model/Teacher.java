@@ -12,6 +12,30 @@ import java.util.List;
 
 public class Teacher implements Serializable {
 
+    public volatile static Teacher teacher;
+    private Teacher(){}
+
+    public static Teacher getInstance() {
+        if (teacher == null) {
+            synchronized (Student.class) {
+                if (teacher == null) {
+                    teacher = new Teacher();
+                }
+            }
+        }
+        return teacher;
+    }
+
+    public Teacher(String id, String school, String grade, String _class, String loginId, String name, int v, List<QuizResult> quizResults){
+        this.setId(id);
+        this.setSchool(school);
+        this.setGrade(grade);
+        this.setClass_(_class);
+        this.setLoginId(loginId);
+        this.setName(name);
+        this.setV(v);
+    }
+
     @SerializedName("__v")
     @Expose
     private Integer v;

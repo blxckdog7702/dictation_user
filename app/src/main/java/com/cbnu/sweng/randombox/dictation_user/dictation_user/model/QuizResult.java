@@ -11,9 +11,9 @@ public class QuizResult implements Serializable{
     @SerializedName("lank")
     @Expose
     private Integer lank;
-    @SerializedName("quiz_number")
+    @SerializedName("quiz")
     @Expose
-    private Integer quizNumber;
+    private Quiz quiz;
     @SerializedName("student_name")
     @Expose
     private String studentName;
@@ -32,13 +32,6 @@ public class QuizResult implements Serializable{
     }
     public void setLank(Integer lank) {
       this.lank = lank;
-    }
-    public Integer getQuizNumber() {
-        return quizNumber;
-    }
-
-    public void setQuizNumber(Integer quizNumber) {
-        this.quizNumber = quizNumber;
     }
 
     public String getStudentName() {
@@ -73,4 +66,11 @@ public class QuizResult implements Serializable{
       this.rectifyCount = rectifyCount;
     }
 
+    public Quiz getQuiz() {
+        return quiz;
+    }
+
+    public void setQuiz(Quiz quiz) {
+        this.quiz = quiz;
+    }
 }

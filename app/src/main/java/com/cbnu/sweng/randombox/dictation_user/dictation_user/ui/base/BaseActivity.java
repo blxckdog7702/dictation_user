@@ -244,7 +244,8 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
                 Util.getInstance().moveActivity(this, RecordManagerActivity.class);
             }
         }
-        else if(position == 5){ // 로그아웃
+        else if(position == 5)
+        { // 로그아웃
             new AlertDialog.Builder(this)
                     .setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?")
                     .setPositiveButton("로그아웃", new DialogInterface.OnClickListener() {
