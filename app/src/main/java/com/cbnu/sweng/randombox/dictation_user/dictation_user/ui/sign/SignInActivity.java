@@ -10,7 +10,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -98,6 +97,7 @@ public class SignInActivity extends AppCompatActivity {
     {
         Intent t = new Intent(SignInActivity.this, SignUpActivity.class);
         startActivity(t);
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
     }
 
     @OnClick(R.id.etSchoolNameIn)
@@ -307,8 +307,7 @@ public class SignInActivity extends AppCompatActivity {
     void onClickBtSignIn()
     {
         myname = etStudentNameIn.getText().toString(); // 기재한 이름을 변수에 담음
-
-        if(TextUtils.isEmpty(myname)|| TextUtils.isEmpty(myschool) || TextUtils.isEmpty(mygrade)) {
+        if(myname.isEmpty()|| myschool.isEmpty() || mygrade.isEmpty()) {
             Toast.makeText(getApplicationContext(), "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
         }
         else {
@@ -375,6 +374,7 @@ public class SignInActivity extends AppCompatActivity {
                     editor.commit();
                 }
             }
+
         });
         if(setting.getBoolean("Auto_Login_enabled", false)){
             Student.getInstance().setName(setting.getString("my_name", ""));
@@ -388,7 +388,7 @@ public class SignInActivity extends AppCompatActivity {
                 public void onSuccess(Student result) {
                     if(result == null)
                     {
-                        Toast.makeText(getApplicationContext(), "사용자 정보가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "사용자 정보가 존재하지 ㅏ않습니다.", Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
@@ -401,6 +401,10 @@ public class SignInActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT).show();
                 }
             });
+
+
+            Intent intent = new Intent(SignInActivity.this, SelectExamOrPractice.class);
+            startActivity(intent);
         }
     }
 

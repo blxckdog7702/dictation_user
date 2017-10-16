@@ -45,8 +45,8 @@ import butterknife.ButterKnife;
 
 public class BaseActivity extends AppCompatActivity implements OnMenuItemClickListener, OnMenuItemLongClickListener {
 
-    private FragmentManager fragmentManager;
-    private ContextMenuDialogFragment mMenuDialogFragment;
+    public FragmentManager fragmentManager;
+    public ContextMenuDialogFragment mMenuDialogFragment;
     Context context = this;
 
     SharedPreferences setting;
@@ -170,6 +170,11 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:{
+                finish();
+                overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+                return true;
+            }
             case R.id.context_menu:
                 if (fragmentManager.findFragmentByTag(ContextMenuDialogFragment.TAG) == null) {
                     mMenuDialogFragment.show(fragmentManager, ContextMenuDialogFragment.TAG);
@@ -185,6 +190,7 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
             mMenuDialogFragment.dismiss();
         } else {
             finish();
+            overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
         }
     }
 

@@ -54,4 +54,10 @@ public class WordPracticeActivity extends BasePracticeActivity {
         Collections.shuffle(keys);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+    }
+
 }

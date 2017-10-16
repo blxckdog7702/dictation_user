@@ -33,7 +33,7 @@ import butterknife.OnClick;
 import me.panavtec.drawableview.DrawableView;
 import me.panavtec.drawableview.DrawableViewConfig;
 
-public abstract class BasePracticeActivity extends AppCompatActivity {
+public abstract class BasePracticeActivity extends BaseActivity {
 
     private TTSRequester mTTSRequester = null;
     private long mLastClickTime = 0;
@@ -49,30 +49,41 @@ public abstract class BasePracticeActivity extends AppCompatActivity {
 
     @OnClick(R.id.previousBt) // 이전 낱말 보기
     void onClickBtPrev(){
-        System.out.println("WordSize() : " + wordSize);
-        System.out.println("WordNum() : " + wordNum);
+
         if(wordNum > 0 ){
-            showWords(wordNum);
             wordNum--;
+            showWords(wordNum);
         }
         else{
             Toast.makeText(getApplicationContext(), "이전 낱말이 없습니다.", Toast.LENGTH_LONG).show();
         }
         drawableView.clear();
+        System.out.println("이전 WordSize() : " + wordSize);
+        System.out.println("이전 WordNum() : " + wordNum);
     }
 
     @OnClick(R.id.nextBt) // 다음 낱말 보기
     void onClickBtNext(){
-        System.out.println("WordSize() : " + wordSize);
-        System.out.println("WordNum() : " + wordNum);
-        if(wordNum < wordSize){
-            showWords(wordNum);
+        if(wordNum < wordSize-1){
             wordNum++;
+            if(wordNum==wordSize-1)
+            {
+                Toast.makeText(getApplicationContext(), "다음 낱말이 없습니다.", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                showWords(wordNum);
+            }
         }
-        else{
+        else
+        {
             Toast.makeText(getApplicationContext(), "다음 낱말이 없습니다.", Toast.LENGTH_LONG).show();
+
         }
         drawableView.clear();
+
+        System.out.println("다음 WordSize() : " + wordSize);
+        System.out.println("다음 WordNum() : " + wordNum);
 
     }
 

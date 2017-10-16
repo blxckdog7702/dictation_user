@@ -8,6 +8,7 @@
     tools:context="com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.exam.ReadyPage"
     android:orientation="vertical"
     android:background="@drawable/splashportrait">
+    <include layout="@layout/toolbar"/>
 
     <LinearLayout
         android:layout_width="wrap_content"

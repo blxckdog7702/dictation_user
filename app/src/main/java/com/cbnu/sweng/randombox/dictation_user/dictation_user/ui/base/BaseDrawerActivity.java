@@ -60,15 +60,19 @@ public class BaseDrawerActivity extends BaseActivity {
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 if(menuItem.getTitle().equals("홈")){
                     Util.getInstance().moveActivity(context, SelectExamOrPractice.class);
+                    overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
                 }
                 else if(menuItem.getTitle().equals("시험보기")){
                     Util.getInstance().moveActivity(context, ReadyPage.class);
+                    overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
                 }
                 else if(menuItem.getTitle().equals("공부하기")){
                     Util.getInstance().moveActivity(context, SelectPracticeTypeActivity.class);
+                    overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
                 }
                 else if(menuItem.getTitle().equals("내성적 열람")){
                     Util.getInstance().moveActivity(context, RecordManagerActivity.class);
+                    overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
                 }
                 else{
                     //

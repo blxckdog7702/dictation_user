@@ -348,51 +348,41 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
         for(GradeModel gradeModel : gradeModels){
             if(gradeModel.getRectify() != null){
                 for(PnuErrorWordList pnuErrorWordList : gradeModel.getRectify().getPnuErrorWordList()){
-                    Log.d("asdad : ", pnuErrorWordList.getError().toString());
-                    if(pnuErrorWordList.getError().equals("PASS")){
+                    if(pnuErrorWordList.getError().getMsg().equals("PASS")){
                         for(int i = 0; i < pnuErrorWordList.getPnuErrorWord().length; i++){
-                            Log.d("asdad : ", ""+pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                            Log.d("asdfasdf : ", ""+pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
                             if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 1){
-                                rectifyCount.setProperty1(rectifyCount.getProperty1()
-                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                                rectifyCount.setProperty1(rectifyCount.getProperty1() + 1);
                             }
                             else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 2){
-                                rectifyCount.setProperty1(rectifyCount.getProperty2()
-                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                                rectifyCount.setProperty2(rectifyCount.getProperty2() + 1);
                             }
                             else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 3){
-                                rectifyCount.setProperty1(rectifyCount.getProperty3()
-                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                                rectifyCount.setProperty3(rectifyCount.getProperty3() + 1);
                             }
                             else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 4){
-                                rectifyCount.setProperty1(rectifyCount.getProperty4()
-                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                                rectifyCount.setProperty4(rectifyCount.getProperty4() + 1);
                             }
                             else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 5){
-                                rectifyCount.setProperty1(rectifyCount.getProperty5()
-                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                                rectifyCount.setProperty5(rectifyCount.getProperty5() + 1);
                             }
                             else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 6){
-                                rectifyCount.setProperty1(rectifyCount.getProperty6()
-                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                                rectifyCount.setProperty6(rectifyCount.getProperty6() + 1);
                             }
                             else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 7){
-                                rectifyCount.setProperty1(rectifyCount.getProperty7()
-                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                                rectifyCount.setProperty7(rectifyCount.getProperty7() + 1);
                             }
                             else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 8){
-                                rectifyCount.setProperty1(rectifyCount.getProperty8()
-                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                                rectifyCount.setProperty8(rectifyCount.getProperty8() + 1);
                             }
                             else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 9){
-                                rectifyCount.setProperty1(rectifyCount.getProperty9()
-                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                                rectifyCount.setProperty9(rectifyCount.getProperty9()
+                                        + 1);
                             }
                             else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 10){
-                                rectifyCount.setProperty1(rectifyCount.getProperty10()
+                                rectifyCount.setProperty10(rectifyCount.getProperty10()
                                         + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
                             }
-
                         }
                     }
                     else{
@@ -438,5 +428,10 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
         }
 
         Util.getInstance().moveActivity(this, ExamResultPage.class, quizResult, (ArrayList<Question>) questions);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //종료 불가
     }
 }

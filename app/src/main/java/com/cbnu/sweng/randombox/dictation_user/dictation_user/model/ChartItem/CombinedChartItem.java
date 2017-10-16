@@ -59,7 +59,7 @@ public class CombinedChartItem extends ChartItem {
 
         holder.chart.getDescription().setEnabled(false);
         holder.chart.setBackgroundColor(Color.WHITE);
-        holder.chart.setDrawGridBackground(false);
+        //holder.chart.setDrawGridBackground(false);
         holder.chart.setDrawBarShadow(false);
         holder.chart.setHighlightFullBarEnabled(false);
 
@@ -71,32 +71,25 @@ public class CombinedChartItem extends ChartItem {
         });
 
         Legend l = holder.chart.getLegend();
-        l.setWordWrapEnabled(true);
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        l.setDrawInside(false);
+        l.setEnabled(false);
+//        l.setWordWrapEnabled(true);
+//        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+//        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+//        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+//        l.setDrawInside(false);
 
-        YAxis rightAxis = holder.chart.getAxisRight();
-        rightAxis.setDrawGridLines(false);
-        rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
         YAxis leftAxis = holder.chart.getAxisLeft();
         leftAxis.setDrawGridLines(false);
         leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+        leftAxis.setAxisMaximum(100f);
 
         XAxis xAxis = holder.chart.getXAxis();
-        xAxis.setPosition(XAxisPosition.BOTH_SIDED);
+        xAxis.setPosition(XAxisPosition.BOTTOM);
         xAxis.setAxisMinimum(0f);
         xAxis.setGranularity(1f);
-//        xAxis.setValueFormatter(new IAxisValueFormatter() {
-//            @Override
-//            public String getFormattedValue(float value, AxisBase axis) {
-//                return mMonths[(int) value % mMonths.length];
-//            }
-//        });
 
-        xAxis.setAxisMaximum(mChartData.getXMax() + 0.25f);
+        xAxis.setAxisMaximum(mChartData.getXMax());
 
         // set data
         holder.chart.setData((CombinedData) mChartData);

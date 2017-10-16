@@ -43,12 +43,12 @@ public class StatsFragment extends BaseChartFragment {
     private ArrayList<Teacher> teachers;
     private ArrayList<QuizHistory> quizHistories;
 
-    ArrayList<Integer> myProperty = new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0));
-    ArrayList<Integer> groupProperty = new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0));
+    ArrayList<Integer> myProperty = new ArrayList<>();
+    ArrayList<Integer> groupProperty = new ArrayList<>();
     ArrayList<Integer> myScore = new ArrayList<>();
-    ArrayList<Float> groupAverage = new ArrayList<>();
-    String[] marker = {"Property1","Property2","Property3","Property4","Property5",
-                        "Property6","Property7","Property8","Property9","Property10",};
+    ArrayList<Double> groupAverage = new ArrayList<>();
+    String[] marker = {"맞춤법","띄어쓰기","붙여쓰기","4번","5번",
+                        "6번","7번","8번","9번","10번",};
 
     @Nullable
     @Override
@@ -71,7 +71,6 @@ public class StatsFragment extends BaseChartFragment {
                                 public void onSuccess(List<QuizHistory> result) {
                                     quizHistories = (ArrayList<QuizHistory>) result;
                                     initModels();
-                                    setupView();
                                 }
 
                                 @Override
@@ -98,8 +97,12 @@ public class StatsFragment extends BaseChartFragment {
 
     private void initModels() {
         if(quizHistories != null){
+            for(int i = 0; i < 10; i++){
+                myProperty.add(i, 0);
+                groupProperty.add(i, 0);
+            }
             for(QuizHistory quizHistory : quizHistories){
-                groupAverage.add(Float.valueOf(String.valueOf(quizHistory.getAverage())));
+                groupAverage.add(quizHistory.getAverage());
                 groupProperty.set(0, groupProperty.get(0) + quizHistory.getRectifyCount().getProperty1());
                 groupProperty.set(1, groupProperty.get(1) + quizHistory.getRectifyCount().getProperty2());
                 groupProperty.set(2, groupProperty.get(2) + quizHistory.getRectifyCount().getProperty3());
@@ -126,11 +129,11 @@ public class StatsFragment extends BaseChartFragment {
                     }
                 }
             }
+            setupView();
         }
         else{
             tvStats.setText("시험 결과가 없습니다.");
         }
-
     }
 
     private void setupView() {

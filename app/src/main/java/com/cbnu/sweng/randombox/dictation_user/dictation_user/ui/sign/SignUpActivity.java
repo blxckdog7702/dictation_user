@@ -8,8 +8,10 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -70,6 +72,8 @@ public class SignUpActivity extends AppCompatActivity {
     @BindView(R.id.etStudentNameUp) EditText etStudentNameUp;
     @BindView(R.id.etTeacherNameUp) EditText etTeacherNameUp;
     @BindView(R.id.btSignUp) Button btSignUp;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+
 
 
     @OnClick(R.id.etSchoolNameUp)
@@ -341,11 +345,12 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        ButterKnife.bind(this);
 
+        setupToolbar();
         setting = getSharedPreferences("setting", 0);
         editor= setting.edit();
 
-        ButterKnife.bind(this);
     }
 
     private void setStateApdapter(int state){
@@ -387,5 +392,29 @@ public class SignUpActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+    }
+
+    private void setupToolbar() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{
+                finish();
+                overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

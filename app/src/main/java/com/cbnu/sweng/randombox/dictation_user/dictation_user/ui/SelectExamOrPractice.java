@@ -18,13 +18,13 @@ public class SelectExamOrPractice extends BaseDrawerActivity {
     @BindView(R.id.btPractice) Button btPractice;
     @OnClick(R.id.btPractice)
     void onClickBtPractice(){
-        Util.getInstance().moveActivity(this, ReadyPage.class);
+        Util.getInstance().moveActivity(this, SelectPracticeTypeActivity.class);
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
     }
     @BindView(R.id.btExam) Button btExam;
     @OnClick(R.id.btExam)
     void onClickBtExam(){
-        Util.getInstance().moveActivity(this, SelectPracticeTypeActivity.class);
-
+        Util.getInstance().moveActivity(this, ReadyPage.class);
     }
 
     @Override

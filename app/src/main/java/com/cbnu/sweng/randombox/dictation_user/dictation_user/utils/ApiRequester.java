@@ -155,10 +155,10 @@ public class ApiRequester {
 
 		EndedQuiz endedQuiz = new EndedQuiz();
 		endedQuiz.setQuizHistoryId(quizHistoryId);
+        endedQuiz.setStudentId(studentId);
 		endedQuiz.setQuizResult(quizResult);
-		endedQuiz.setStudentId(studentId);
 
-		System.out.println(gson.toJson(endedQuiz).toString());
+		Log.e("endQuiz", gson.toJson(endedQuiz.getStudentId()).toString());
 
 		Call<QuizHistory> call = dictationServerApi.endQuiz(parser.parse(gson.toJson(endedQuiz)).getAsJsonObject());
 		call.enqueue(new ObjectCallback<QuizHistory>(userCallback));
