@@ -8,9 +8,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class QuizResult implements Serializable{
 
-    @SerializedName("lank")
+    @SerializedName("rank")
     @Expose
-    private Integer lank;
+    private Integer Rank;
     @SerializedName("quiz")
     @Expose
     private Quiz quiz;
@@ -27,11 +27,11 @@ public class QuizResult implements Serializable{
     @Expose
     private RectifyCount rectifyCount;
 
-    public Integer getLank() {
-      return lank;
+    public Integer getRank() {
+      return Rank;
     }
-    public void setLank(Integer lank) {
-      this.lank = lank;
+    public void setRank(Integer rank) {
+      this.Rank = rank;
     }
 
     public String getStudentName() {

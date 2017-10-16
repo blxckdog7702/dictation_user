@@ -110,7 +110,7 @@ public class RecordFragment extends Fragment {
                 RecordModel recordModel = new RecordModel();
                 for(QuizResult quizResult :quizHistory.getQuizResults()){
                     if(Student.getInstance().getName().equals(quizResult.getStudentName())){
-                        recordModel.setRank(quizResult.getLank());
+                        recordModel.setRank(quizResult.getRank());
                         recordModel.setScore(quizResult.getScore());
                         if(recordModel.getScore() >= 80){
                             recordModel.setComment("참 잘했어요!");

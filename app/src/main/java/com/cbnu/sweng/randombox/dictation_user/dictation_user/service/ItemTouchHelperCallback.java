@@ -23,7 +23,13 @@ import static android.support.v7.widget.helper.ItemTouchHelper.Callback.makeMove
 
 public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
+    SharedPreferences setting;
+    SharedPreferences.Editor editor;
+
+
+
     ItemTouchHelperListener listener;
+    ApiRequester apiRequester = new ApiRequester();
 
     public ItemTouchHelperCallback(ItemTouchHelperListener listener){
         this.listener = listener;
@@ -53,5 +59,6 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
         Log.i("TAG", "onSwiped");
         listener.onItemRemove(viewHolder.getAdapterPosition());
     }
+
 }
 

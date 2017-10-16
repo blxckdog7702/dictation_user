@@ -42,6 +42,7 @@ import butterknife.OnClick;
 
 public class SignInActivity extends AppCompatActivity {
 
+    private static final String TAG = "SignInActivity";
     SharedPreferences setting;
     SharedPreferences.Editor editor;
 
@@ -328,10 +329,13 @@ public class SignInActivity extends AppCompatActivity {
                 public void onSuccess(Student result) {
                     if(result == null)
                     {
+                        Log.d(TAG, "onSuccess: 1");
                         Toast.makeText(getApplicationContext(), "정보없어", Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
+                        Log.d(TAG, "onSuccess: 2");
+
                         Toast.makeText(getApplicationContext(), "로그인 완료!", Toast.LENGTH_SHORT).show();
 
                         id = result.getId();
@@ -359,6 +363,8 @@ public class SignInActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onFail() {
+                    Log.d(TAG, "onSuccess: 3");
+
                     Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
                 }
             });

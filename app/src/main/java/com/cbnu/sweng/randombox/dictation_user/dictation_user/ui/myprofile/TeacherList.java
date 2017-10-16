@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -37,7 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TeacherList extends AppCompatActivity {
+public class TeacherList extends AppCompatActivity{
 
     ApiRequester apiRequester = new ApiRequester();
     SharedPreferences setting;
@@ -84,6 +85,7 @@ public class TeacherList extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), result.getName(), Toast.LENGTH_LONG).show();
                                     teachername = result.getName();
                                         Log.d("받아오기성공", result.getName());
+                                        editor.putString("teacherLoginId", searchTeacherID);
                                 }
                             }
                             @Override
@@ -153,6 +155,7 @@ public class TeacherList extends AppCompatActivity {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         ButterKnife.bind(this);
 
+
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
@@ -185,7 +188,29 @@ public class TeacherList extends AppCompatActivity {
                     mRecyclerView.setAdapter(mAdapter);
                     mAdapter.notifyDataSetChanged();
 
-                    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback((ItemTouchHelperListener) mAdapter));
+                    ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                        public boolean onMove(RecyclerView recyclerView,
+                                              RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+//                    final int fromPos = viewHolder.getAdapterPosition();
+//                    final int toPos = viewHolder.getAdapterPosition();
+//                    // move item in `fromPos` to `toPos` in adapter.
+                            return true;// true if moved, false otherwise
+                        }
+
+                        @Override
+                        public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                            //Remove swiped item from list and notify the RecyclerView
+
+//                            apiRequester.cancelMatching();
+                            System.out.println("씨부랄"+Teacher.getInstance().getLoginId());
+                            Log.d("스와이프 시도", String.valueOf(swipeDir));
+                            Log.d("스와이프 시도", id);
+
+                           // myDataset.remove(swipeDir);
+                            mAdapter.notifyItemRemoved(viewHolder.getLayoutPosition());
+                        }
+                    };
+                    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
                     itemTouchHelper.attachToRecyclerView(mRecyclerView);
                 }
             }
@@ -203,12 +228,5 @@ public class TeacherList extends AppCompatActivity {
 //    Student.getInstance().setName("헤이즈");
 //    myDataset.add(Student.getInstance());
 //}
-
-
-
-
-
-
-
     }
 }

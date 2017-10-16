@@ -35,27 +35,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public boolean onItemMove(int fromPosition, int toPosition) {
         if (fromPosition < 0 || fromPosition >= teacher.size() || toPosition < 0 || toPosition >= teacher.size()) {
             return false;
-
         }
-                   return true;
-
+        return true;
     }
-//
-//                String fromItem = String.valueOf(teacher.get(fromPosition));
-//                teacher.remove(fromPosition);
-//                teacher.add(toPosition, fromItem);
-//
-//                notifyItemMoved(fromPosition, toPosition);
-
-
-
             @Override
             public void onItemRemove(int position) {
                 teacher.remove(position);
                 notifyItemRemoved(position);
             }
 
-            public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView studentname;
 
         public ViewHolder(View itemView) {

@@ -32,6 +32,8 @@
             android:text="추가하기"/>
     </LinearLayout>
 
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
