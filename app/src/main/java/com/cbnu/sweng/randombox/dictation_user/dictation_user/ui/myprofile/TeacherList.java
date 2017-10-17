@@ -94,7 +94,6 @@ public class TeacherList extends AppCompatActivity{
                                 Log.d("TAG", "실패");
                             }
                         });
-
                     }
                 });
         builder.setPositiveButton("매칭 신청하기", new DialogInterface.OnClickListener() {
@@ -128,25 +127,6 @@ public class TeacherList extends AppCompatActivity{
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-//
-//    public void test()
-//    {
-//        Log.d("TEST", searchTeacherID);
-//        Log.d("TEST", id);
-//
-//        apiRequester.cancelMatching(searchTeacherID, id, new ApiRequester.UserCallback<Boolean>() {
-//            @Override
-//            public void onSuccess(Boolean result) {
-//                Log.d("TEACHER", "석섹스");
-//            }
-//            @Override
-//            public void onFail() {
-//                Log.d("TEACHER", "실패!");
-//            }
-//        });
-//
-//    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -220,17 +200,7 @@ public class TeacherList extends AppCompatActivity{
             }
             @Override
             public void onFail() {
-
             }
         });
-
-
-        /* 서버에서 선생님 이름 가져와야해 */
-//
-//for(int i=0; i<10; i++)
-//{
-//    Student.getInstance().setName("헤이즈");
-//    myDataset.add(Student.getInstance());
-//}
     }
 }

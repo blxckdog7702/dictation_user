@@ -344,14 +344,11 @@ public class CheckMyInfo extends AppCompatActivity {
         {
             myStudentId = Integer.parseInt(setting.getString("myStudentId", ""));
         }
-
         showinfo.setText(mygrade+"학년 "+myclass+"반 "+myStudentId+"번");
 
         id = setting.getString("id", "");
         Log.d("GATTT", id);
-
     }
-
     private void setStateApdapter(int state){
         ArrayAdapter<String> StateAdapter = new ArrayAdapter<String>(CheckMyInfo.this,
                 android.R.layout.simple_spinner_item,
