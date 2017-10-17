@@ -1,6 +1,8 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -31,6 +33,7 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Teacher;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.service.ItemTouchHelperCallback;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.service.ItemTouchHelperListener;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BaseActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign.SignInActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
 
@@ -40,7 +43,6 @@ import butterknife.OnClick;
 
 public class TeacherList extends AppCompatActivity{
 
-    ApiRequester apiRequester = new ApiRequester();
     SharedPreferences setting;
     SharedPreferences.Editor editor;
     List<Teacher> myDataset = new ArrayList<>();
@@ -53,6 +55,7 @@ public class TeacherList extends AppCompatActivity{
     private String name[];
     private String teachername;
     private int temp;
+    private Context context = this;
 
     private Button teachersearch; // 다이얼로그 선생님검색 버튼
     private EditText teacherLoginId; // 다이얼로그에 있는 선생님로그인아이디 란
@@ -72,7 +75,7 @@ public class TeacherList extends AppCompatActivity{
                 new Button.OnClickListener() {
                     public void onClick(View v) {
                         searchTeacherID = teacherLoginId.getText().toString();
-                        apiRequester.searchTeacherByLoginID(searchTeacherID, new ApiRequester.UserCallback<Teacher>() {
+                        ApiRequester.getInstance().searchTeacherByLoginID(searchTeacherID, new ApiRequester.UserCallback<Teacher>() {
                             @Override
                             public void onSuccess(Teacher result)
                             {
@@ -103,7 +106,7 @@ public class TeacherList extends AppCompatActivity{
                 Log.d("TEACHER", searchTeacherID);
                 Log.d("TEACHER", id);
 
-                apiRequester.applyMatching(searchTeacherID, id, new ApiRequester.UserCallback<Boolean>() {
+                ApiRequester.getInstance().applyMatching(searchTeacherID, id, new ApiRequester.UserCallback<Boolean>() {
                     @Override
                     public void onSuccess(Boolean result) {
                         Toast.makeText(getApplicationContext(), "매칭신청완료!!", Toast.LENGTH_LONG).show();
@@ -148,7 +151,7 @@ public class TeacherList extends AppCompatActivity{
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        apiRequester.getStudentsTeachers(id, new ApiRequester.UserCallback<List<Teacher>>() {
+        ApiRequester.getInstance().getStudentsTeachers(id, new ApiRequester.UserCallback<List<Teacher>>() {
             @Override
             public void onSuccess(List<Teacher> result) {
                 Log.d("받아오기성공", id);
@@ -175,22 +178,43 @@ public class TeacherList extends AppCompatActivity{
                         }
                         @Override
                         public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+
+
                             //Remove swiped item from list and notify the RecyclerView
                             final int deletedIndex = viewHolder.getAdapterPosition();
-
                             System.out.println("선생아이디"+myDataset.get(deletedIndex).getId() + "학생아이디" + id);
-                            apiRequester.unConnectedMatching(id, myDataset.get(deletedIndex).getId(), new ApiRequester.UserCallback<Boolean>() {
-                               @Override
-                               public void onSuccess(Boolean result)
-                               {
-                                   Toast.makeText(getApplicationContext(), "매칭 끊기 성공", Toast.LENGTH_LONG).show();
-                               }
 
-                               @Override
-                               public void onFail() {
-                                   Toast.makeText(getApplicationContext(), "매칭 끊기 실패", Toast.LENGTH_LONG).show();
-                               }
-                           });
+                            alertDialogBuilder
+                                    .setTitle("매칭끊기").setMessage("선생님과의 매칭을 끊으시겠습니까?")
+                                    .setPositiveButton("끊기", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton)
+                                        {
+                                            ApiRequester.getInstance().unConnectedMatching(id, myDataset.get(deletedIndex).getId(), new ApiRequester.UserCallback<Boolean>() {
+                                                   @Override
+                                                   public void onSuccess(Boolean result)
+                                                   {
+                                                       myDataset.remove(deletedIndex);
+                                                       mAdapter.notifyDataSetChanged();
+
+                                                       Toast.makeText(getApplicationContext(), "매칭 끊기 성공", Toast.LENGTH_LONG).show();
+                                                    }
+
+                                                    @Override
+                                                    public void onFail()
+                                                    {
+                                                        Toast.makeText(getApplicationContext(), "매칭 끊기 실패", Toast.LENGTH_LONG).show();
+                                                     }
+                                                });
+                                            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
+                                        }
+                                    }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    mAdapter.notifyDataSetChanged();
+
+                                }
+                            }).show();
                             //mAdapter.notifyItemRemoved(viewHolder.getLayoutPosition());
                         }
                     };
