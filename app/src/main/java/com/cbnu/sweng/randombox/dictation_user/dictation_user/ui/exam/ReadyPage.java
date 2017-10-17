@@ -5,10 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,10 +19,10 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Teacher;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.service.MyFirebaseMessagingService;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BaseActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.FcmRequester;
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,14 +46,23 @@ public class ReadyPage extends BaseActivity {
     @OnClick(R.id.btExamReady)
     void onClickBtExamReady() {
         if(isTeacherInfo){
-            if (btExamReady.getProgress() < 100) { // LOADING
-                btExamReady.setProgress(btExamReady.getProgress() + 25);
-                isReceiveKey = true;
-                subScribe(selectedTeacher.getLoginId());
-            }
-            else if (btExamReady.getProgress() == 100) { // SUCCESS
+            if(!isReceiveKey) {
+                if (btExamReady.getProgress() < 100) { // LOADING
+                    btExamReady.setProgress(btExamReady.getProgress() + 25);
+                    isReceiveKey = true;
+                    subScribe(selectedTeacher.getLoginId());
+                }
+                else if (btExamReady.getProgress() == 100) { // SUCCESS
 
+                }
             }
+            //버튼 눌림 상태일 때, 누르면 구독 해제 처리
+            else {
+                btExamReady.setProgress(0);
+                isReceiveKey = false;
+                unSubScribe(selectedTeacher.getLoginId());
+            }
+
         }
         else{
             Toast.makeText(getApplicationContext(), "선생님 정보가 올바르지 않습니다.", Toast.LENGTH_LONG).show();
@@ -153,10 +159,12 @@ public class ReadyPage extends BaseActivity {
 
     private void subScribe(String topic){
         FirebaseMessaging.getInstance().subscribeToTopic(topic);
+        FcmRequester.getInstance().notifyToTeacherSubscribe(topic, Student.getInstance(), true);
     }
 
-    private void unsubScribe(String topic){
+    private void unSubScribe(String topic){
         FirebaseMessaging.getInstance().unsubscribeFromTopic(topic);
+        FcmRequester.getInstance().notifyToTeacherSubscribe(topic, Student.getInstance(), false);
     }
 
     @Override
@@ -165,7 +173,7 @@ public class ReadyPage extends BaseActivity {
             mMenuDialogFragment.dismiss();
         } else {
             if(selectedTeacher != null){
-                unsubScribe(selectedTeacher.getLoginId());
+                unSubScribe(selectedTeacher.getLoginId());
             }
             finish();
             overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
