@@ -20,15 +20,7 @@
         android:textColor="#FFFFFF"
         android:textSize="@dimen/text_size" />
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+    <include layout="@layout/toolbar"/>
 
     <EditText
         android:id="@+id/showname"

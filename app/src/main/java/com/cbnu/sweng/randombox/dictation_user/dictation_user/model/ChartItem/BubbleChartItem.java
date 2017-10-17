@@ -52,22 +52,23 @@ public class BubbleChartItem extends ChartItem {
 
         // apply styling
         holder.chart.getDescription().setEnabled(false);
-        holder.chart.setDrawGridBackground(false);
+        //holder.chart.setDrawGridBackground(false);
         holder.chart.setTouchEnabled(true);
 
         // enable scaling and dragging
-        holder.chart.setDragEnabled(true);
+        //holder.chart.setDragEnabled(true);
         holder.chart.setScaleEnabled(true);
 
         holder.chart.setMaxVisibleValueCount(200);
-        holder.chart.setPinchZoom(true);
+        //holder.chart.setPinchZoom(true);
 
         Legend l = holder.chart.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        l.setDrawInside(false);
-        l.setTypeface(mTf);
+        l.setEnabled(false);
+//        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+//        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+//        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+//        l.setDrawInside(false);
+//        l.setTypeface(mTf);
 
         YAxis yl = holder.chart.getAxisLeft();
         yl.setTypeface(mTf);

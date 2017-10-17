@@ -8,7 +8,12 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,6 +25,7 @@ import android.widget.Toast;
 
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.SelectExamOrPractice;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BaseActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
@@ -35,12 +41,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends BaseActivity {
 
     SharedPreferences setting;
     SharedPreferences.Editor editor;
-
-    ApiRequester apiRequester = new ApiRequester();
 
     private Handler mHandler;
     private Runnable mRunnable;
@@ -71,6 +75,8 @@ public class SignUpActivity extends AppCompatActivity {
     @BindView(R.id.etStudentNameUp) EditText etStudentNameUp;
     @BindView(R.id.etTeacherNameUp) EditText etTeacherNameUp;
     @BindView(R.id.btSignUp) Button btSignUp;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+
 
 
     @OnClick(R.id.etSchoolNameUp)
@@ -103,7 +109,7 @@ public class SignUpActivity extends AppCompatActivity {
                         selectedschool = schoolname.getText().toString();
                         Log.d("TAG", selectedschool);
 
-                        apiRequester.searchSchools(strCity, strState, selectedschool, new ApiRequester.UserCallback<List<School>>() {
+                        ApiRequester.getInstance().searchSchools(strCity, strState, selectedschool, new ApiRequester.UserCallback<List<School>>() {
                             @Override
                             public void onSuccess(List<School> result)
                             {
@@ -290,7 +296,7 @@ public class SignUpActivity extends AppCompatActivity {
         myname = etStudentNameUp.getText().toString(); // 기재한 이름을 변수에 담음
         myteacher = etTeacherNameUp.getText().toString(); // 기재한 선생님ID를 변수에 담음
 
-        if(myname.isEmpty() || myschool.isEmpty() || mygrade.isEmpty())
+        if(TextUtils.isEmpty(myname) || TextUtils.isEmpty(myschool) || TextUtils.isEmpty(mygrade))
         {
             Toast.makeText(getApplicationContext(), "정보를 입력해주세요..", Toast.LENGTH_SHORT).show();
         }
@@ -301,14 +307,14 @@ public class SignUpActivity extends AppCompatActivity {
             Student.getInstance().setClass_(myclass);
             Student.getInstance().setStudentId(myStudentId);
 
-            apiRequester.checkDuplicateStudent(Student.getInstance(), new ApiRequester.UserCallback<Boolean>() {
+            ApiRequester.getInstance().checkDuplicateStudent(Student.getInstance(), new ApiRequester.UserCallback<Boolean>() {
                 @Override
                 public void onSuccess(Boolean result) {
                     if(result){
                         Toast.makeText(getApplicationContext(), "중복 되는 정보가 있습니다.", Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        if(myteacher.isEmpty()){
+                        if(TextUtils.isEmpty(myteacher)){
                             signUp();
                         }
                         else{
@@ -342,11 +348,11 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        ButterKnife.bind(this);
 
         setting = getSharedPreferences("setting", 0);
         editor= setting.edit();
 
-        ButterKnife.bind(this);
     }
 
     private void setStateApdapter(int state){
@@ -358,7 +364,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void signUp(){
-        apiRequester.signUpStudent(Student.getInstance().getStudent(), new ApiRequester.UserCallback<Student>() {
+        ApiRequester.getInstance().signUpStudent(Student.getInstance().getStudent(), new ApiRequester.UserCallback<Student>() {
             @Override
             public void onSuccess(Student result) {
                 Student.getInstance().setStudent(result);
@@ -371,6 +377,7 @@ public class SignUpActivity extends AppCompatActivity {
                         editor.putString("mygrade", mygrade);
                         editor.putString("myclass", myclass);
                         editor.putString("myStudentId", String.valueOf(myStudentId));
+                        editor.putBoolean("Auto_Login_enabled", true);
                         editor.commit();
 
                         Toast.makeText(getApplicationContext(), "회원가입이 완료 되었습니다.", Toast.LENGTH_SHORT).show();
@@ -388,5 +395,19 @@ public class SignUpActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        menu.findItem(R.id.context_menu).setVisible(false);
+        return true;
     }
 }

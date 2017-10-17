@@ -33,16 +33,6 @@
         android:textColor="#FFFFFF"
         android:textSize="@dimen/text_size" />
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
-
     <EditText
         android:id="@+id/etStudentNameIn"
         android:textColor="#333333"
@@ -51,14 +41,12 @@
         android:paddingLeft="20.0dip"
         android:layout_width="fill_parent"
         android:layout_height="48.0dip"
-        android:layout_marginLeft="20.0dip"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="14dp"
         android:layout_marginRight="20.0dip"
-        android:layout_marginBottom="2.0dip"
         android:hint="이름"
         android:imeOptions="actionNext"
         android:layout_below="@+id/toolbar"
-        android:layout_centerHorizontal="true">
+        android:layout_alignStart="@+id/etSchoolNameIn">
     <requestFocus />
     </EditText>
 

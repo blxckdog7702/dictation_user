@@ -1,6 +1,7 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.utils;
 
 import android.util.ArrayMap;
+import android.util.Log;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.GradeModel;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.PusanSpellChecker;
@@ -23,6 +24,7 @@ public class Grader {
         pusanSpellChecker = new PusanSpellChecker();
 
         for(ArrayMap<String, String> qna : qnas){
+            Log.e("asdasd : ", ""+qnas.size());
             String questionNumber = qna.get("questionNumber");
             final String question = qna.get("question");
             final String SubmittedAnswer = qna.get("SubmittedAnswer");
@@ -46,6 +48,7 @@ public class Grader {
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Log.e("Grader", e.getMessage());
                 }
 
                 score -= 10;

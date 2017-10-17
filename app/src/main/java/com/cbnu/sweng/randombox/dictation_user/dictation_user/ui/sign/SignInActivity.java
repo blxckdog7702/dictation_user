@@ -31,6 +31,7 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.School;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.SelectPracticeTypeActivity;
 
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.Util;
 import com.shawnlin.numberpicker.NumberPicker;
 
 import java.util.List;
@@ -42,11 +43,9 @@ import butterknife.OnClick;
 
 public class SignInActivity extends AppCompatActivity {
 
-    private static final String TAG = "SignInActivity";
     SharedPreferences setting;
     SharedPreferences.Editor editor;
 
-    ApiRequester apiRequester = new ApiRequester();
     private Handler mHandler;
     private Runnable mRunnable;
     private CheckBox Auto_Login;
@@ -82,15 +81,9 @@ public class SignInActivity extends AppCompatActivity {
     @OnClick(R.id.nonsignperson)
     void onClickNonSignPerson()
     {
-        setting = getSharedPreferences("setting", MODE_PRIVATE);
-        SharedPreferences.Editor editor = setting.edit();// editor가져오기
-
-        editor.clear();
-        editor.commit(); // 파일에 최종 반영
-
-
         Intent i = new Intent(SignInActivity.this, SelectExamOrPractice.class);
         startActivity(i);
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
     }
 
     @OnClick(R.id.goSignUp)
@@ -98,6 +91,7 @@ public class SignInActivity extends AppCompatActivity {
     {
         Intent t = new Intent(SignInActivity.this, SignUpActivity.class);
         startActivity(t);
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
     }
 
     @OnClick(R.id.etSchoolNameIn)
@@ -129,7 +123,7 @@ public class SignInActivity extends AppCompatActivity {
 
                         selectedschool = schoolname.getText().toString();
 
-                        apiRequester.searchSchools(strCity, strState, selectedschool, new ApiRequester.UserCallback<List<School>>() {
+                        ApiRequester.getInstance().searchSchools(strCity, strState, selectedschool, new ApiRequester.UserCallback<List<School>>() {
 
                             @Override
                             public void onSuccess(List<School> result)
@@ -307,65 +301,45 @@ public class SignInActivity extends AppCompatActivity {
     void onClickBtSignIn()
     {
         myname = etStudentNameIn.getText().toString(); // 기재한 이름을 변수에 담음
-        if(myname==null || myschool==null || mygrade==null)
-        {
+        if(myname.isEmpty()|| myschool.isEmpty() || mygrade.isEmpty()) {
             Toast.makeText(getApplicationContext(), "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
         }
-        else if(myname.length()==0 || myschool.length()==0 || mygrade.length()==0)
-        {
-            Toast.makeText(getApplicationContext(), "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
-        }
-
-        else
-        {
+        else {
             Student.getInstance().setName(myname);
             Student.getInstance().setSchool(myschool);
             Student.getInstance().setGrade(mygrade);
             Student.getInstance().setClass_(myclass);
             Student.getInstance().setStudentId(myStudentId);
 
-            apiRequester.loginStudent(Student.getInstance(), new ApiRequester.UserCallback<Student>() {
+            ApiRequester.getInstance().loginStudent(Student.getInstance(), new ApiRequester.UserCallback<Student>() {
                 @Override
                 public void onSuccess(Student result) {
                     if(result == null)
                     {
-                        Log.d(TAG, "onSuccess: 1");
                         Toast.makeText(getApplicationContext(), "정보없어", Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
-                        Log.d(TAG, "onSuccess: 2");
+                        Student.getInstance().setStudent(result);
+                        if(Auto_Login.isChecked()){
+                            editor.putBoolean("Auto_Login_enabled", true);
+                        }
+                        editor.putString("myname", Student.getInstance().getName());
+                        editor.putString("myschool", Student.getInstance().getSchool());
+                        editor.putString("mygrade", Student.getInstance().getGrade());
+                        editor.putString("myclass", Student.getInstance().getClass_());
+                        editor.putString("myStudentId", String.valueOf(myStudentId));
+                        editor.putString("id", Student.getInstance().getId());
+                        editor.commit();
 
-                        Toast.makeText(getApplicationContext(), "로그인 완료!", Toast.LENGTH_SHORT).show();
-
-                        id = result.getId();
-                        mRunnable = new Runnable() {
-                            @Override
-                            public void run() {
-
-                                editor.putString("myname", myname);
-                                editor.putString("myschool", myschool);
-                                editor.putString("mygrade", mygrade);
-                                editor.putString("myclass", myclass);
-                                editor.putString("myStudentId", String.valueOf(myStudentId));
-                                editor.putString("id", id);
-
-                                editor.commit();
-
-                                Intent e = new Intent(SignInActivity.this, SelectExamOrPractice.class);
-                                startActivity(e);
-                            }
-                        };
-                        mHandler = new Handler();
-                        mHandler.postDelayed(mRunnable, 3000);
+                        Intent e = new Intent(SignInActivity.this, SelectExamOrPractice.class);
+                        startActivity(e);
+                        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
                     }
-
                 }
                 @Override
                 public void onFail() {
-                    Log.d(TAG, "onSuccess: 3");
-
-                    Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -383,41 +357,35 @@ public class SignInActivity extends AppCompatActivity {
         setting = getSharedPreferences("setting", 0);
         editor= setting.edit();
 
-        Auto_Login.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // TODO Auto-generated method stub
-                if(isChecked){
-
-                    editor.putString("my_name", myname);
-                    editor.putString("my_school", myschool);
-                    editor.putString("my_grade", mygrade);
-                    editor.putString("my_class", myclass);
-                    editor.putString("my_StudentId", String.valueOf(myStudentId));
-                    editor.putString("id", id);
-
-
-                    editor.putBoolean("Auto_Login_enabled", true);
-                    editor.commit();
-
-                }else{
-                    editor.clear();
-                    editor.commit();
-                }
-            }
-
-        });
+        Log.e("auto_login : ", "" + setting.getBoolean("Auto_Login_enabled", false));
         if(setting.getBoolean("Auto_Login_enabled", false)){
-            etStudentNameIn.setText("");
-            etSchoolNameIn.setText("");
-            etStudentInfoIn.setText("");
-            Auto_Login.setChecked(false);
+            Student.getInstance().setName(setting.getString("myname", ""));
+            Student.getInstance().setSchool(setting.getString("myschool", ""));
+            Student.getInstance().setGrade(setting.getString("mygrade", ""));
+            Student.getInstance().setClass_(setting.getString("myclass", ""));
+            Student.getInstance().setStudentId(Integer.parseInt(setting.getString("myStudentId", "")));
 
-            Intent intent = new Intent(SignInActivity.this, SelectExamOrPractice.class);
-            startActivity(intent);
+            ApiRequester.getInstance().loginStudent(Student.getInstance(), new ApiRequester.UserCallback<Student>() {
+                @Override
+                public void onSuccess(Student result) {
+                    if(result == null)
+                    {
+                        Toast.makeText(getApplicationContext(), "사용자 정보가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Student.getInstance().setStudent(result);
+                        Util.getInstance().moveActivity(SignInActivity.this, SelectExamOrPractice.class);
+                        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
+                    }
+                }
+                @Override
+                public void onFail() {
+                    Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
-
 
     private void setStateApdapter(int state){
         ArrayAdapter<String> StateAdapter = new ArrayAdapter<String>(SignInActivity.this,

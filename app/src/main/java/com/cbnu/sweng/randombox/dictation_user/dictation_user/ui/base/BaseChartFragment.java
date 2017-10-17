@@ -36,12 +36,12 @@ public abstract class BaseChartFragment extends Fragment {
         mTfLight = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf");
     }
 
-    public LineData generateLineData(ArrayList<Integer> values) {
+    public LineData generateLineData(ArrayList<Integer> y) {
 
         ArrayList<Entry> entries = new ArrayList<>();
 
-        for (int i = 0; i < values.size(); i++) {
-            entries.add(new Entry(i, values.get(i)));
+        for (int i = 0; i < y.size(); i++) {
+            entries.add(new Entry(i, y.get(i)));
         }
 
         LineDataSet d = new LineDataSet(entries, "");
@@ -54,12 +54,12 @@ public abstract class BaseChartFragment extends Fragment {
         return cd;
     }
 
-    public BarData generateBarData(ArrayList<Integer> values) {
+    public BarData generateBarData(ArrayList<Double> y) {
 
         ArrayList<BarEntry> entries = new ArrayList<>();
 
-        for (int i = 0; i < values.size(); i++) {
-            entries.add(new BarEntry(i, values.get(i)));
+        for (int i = 0; i < y.size(); i++) {
+            entries.add(new BarEntry(i, y.get(i).intValue()));
         }
 
         BarDataSet d = new BarDataSet(entries, "");
@@ -75,7 +75,7 @@ public abstract class BaseChartFragment extends Fragment {
 
         ArrayList<PieEntry> entries = new ArrayList<>();
 
-        for (int i = 0; i < values.size(); i++) {
+        for (int i = 0; i < marker.length; i++) {
             entries.add(new PieEntry(values.get(i), marker[i]));
         }
 
@@ -98,7 +98,7 @@ public abstract class BaseChartFragment extends Fragment {
 
         ArrayList<BubbleEntry> entries = new ArrayList<>();
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < values.size(); i++) {
             float val = values.get(i);
             float size = values.get(i);
 

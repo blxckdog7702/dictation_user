@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BaseDrawerActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.Util;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuNlpSpeller;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Question;
@@ -22,7 +23,7 @@ import nl.dionsegijn.konfetti.KonfettiView;
 import nl.dionsegijn.konfetti.models.Shape;
 import nl.dionsegijn.konfetti.models.Size;
 
-public class ExamResultPage extends AppCompatActivity {
+public class ExamResultPage extends BaseDrawerActivity {
 
     QuizResult quizResult;
     ArrayList<Question> questions;

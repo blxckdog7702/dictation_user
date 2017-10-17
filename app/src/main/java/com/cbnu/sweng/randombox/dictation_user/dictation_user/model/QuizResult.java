@@ -10,7 +10,7 @@ public class QuizResult implements Serializable{
 
     @SerializedName("rank")
     @Expose
-    private Integer Rank;
+    private Integer rank;
     @SerializedName("quiz")
     @Expose
     private Quiz quiz;
@@ -28,10 +28,17 @@ public class QuizResult implements Serializable{
     private RectifyCount rectifyCount;
 
     public Integer getRank() {
-      return Rank;
+      return rank;
     }
     public void setRank(Integer rank) {
-      this.Rank = rank;
+      this.rank = rank;
+    }
+    public Quiz getQuiz() {
+        return quiz;
+    }
+
+    public void setQuiz(Quiz quiz) {
+        this.quiz = quiz;
     }
 
     public String getStudentName() {
@@ -66,11 +73,4 @@ public class QuizResult implements Serializable{
       this.rectifyCount = rectifyCount;
     }
 
-    public Quiz getQuiz() {
-        return quiz;
-    }
-
-    public void setQuiz(Quiz quiz) {
-        this.quiz = quiz;
-    }
 }

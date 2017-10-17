@@ -15,7 +15,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuErrorWord;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuErrorWordList;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizHistory;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.RectifyCount;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Teacher;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
@@ -30,6 +33,7 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuestionResu
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Quiz;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.service.MyFirebaseMessagingService;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.myscript.atk.sltw.SingleLineWidget;
 import com.myscript.atk.sltw.SingleLineWidgetApi;
 import com.myscript.atk.text.CandidateInfo;
@@ -108,9 +112,8 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
         widget.setText(mTextField.getText().toString());
         isCorrectionMode = 0;
 
-        ApiRequester apiRequester = new ApiRequester();
         try {
-            apiRequester.getTeachersQuizzes(teacher.getLoginId(), new ApiRequester.UserCallback<List<Quiz>>() {
+            ApiRequester.getInstance().getTeachersQuizzes(teacher.getId(), new ApiRequester.UserCallback<List<Quiz>>() {
                 @Override
                 public void onSuccess(List<Quiz> quizs) {
                     for(Quiz temp : quizs)
@@ -304,26 +307,26 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
 //        8. 콩쥐가 울고
 //        9. 항아리가 깨졌습니다.
 //        10. 다람쥐가 도와줍니다.
-//        SubmittedAnswers[0] = "아 버지가 방에 들어가쉰다.";
-//        SubmittedAnswers[1] = "잠을 잡니다.";
-//        SubmittedAnswers[2] = "책을";
-//        SubmittedAnswers[3] = "꼬리를 흔듬니다.";
-//        SubmittedAnswers[4] = "시소 미끄럼틀";
-//        SubmittedAnswers[5] = "노리터에서 노라요";
-//        SubmittedAnswers[6] = "다람쥐";
-//        SubmittedAnswers[7] = "다람쥐";
-//        SubmittedAnswers[8] = "다람쥐";
-//        SubmittedAnswers[9] = "다람지가 도아줌니다.";
-        SubmittedAnswers[0] = "세수를 합니다.";
+        SubmittedAnswers[0] = "아 버지가 방에 들어가쉰다.";
         SubmittedAnswers[1] = "잠을 잡니다.";
-        SubmittedAnswers[2] = "책을 읽습니다.";
-        SubmittedAnswers[3] = "꼬리를 흔듭니다.";
+        SubmittedAnswers[2] = "책을";
+        SubmittedAnswers[3] = "꼬리를 흔듬니다.";
         SubmittedAnswers[4] = "시소 미끄럼틀";
-        SubmittedAnswers[5] = "놀이터에서 놀아요.";
-        SubmittedAnswers[6] = "그네를 타요.";
-        SubmittedAnswers[7] = "콩쥐가 울고";
-        SubmittedAnswers[8] = "항아리가 깨졌습니다.";
-        SubmittedAnswers[9] = "다람쥐가 도와줍니다.";
+        SubmittedAnswers[5] = "노리터에서 노라요";
+        SubmittedAnswers[6] = "다람쥐";
+        SubmittedAnswers[7] = "다람쥐";
+        SubmittedAnswers[8] = "다람쥐";
+        SubmittedAnswers[9] = "다람지가 도아줌니다.";
+//        SubmittedAnswers[0] = "세수를 합니다.";
+//        SubmittedAnswers[1] = "잠을 잡니다.";
+//        SubmittedAnswers[2] = "책을 읽습니다.";
+//        SubmittedAnswers[3] = "꼬리를 흔듭니다.";
+//        SubmittedAnswers[4] = "시소 미끄럼틀";
+//        SubmittedAnswers[5] = "놀이터에서 놀아요.";
+//        SubmittedAnswers[6] = "그네를 타요.";
+//        SubmittedAnswers[7] = "콩쥐가 울고";
+//        SubmittedAnswers[8] = "항아리가 깨졌습니다.";
+//        SubmittedAnswers[9] = "다람쥐가 도와줍니다.";
 
         Toast.makeText(getApplicationContext(),
                 "시험이 종료되었습니다.",
@@ -341,8 +344,51 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
         Grader grader = new Grader();
         ArrayList<GradeModel> gradeModels = grader.execute(qnas);
         QuizResult quizResult = new QuizResult();
-
+        RectifyCount rectifyCount = new RectifyCount();
         for(GradeModel gradeModel : gradeModels){
+            if(gradeModel.getRectify() != null){
+                for(PnuErrorWordList pnuErrorWordList : gradeModel.getRectify().getPnuErrorWordList()){
+                    if(pnuErrorWordList.getError().getMsg().equals("PASS")){
+                        for(int i = 0; i < pnuErrorWordList.getPnuErrorWord().length; i++){
+                            if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 1){
+                                rectifyCount.setProperty1(rectifyCount.getProperty1() + 1);
+                            }
+                            else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 2){
+                                rectifyCount.setProperty2(rectifyCount.getProperty2() + 1);
+                            }
+                            else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 3){
+                                rectifyCount.setProperty3(rectifyCount.getProperty3() + 1);
+                            }
+                            else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 4){
+                                rectifyCount.setProperty4(rectifyCount.getProperty4() + 1);
+                            }
+                            else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 5){
+                                rectifyCount.setProperty5(rectifyCount.getProperty5() + 1);
+                            }
+                            else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 6){
+                                rectifyCount.setProperty6(rectifyCount.getProperty6() + 1);
+                            }
+                            else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 7){
+                                rectifyCount.setProperty7(rectifyCount.getProperty7() + 1);
+                            }
+                            else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 8){
+                                rectifyCount.setProperty8(rectifyCount.getProperty8() + 1);
+                            }
+                            else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 9){
+                                rectifyCount.setProperty9(rectifyCount.getProperty9()
+                                        + 1);
+                            }
+                            else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 10){
+                                rectifyCount.setProperty10(rectifyCount.getProperty10()
+                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                            }
+                        }
+                    }
+                    else{
+                        continue;
+                    }
+                }
+            }
             QuestionResult questionResult = new QuestionResult();
             questionResult.setCorrect(gradeModel.getCorrect());
             questionResult.setRectify(gradeModel.getRectify());
@@ -356,10 +402,10 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
         quizResult.setQuestionResult(questionResults);
         quizResult.setQuiz(quiz);
         quizResult.setStudentName(Student.getInstance().getName());
+        quizResult.setRectifyCount(rectifyCount);
 
-        ApiRequester apiRequester = new ApiRequester();
         try {
-            apiRequester.endQuiz(quizHitoryID, Student.getInstance().getStudentId().toString(),
+            ApiRequester.getInstance().endQuiz(quizHitoryID, Student.getInstance().getId(),
                                     quizResult, new ApiRequester.UserCallback<QuizHistory>(){
 
                         @Override
@@ -378,5 +424,14 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
         }
 
         Util.getInstance().moveActivity(this, ExamResultPage.class, quizResult, (ArrayList<Question>) questions);
+        unsubScribe(teacher.getLoginId());
+    }
+    private void unsubScribe(String topic){
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //종료 불가
     }
 }

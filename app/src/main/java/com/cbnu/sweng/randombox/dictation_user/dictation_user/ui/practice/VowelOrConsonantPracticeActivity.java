@@ -31,4 +31,10 @@ public class VowelOrConsonantPracticeActivity extends BasePracticeActivity {
         }
         keys = new ArrayList(words.keySet());
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+    }
 }

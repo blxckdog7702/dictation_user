@@ -1,5 +1,6 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,8 +45,9 @@ import butterknife.ButterKnife;
 
 public class BaseActivity extends AppCompatActivity implements OnMenuItemClickListener, OnMenuItemLongClickListener {
 
-    private FragmentManager fragmentManager;
-    private ContextMenuDialogFragment mMenuDialogFragment;
+    public FragmentManager fragmentManager;
+    public ContextMenuDialogFragment mMenuDialogFragment;
+    Context context = this;
 
     SharedPreferences setting;
     SharedPreferences.Editor editor;
@@ -105,10 +107,6 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
         MenuObject send = new MenuObject("내 정보 관리");
         send.setResource(R.drawable.icn_1);
 
-        MenuObject like = new MenuObject("존나 카리스마 있어");
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.icn_2);
-        like.setBitmap(b);
-
         MenuObject addFr = new MenuObject("내 선생님 관리");
         BitmapDrawable bd = new BitmapDrawable(getResources(),
                 BitmapFactory.decodeResource(getResources(), R.drawable.icn_3));
@@ -122,7 +120,6 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
 
         menuObjects.add(close);
         menuObjects.add(send);
-        menuObjects.add(like);
         menuObjects.add(addFr);
         menuObjects.add(addFav);
         menuObjects.add(block);
@@ -144,20 +141,6 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
         });
     }
 
-    protected void addFragment(Fragment fragment, boolean addToBackStack, int containerId) {
-        invalidateOptionsMenu();
-        String backStackName = fragment.getClass().getName();
-        boolean fragmentPopped = fragmentManager.popBackStackImmediate(backStackName, 0);
-        if (!fragmentPopped) {
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.add(containerId, fragment, backStackName)
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            if (addToBackStack)
-                transaction.addToBackStack(backStackName);
-            transaction.commit();
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -168,6 +151,11 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:{
+                finish();
+                overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+                return true;
+            }
             case R.id.context_menu:
                 if (fragmentManager.findFragmentByTag(ContextMenuDialogFragment.TAG) == null) {
                     mMenuDialogFragment.show(fragmentManager, ContextMenuDialogFragment.TAG);
@@ -183,10 +171,10 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
             mMenuDialogFragment.dismiss();
         } else {
             finish();
+            overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
         }
     }
 
-    //TODO 버튼별 화면 연결바람
     @Override
     public void onMenuItemClick(View clickedView, int position) {
         if(position == 0){
@@ -203,22 +191,10 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
             {
                 Intent t = new Intent(BaseActivity.this, CheckMyInfo.class);
                 startActivity(t);
+                overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
             }
         }
-        else if(position == 2){ // 존나 카리스마 있어
-            setting = getSharedPreferences("setting", MODE_PRIVATE);
-            editor = setting.edit();// editor가져오기
-
-            if(setting.getString("myStudentId", "") == null || setting.getString("myStudentId", "").trim().equals("")){
-                Toast.makeText(getApplicationContext(), "로그인을 해주세요", Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                // 이동할 액티비티 작성
-            }
-
-        }
-        else if(position == 3){ // 내 선생님 관리
+        else if(position == 2){ // 내 선생님 관리
             setting = getSharedPreferences("setting", MODE_PRIVATE);
             editor = setting.edit();// editor가져오기
 
@@ -229,10 +205,11 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
             {
                 Intent e = new Intent(BaseActivity.this, TeacherList.class);
                 startActivity(e);
+                overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
             }
 
         }
-        else if(position == 4){ // 내 성적 관리
+        else if(position == 3){ // 내 성적 관리
             setting = getSharedPreferences("setting", MODE_PRIVATE);
             editor = setting.edit();// editor가져오기
 
@@ -242,10 +219,10 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
             else
             {
                 Util.getInstance().moveActivity(this, RecordManagerActivity.class);
+                overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
             }
         }
-        else if(position == 5)
-        { // 로그아웃
+        else if(position == 4){ // 로그아웃
             new AlertDialog.Builder(this)
                     .setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?")
                     .setPositiveButton("로그아웃", new DialogInterface.OnClickListener() {
@@ -261,13 +238,12 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
 
                             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                             startActivity(i);
+                            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
                         }
-                    })
-                    .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                         }
-                    })
-                    .show();
+                    }).show();
         }
     }
 

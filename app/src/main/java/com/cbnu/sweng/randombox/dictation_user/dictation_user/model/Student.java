@@ -65,10 +65,6 @@ public class Student implements Serializable{
     @Expose
     private Integer v;
 
-    @SerializedName("teachers")
-    @Expose
-    private List<String> teachers;
-
     @SerializedName("quiz_results")
     @Expose
     private List<QuizResult> quizResults = null;
@@ -153,12 +149,4 @@ public class Student implements Serializable{
         this.quizResults = quizResults;
     }
 
-
-    public List<String> getTeachers() {
-        return teachers;
-    }
-
-    public void setTeachers(List<String> teachers) {
-        this.teachers = teachers;
-    }
 }

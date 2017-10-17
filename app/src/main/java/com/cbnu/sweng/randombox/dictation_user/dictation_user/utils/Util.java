@@ -37,6 +37,16 @@ public class Util {
         Intent intent = new Intent(context, ActivityToOpen);
         context.startActivity(intent);
     }
+    public void moveActivity(Context context, final Class<? extends Activity> ActivityToOpen, int i) {
+        Intent intent = new Intent(context, ActivityToOpen);
+        intent.putExtra("int", i);
+        context.startActivity(intent);
+    }
+    public void moveActivity(Context context, final Class<? extends Activity> ActivityToOpen, String s) {
+        Intent intent = new Intent(context, ActivityToOpen);
+        intent.putExtra("String", s);
+        context.startActivity(intent);
+    }
     public void moveActivity(Context context, final Class<? extends Activity> ActivityToOpen,
                              QuizResult quizResult, ArrayList<Question> questionsList) {
         Intent intent = new Intent(context, ActivityToOpen);
@@ -161,9 +171,11 @@ public class Util {
             return;
         }
         if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            activity.finishAffinity();
             activity.moveTaskToBack(true);
-            activity.finish();
+            //activity.finish();
             android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(0);
             toast.cancel();
         }
     }

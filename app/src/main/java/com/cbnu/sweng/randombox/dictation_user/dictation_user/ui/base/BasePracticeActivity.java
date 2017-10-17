@@ -9,6 +9,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.ArrayMap;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,7 +36,7 @@ import butterknife.OnClick;
 import me.panavtec.drawableview.DrawableView;
 import me.panavtec.drawableview.DrawableViewConfig;
 
-public abstract class BasePracticeActivity extends AppCompatActivity {
+public abstract class BasePracticeActivity extends BaseActivity {
 
     private TTSRequester mTTSRequester = null;
     private long mLastClickTime = 0;
@@ -130,33 +133,6 @@ public abstract class BasePracticeActivity extends AppCompatActivity {
         }
     }
 
-    protected void showWords(int num){
-        Integer key = keys.get(num);
-        ivWord.setImageResource(key);
-        if(words.get(key).length() == 1){
-            tvWord.setTextSize(150);
-        }
-        else if(words.get(key).length() == 3){
-            tvWord.setTextSize(130);
-        }
-        else if(words.get(key).length() == 5){
-            tvWord.setTextSize(90);
-        }
-        else if(words.get(key).length() == 7){
-            tvWord.setTextSize(100);
-        }
-        tvWord.setText(words.get(key));
-    }
-
-    protected abstract void setWords();
-
-    @Override protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base_practice);
-        ButterKnife.bind(this);
-        initUi();
-    }
-
     @Override
     public void setContentView(int layoutResID) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -165,8 +141,22 @@ public abstract class BasePracticeActivity extends AppCompatActivity {
     }
 
     protected void bindViews() {
+        super.bindViews();
         ButterKnife.bind(this);
+        setupToolbar();
         initUi();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        menu.findItem(R.id.context_menu).setVisible(false);
+        return true;
+    }
+
+    protected void setupToolbar() {
+        super.setupToolbar();
     }
 
     private void initUi() {
@@ -188,27 +178,6 @@ public abstract class BasePracticeActivity extends AppCompatActivity {
         config.setCanvasWidth(1920);
         drawableView.setConfig(config);
 
-//        previousBt.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override public void onClick(View v) {
-//                config.setStrokeWidth(config.getStrokeWidth() + 10);
-//            }
-//        });
-//        nextBt.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override public void onClick(View v) {
-//                config.setStrokeWidth(config.getStrokeWidth() - 10);
-//            }
-//        });
-//        changeColorButton.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override public void onClick(View v) { // 선 색깔 바꾸는 메소드
-//                Random random = new Random();
-//                config.setStrokeColor(
-//                        Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256)));
-//            }
-//        });
-
         undoButton.setOnClickListener(new View.OnClickListener() {
 
             @Override public void onClick(View v) {
@@ -219,4 +188,24 @@ public abstract class BasePracticeActivity extends AppCompatActivity {
         setWords();
         showWords(wordNum);
     }
+
+    protected void showWords(int num){
+        Integer key = keys.get(num);
+        ivWord.setImageResource(key);
+        if(words.get(key).length() == 1){
+            tvWord.setTextSize(150);
+        }
+        else if(words.get(key).length() == 3){
+            tvWord.setTextSize(130);
+        }
+        else if(words.get(key).length() == 5){
+            tvWord.setTextSize(90);
+        }
+        else if(words.get(key).length() == 7){
+            tvWord.setTextSize(100);
+        }
+        tvWord.setText(words.get(key));
+    }
+
+    protected abstract void setWords();
 }
