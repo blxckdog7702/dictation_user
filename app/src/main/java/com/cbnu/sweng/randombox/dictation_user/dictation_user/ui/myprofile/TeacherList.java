@@ -135,22 +135,19 @@ public class TeacherList extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_list);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        ButterKnife.bind(this);
-
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        ButterKnife.bind(this);
 
         setting = getSharedPreferences("setting", MODE_PRIVATE);
         editor= setting.edit();
         id = setting.getString("id", "");
         Log.d("학생고유아이디", id);
 
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
         ApiRequester.getInstance().getStudentsTeachers(id, new ApiRequester.UserCallback<List<Teacher>>() {
             @Override
             public void onSuccess(List<Teacher> result) {
@@ -227,4 +224,6 @@ public class TeacherList extends AppCompatActivity{
             }
         });
     }
+
+
 }
