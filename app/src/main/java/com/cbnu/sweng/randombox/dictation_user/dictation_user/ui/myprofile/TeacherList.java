@@ -191,23 +191,27 @@ public class TeacherList extends AppCompatActivity{
                     ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
                         public boolean onMove(RecyclerView recyclerView,
                                               RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-//                    final int fromPos = viewHolder.getAdapterPosition();
-//                    final int toPos = viewHolder.getAdapterPosition();
-//                    // move item in `fromPos` to `toPos` in adapter.
-                            return true;// true if moved, false otherwise
+                            return true;
                         }
-
                         @Override
                         public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                             //Remove swiped item from list and notify the RecyclerView
+                            final int deletedIndex = viewHolder.getAdapterPosition();
 
-//                            apiRequester.cancelMatching();
-                            System.out.println("씨부랄"+Teacher.getInstance().getLoginId());
-                            Log.d("스와이프 시도", String.valueOf(swipeDir));
-                            Log.d("스와이프 시도", id);
+                            System.out.println("선생아이디"+myDataset.get(deletedIndex).getId() + "학생아이디" + id);
+                            apiRequester.unConnectedMatching(id, myDataset.get(deletedIndex).getId(), new ApiRequester.UserCallback<Boolean>() {
+                               @Override
+                               public void onSuccess(Boolean result)
+                               {
+                                   Toast.makeText(getApplicationContext(), "매칭 끊기 성공", Toast.LENGTH_LONG).show();
+                               }
 
-                           // myDataset.remove(swipeDir);
-                            mAdapter.notifyItemRemoved(viewHolder.getLayoutPosition());
+                               @Override
+                               public void onFail() {
+                                   Toast.makeText(getApplicationContext(), "매칭 끊기 실패", Toast.LENGTH_LONG).show();
+                               }
+                           });
+                            //mAdapter.notifyItemRemoved(viewHolder.getLayoutPosition());
                         }
                     };
                     ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
