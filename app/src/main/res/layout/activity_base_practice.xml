@@ -109,23 +109,30 @@
 
                 </LinearLayout>
 
-                <me.panavtec.drawableview.DrawableView
-                    android:id="@+id/paintView"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="#FFFFFF"/>
+                    android:layout_height="match_parent">
 
-                <at.markushi.ui.CircleButton
-                    android:id="@+id/circleButton"
-                    android:layout_width="88dp"
-                    android:layout_height="67dp"
-                    android:layout_weight="1"
-                    android:onClick="readSentenceClick"
-                    android:src="@drawable/ic_volume_up_black_24dp"
-                    app:cb_color="@color/colorAccent"
-                    app:cb_pressedRingWidth="8dip"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent" />
+                    <me.panavtec.drawableview.DrawableView
+                        android:id="@+id/paintView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#FFFFFF" />
+
+                    <at.markushi.ui.CircleButton
+                        android:id="@+id/circleButton"
+                        android:layout_width="88dp"
+                        android:layout_height="67dp"
+                        android:layout_weight="1"
+                        android:onClick="readSentenceClick"
+                        android:src="@drawable/ic_volume_up_black_24dp"
+                        app:cb_color="@color/colorAccent"
+                        app:cb_pressedRingWidth="8dip"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true" />
+                </RelativeLayout>
 
             </LinearLayout>
 
