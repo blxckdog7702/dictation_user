@@ -43,19 +43,7 @@
                     android:src="@drawable/phone1"
                     android:visibility="invisible"/>
 
-                <ImageView
-                    android:id="@+id/ivTeacherPhone"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_below="@+id/ivStudentPhone"
-                    android:layout_marginBottom="60dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_toStartOf="@+id/ivStudentPhone"
-                    android:src="@drawable/phone2"
-                    android:visibility="invisible"/>
-
                 <LinearLayout
-                    android:id="@+id/llhideContent"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -80,6 +68,15 @@
                                 android:visibility="invisible"
                                 app:civ_border_color="#FFFFFFFF"
                                 app:civ_border_width="3dp"/>
+
+                            <ImageView
+                                android:id="@+id/ivTeacherPhone"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:layout_alignTop="@+id/ivTeacher"
+                                android:layout_toEndOf="@+id/ivTeacher"
+                                android:src="@drawable/phone2"
+                                android:visibility="invisible" />
                         </RelativeLayout>
 
                         <LinearLayout
@@ -140,7 +137,8 @@
                                 android:layout_centerInParent="true"
                                 android:src="@drawable/profile1"
                                 app:civ_border_color="#FFFFFFFF"
-                                app:civ_border_width="3dp"/>
+                                app:civ_border_width="3dp"
+                                android:visibility="invisible"/>
                         </RelativeLayout>
 
                         <LinearLayout
@@ -222,7 +220,8 @@
                 android:id="@+id/rvReady"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="vertical"/>
+                android:scrollbars="vertical"
+                android:layout_marginTop="15dp"/>
         </LinearLayout>
     </LinearLayout>
 

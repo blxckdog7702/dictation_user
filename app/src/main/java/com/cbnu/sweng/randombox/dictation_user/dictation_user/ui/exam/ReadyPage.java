@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -72,7 +73,7 @@ public class ReadyPage extends BaseActivity {
     @OnClick(R.id.btExamReady)
     void btExamReady() {
         if(isCancle){
-            animatorSet.cancel();
+            rbRippleBackground.stopRippleAnimation();
             unSubScribe(selectedTeacher.getLoginId());
             isCancle = false;
             btExamReady.setText("준비하기");
@@ -130,6 +131,9 @@ public class ReadyPage extends BaseActivity {
                             ivTeacher.setVisibility(View.VISIBLE);
                             isTeacherInfo = true;
                         }
+                        else{
+                            TastyToast.makeText(getApplicationContext(), "취소해야 선택할 수 있습니다.", TastyToast.LENGTH_SHORT, TastyToast.INFO);
+                        }
                     }
 
                     @Override
@@ -177,23 +181,22 @@ public class ReadyPage extends BaseActivity {
         tvStudentInfo.setText(Student.getInstance().getGrade() + "학년 "
                                     + Student.getInstance().getClass_() + "반 "
                                     + Student.getInstance().getStudentId() + "번");
+        ivStudent.setVisibility(View.VISIBLE);
     }
 
     private BroadcastReceiver myReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            ivTeacherPhone.setVisibility(View.VISIBLE);
-
-            String historyId = intent.getStringExtra("quizHistoryId");
-            String quizNumber = intent.getStringExtra("quizNumber");
-
             if(isReceiveKey){
+                String historyId = intent.getStringExtra("quizHistoryId");
+                String quizNumber = intent.getStringExtra("quizNumber");
+                ivTeacherPhone.setVisibility(View.VISIBLE);
+                rbRippleBackground.stopRippleAnimation();
                 Intent intent2 = new Intent(ReadyPage.this, ExamPage.class);
                 intent2.putExtra("quizHistoryId", historyId);
                 intent2.putExtra("quizNumber", quizNumber);
                 intent2.putExtra("Teacher", selectedTeacher);
                 startActivity(intent2);
-                animatorSet.end();
             }
         }
     };

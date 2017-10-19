@@ -1,102 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
-
-    <LinearLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#808080"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:text="받아쓰기"
-            android:textColor="#ffffff"
-            android:textSize="20sp" />
-
-    </LinearLayout>
+    android:layout_height="match_parent"
+    android:background="@drawable/exampage"
+    android:orientation="vertical">
 
     <com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.CustomEditText
         android:id="@+id/textField"
-        android:text="@string/input_text"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:gravity="top"
-        android:padding="8dp"
-        android:textSize="20sp"
-        android:textColor="#000000"
-        android:background="#e0e0e0"
-        android:lines="@integer/text_field_lines"
-        android:layout_below="@+id/header"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="5dp"
+        android:textSize="25sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:lines="@integer/text_field_lines"/>
 
     <LinearLayout
         android:id="@+id/buttons"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#808080"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <Button
-            android:id="@+id/button4"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onSpaceButtonClick"
-            android:text="띄어쓰기"
-            android:textColor="#000000"
-            android:textSize="20sp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:onClick="onSpaceButtonClick"
+                android:background="@drawable/space"
+                android:layout_marginTop="10dp"/>
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onDeleteButtonClick"
-            android:text="지우기"
-            android:textColor="#000000"
-            android:textSize="20sp" />
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:onClick="onDeleteButtonClick"
+                android:background="@drawable/erase"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/button5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:onClick="onCheckButtonClick"
-            android:text="test"
-            android:textColor="#000000"
-            android:textSize="20sp" />
+        <com.myscript.atk.sltw.SingleLineWidget
+            android:id="@+id/widget"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="50dp"/>
 
     </LinearLayout>
 
-    <com.myscript.atk.sltw.SingleLineWidget
-        android:id="@+id/widget"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#f0f0f0"
-        android:layout_below="@+id/textField"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/buttons" />
-
-    <GridView
-        android:id="@+id/candidatePanel"
-        android:layout_above="@id/buttons"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:numColumns="5"
-        android:background="#808080"
-        android:visibility="gone"
-        />
-
-</RelativeLayout>
+</LinearLayout>

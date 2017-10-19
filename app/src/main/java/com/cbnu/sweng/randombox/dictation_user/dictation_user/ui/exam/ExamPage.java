@@ -38,6 +38,7 @@ import com.myscript.atk.sltw.SingleLineWidget;
 import com.myscript.atk.sltw.SingleLineWidgetApi;
 import com.myscript.atk.text.CandidateInfo;
 import com.myscript.certificate.MyCertificate;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -252,9 +253,7 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
         SubmittedAnswers[(questionNumber++) - 1] = SubmittedAnswer;
 
         widget.clear();
-        Toast.makeText(getApplicationContext(),
-                Integer.toString(questionNumber) + "번 문제입니다.",
-                Toast.LENGTH_SHORT).show();
+        TastyToast.makeText(getApplicationContext(), Integer.toString(questionNumber) + "번 문제입니다.", TastyToast.LENGTH_SHORT, TastyToast.DEFAULT);
 
         if(!TextUtils.isEmpty(SubmittedAnswers[questionNumber - 1])){
             mTextField.postDelayed(new Runnable()
@@ -275,9 +274,7 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
         SubmittedAnswers[(questionNumber--) - 1] = SubmittedAnswer;
 
         widget.clear();
-        Toast.makeText(getApplicationContext(),
-                Integer.toString(questionNumber) + "번 문제입니다.",
-                Toast.LENGTH_SHORT).show();
+        TastyToast.makeText(getApplicationContext(), Integer.toString(questionNumber) + "번 문제입니다.", TastyToast.LENGTH_SHORT, TastyToast.DEFAULT);
 
         if(!TextUtils.isEmpty(SubmittedAnswers[questionNumber - 1])){
             mTextField.postDelayed(new Runnable()
@@ -328,9 +325,7 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
 //        SubmittedAnswers[8] = "항아리가 깨졌습니다.";
 //        SubmittedAnswers[9] = "다람쥐가 도와줍니다.";
 
-        Toast.makeText(getApplicationContext(),
-                "시험이 종료되었습니다.",
-                Toast.LENGTH_SHORT).show();
+        TastyToast.makeText(getApplicationContext(), "시험이 종료되었습니다.", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
 
         for(int i=0; i<10; i++) {
             ArrayMap<String, String> qna = new ArrayMap<>();
@@ -410,12 +405,12 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
 
                         @Override
                         public void onSuccess(QuizHistory result) {
-                            Log.v("ExamPage", "Send data to server");
+                            Log.v("exampage", "Send data to server");
                         }
 
                         @Override
                         public void onFail() {
-                            Log.e("ExamPage", "Server Error!");
+                            Log.e("exampage", "Server Error!");
                         }
                     });
 
@@ -425,6 +420,7 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
 
         Util.getInstance().moveActivity(this, ExamResultPage.class, quizResult, (ArrayList<Question>) questions);
         unsubScribe(teacher.getLoginId());
+        this.finishAffinity();
     }
     private void unsubScribe(String topic){
         FirebaseMessaging.getInstance().unsubscribeFromTopic(topic);
