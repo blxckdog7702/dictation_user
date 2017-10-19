@@ -32,7 +32,7 @@ public class ReadyAdapter extends RecyclerView.Adapter<ReadyAdapter.ReadyViewHol
     @Override
     public ReadyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater mInflater = LayoutInflater.from(parent.getContext());
-        ViewGroup v = (ViewGroup) mInflater.inflate(R.layout.item_record, parent, false);
+        ViewGroup v = (ViewGroup) mInflater.inflate(R.layout.item_ready, parent, false);
         return new ReadyViewHolder(v);
     }
 
