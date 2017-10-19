@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +30,8 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BaseActivi
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.CircleTransformation;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.RecyclerItemClickListener;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.FcmRequester;
+import com.dd.processbutton.iml.ActionProcessButton;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.sdsmdg.tastytoast.TastyToast;
@@ -172,10 +175,12 @@ public class ReadyPage extends BaseActivity {
 
     private void subScribe(String topic){
         FirebaseMessaging.getInstance().subscribeToTopic(topic);
+        FcmRequester.getInstance().notifyToTeacherSubscribe(topic, Student.getInstance(), true);
     }
 
-    private void unsubScribe(String topic){
+    private void unSubScribe(String topic){
         FirebaseMessaging.getInstance().unsubscribeFromTopic(topic);
+        FcmRequester.getInstance().notifyToTeacherSubscribe(topic, Student.getInstance(), false);
     }
 
     @Override
@@ -184,7 +189,7 @@ public class ReadyPage extends BaseActivity {
             mMenuDialogFragment.dismiss();
         } else {
             if(selectedTeacher != null){
-                unsubScribe(selectedTeacher.getLoginId());
+                unSubScribe(selectedTeacher.getLoginId());
             }
             finish();
             overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);

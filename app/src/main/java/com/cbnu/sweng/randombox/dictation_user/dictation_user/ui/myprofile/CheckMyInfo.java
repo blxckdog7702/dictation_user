@@ -62,7 +62,7 @@ public class CheckMyInfo extends BaseActivity {
     private EditText schoolname; // 다이얼로그에 있는 학교이름 란
     private String selectedschool; // 학교검색 API 로 넘어가는 학교 값
     private String name[];
-    int temp;
+    private int temp;
 
     Spinner spState;
     Spinner spCity;

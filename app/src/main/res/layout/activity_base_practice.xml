@@ -109,11 +109,15 @@
 
                 </LinearLayout>
 
-                <me.panavtec.drawableview.DrawableView
-                    android:id="@+id/paintView"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="#FFFFFF" />
+                    android:layout_height="match_parent">
+
+                    <me.panavtec.drawableview.DrawableView
+                        android:id="@+id/paintView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#FFFFFF" />
 
                 <at.markushi.ui.CircleButton
                     android:id="@+id/circleButton"
