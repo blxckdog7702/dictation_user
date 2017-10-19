@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign.SignUpActivity"
-    android:background="#DDDDDD">
+    android:background="@drawable/signin">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000">
 
     <include layout="@layout/toolbar"/>
 
     <EditText
         android:id="@+id/etStudentNameUp"
-        android:textColor="#333333"
-        android:textColorHint="#aaaaaa"
-        android:background="#ffffffff"
+        android:textColor="#FFFFFF"
+        android:textColorHighlight="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:background="@drawable/signedittext"
         android:paddingLeft="20.0dip"
         android:layout_width="fill_parent"
         android:layout_height="48.0dip"
@@ -21,88 +25,91 @@
         android:layout_marginTop="16dp"
         android:layout_marginRight="20.0dip"
         android:layout_marginBottom="2.0dip"
-        android:hint="이름"
+        android:hint="이  름"
         android:imeOptions="actionNext"
-        android:layout_below="@+id/toolbar"
-        android:layout_centerHorizontal="true">
-        <requestFocus />
-    </EditText>
-
-    <EditText
-        android:id="@+id/etTeacherNameUp"
-        android:layout_width="fill_parent"
-        android:layout_height="48.0dip"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/etStudentInfoUp"
-        android:layout_marginLeft="20.0dip"
-        android:layout_marginRight="20.0dip"
-        android:background="#ffffffff"
-        android:hint="선생님ID"
-        android:imeOptions="actionNext"
-        android:paddingLeft="20.0dip"
-        android:textColor="#333333"
-        android:textColorHint="#aaaaaa">
-
+        android:layout_above="@+id/etSchoolNameUp"
+        android:layout_centerHorizontal="true"
+        android:drawableLeft="@drawable/ic_user"
+        android:drawablePadding="10dp">
         <requestFocus />
     </EditText>
 
     <EditText
         android:id="@+id/etSchoolNameUp"
-        android:textColor="#333333"
-        android:textColorHint="#aaaaaa"
-        android:background="#ffffff"
+        android:textColor="#FFFFFF"
+        android:textColorHighlight="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:background="@drawable/signedittext"
         android:paddingLeft="20.0dip"
         android:layout_width="fill_parent"
         android:layout_height="48.0dip"
-        android:layout_marginLeft="20.0dip"
+        android:layout_marginTop="10.0dip"
         android:layout_marginRight="20.0dip"
-        android:layout_marginBottom="2.0dip"
-        android:hint="학교"
-        android:layout_below="@id/etStudentNameUp"
-        android:layout_centerHorizontal="true"
+        android:hint="학  교"
         android:imeOptions="actionDone"
-        android:focusable="false"/>
+        android:focusable="false"
+        android:drawableLeft="@drawable/ic_school"
+        android:drawablePadding="10dp"
+        android:layout_above="@+id/etStudentInfoUp"
+        android:layout_alignStart="@+id/etStudentNameUp" />
 
     <EditText
         android:id="@+id/etStudentInfoUp"
-        android:textColor="#333333"
-        android:textColorHint="#aaaaaa"
-        android:background="#ffffff"
+        android:textColor="#FFFFFF"
+        android:textColorHighlight="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:background="@drawable/signedittext"
         android:paddingLeft="20.0dip"
         android:layout_width="fill_parent"
         android:layout_height="48.0dip"
+        android:layout_marginTop="10.0dip"
         android:layout_marginLeft="20.0dip"
         android:layout_marginRight="20.0dip"
-        android:layout_marginBottom="2.0dip"
-        android:hint="학년 / 반 / 출석번호"
-        android:layout_below="@id/etSchoolNameUp"
+        android:hint="학년 | 반 | 출석번호"
+        android:layout_above="@+id/etTeacherNameUp"
         android:layout_centerHorizontal="true"
         android:imeOptions="actionDone"
-        android:focusable="false"/>
+        android:focusable="false"
+        android:drawableLeft="@drawable/ic_info"
+        android:drawablePadding="10dp"/>
 
-    <LinearLayout
-        android:id="@+id/layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginLeft="20.0dip"
-        android:layout_below="@id/etStudentInfoUp">
-
-    </LinearLayout>
+        <EditText
+            android:id="@+id/etTeacherNameUp"
+            android:layout_width="fill_parent"
+            android:layout_height="48.0dip"
+            android:layout_marginTop="10.0dip"
+            android:layout_marginLeft="20.0dip"
+            android:layout_marginRight="20.0dip"
+            android:background="@drawable/signedittext"
+            android:hint="선생님 아이디"
+            android:imeOptions="actionNext"
+            android:paddingLeft="20.0dip"
+            android:textColor="#FFFFFF"
+            android:textColorHighlight="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:drawableLeft="@drawable/ic_teacher"
+            android:drawablePadding="10dp"
+            android:layout_above="@+id/btSignUp"
+            android:layout_alignStart="@+id/layout">
+            <requestFocus />
+        </EditText>
 
     <Button
         android:id="@+id/btSignUp"
         android:textSize="@dimen/text_size"
         android:textColor="#FFFFFF"
-        android:background="@drawable/border_sign"
+        android:background="@drawable/signbutton"
         android:layout_width="fill_parent"
         android:layout_height="40.0dip"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="10.0dip"
         android:layout_marginLeft="20.0dip"
         android:layout_marginRight="20.0dip"
+        android:layout_marginBottom="60.0dip"
         android:text="가입하기"
-        android:layout_below="@+id/layout"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
 
-</RelativeLayout>
+        </RelativeLayout>
+
+</LinearLayout>
 

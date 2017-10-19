@@ -5,23 +5,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.SelectExamOrPractice;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
@@ -29,9 +27,9 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.School;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.SelectPracticeTypeActivity;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.Util;
+import com.sdsmdg.tastytoast.TastyToast;
 import com.shawnlin.numberpicker.NumberPicker;
 
 import java.util.List;
@@ -40,18 +38,13 @@ import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class SignInActivity extends AppCompatActivity {
 
     SharedPreferences setting;
     SharedPreferences.Editor editor;
 
-    private Handler mHandler;
-    private Runnable mRunnable;
-    private CheckBox Auto_Login;
-
-    private Button schoolsearch; // 다이얼로그 학교검색 버튼
-    private EditText schoolname; // 다이얼로그에 있는 학교이름 란
     private String selectedschool; // 학교검색 API 로 넘어가는 학교 값
     private int temp;
 
@@ -64,21 +57,20 @@ public class SignInActivity extends AppCompatActivity {
     private int myStudentId; // 번호
 
     private String id;
+    Spinner spState = null;
 
     private String name[];
+    private SweetAlertDialog pDialog;
 
-    Spinner spState;
-    Spinner spCity;
-    @BindArray(R.array.strArrayCity)
-    String [] strArrayCity;
+    @BindArray(R.array.strArrayCity) String [] strArrayCity;
     @BindView(R.id.etSchoolNameIn) EditText etSchoolNameIn;
     @BindView(R.id.etStudentInfoIn) EditText etStudentInfoIn;
     @BindView(R.id.etStudentNameIn) EditText etStudentNameIn;
-    @BindView(R.id.goSignUp) TextView goSignUp;
+    @BindView(R.id.goSignUp) Button goSignUp;
     @BindView(R.id.btSignIn) Button btSignIn;
-    @BindView(R.id.nonsignperson) Button nonsignperson;
+    @BindView(R.id.btNonsignperson) TextView nonsignperson;
 
-    @OnClick(R.id.nonsignperson)
+    @OnClick(R.id.btNonsignperson)
     void onClickNonSignPerson()
     {
         Intent i = new Intent(SignInActivity.this, SelectExamOrPractice.class);
@@ -91,21 +83,59 @@ public class SignInActivity extends AppCompatActivity {
     {
         Intent t = new Intent(SignInActivity.this, SignUpActivity.class);
         startActivity(t);
-        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
+        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
     }
 
     @OnClick(R.id.etSchoolNameIn)
     void onClickEtSchoolNameIn(){
-        View mView = getLayoutInflater().inflate(R.layout.dialog_select_school_name, null);
-        spCity = ButterKnife.findById(mView, R.id.spCity);
-        spState = ButterKnife.findById(mView, R.id.spState);
-        schoolsearch = ButterKnife.findById(mView, R.id.btSearchShool);
-        schoolname = ButterKnife.findById(mView, R.id.etSchoolName);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-        builder.setTitle("학교를 검색합니다.");
+        final Spinner spCity = new Spinner(this);
+        spState = new Spinner(this);
 
-        schoolsearch.setOnClickListener( // 검색하기 버튼 누르는 부분
+        final Button btSearchShool = new Button(this);
+        btSearchShool.setBackground(this.getResources().getDrawable(R.drawable.ic_search));
+        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
+        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
+        btSearchShool.setLayoutParams(new LinearLayout.LayoutParams(width, height));
+
+        final EditText etSchoolName = new EditText(this);
+        etSchoolName.setHint("학교명을 입력해주세요.      ");
+        etSchoolName.setHintTextColor(Color.rgb(255,158,27));
+        etSchoolName.setTextColor(Color.rgb(255,158,27));
+        etSchoolName.setTextSize(16);
+        etSchoolName.setMaxLines(12);
+
+        LinearLayout l1 = new LinearLayout(getApplicationContext());
+        l1.setOrientation(LinearLayout.VERTICAL);
+
+        LinearLayout l2 = new LinearLayout(getApplicationContext());
+        l2.setOrientation(LinearLayout.HORIZONTAL);
+        l2.addView(spCity);
+        l2.addView(spState);
+
+        LinearLayout l3 = new LinearLayout(getApplicationContext());
+        l3.setOrientation(LinearLayout.HORIZONTAL);
+        l3.addView(etSchoolName);
+        l3.addView(btSearchShool);
+
+        l1.addView(l2);
+        l1.addView(l3);
+
+        pDialog = new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE);
+        pDialog.setCustomView(l1);
+        pDialog.setCancelText("취소");
+        pDialog.setConfirmText("확인");
+        pDialog.showCancelButton(true);
+        pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sDialog) {
+                etSchoolNameIn.setText(myschool);
+                sDialog.dismiss();
+            }
+        });
+        pDialog.show();
+
+        btSearchShool.setOnClickListener( // 검색하기 버튼 누르는 부분
                 new Button.OnClickListener() {
                     public void onClick(View v) {
 
@@ -121,26 +151,22 @@ public class SignInActivity extends AppCompatActivity {
                             strState = null;
                         }
 
-                        selectedschool = schoolname.getText().toString();
+                        selectedschool = etSchoolName.getText().toString();
 
                         ApiRequester.getInstance().searchSchools(strCity, strState, selectedschool, new ApiRequester.UserCallback<List<School>>() {
-
                             @Override
                             public void onSuccess(List<School> result)
                             {
-                                if(result==null)
-                                {
-                                    Toast.makeText(getApplicationContext(), "지역을 다시 입력해주세요", Toast.LENGTH_LONG).show();
+                                if(result==null) {
+                                    TastyToast.makeText(getApplicationContext(), "해당 학교가 없습니다.", TastyToast.LENGTH_SHORT, TastyToast.CONFUSING);
                                 }
                                 else
                                 {
                                     int size = result.size();
                                     name = new String[size];
                                     int i = -1;
-
                                     for(School school : result){
                                         i++;
-                                        System.out.println(school.getName());
                                         name[i] = school.getName();
                                     }
 
@@ -149,10 +175,7 @@ public class SignInActivity extends AppCompatActivity {
                                     builder3.setTitle("학교를 선택해 주세요.")
                                             .setPositiveButton("선택완료", new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    Toast.makeText(getApplicationContext(),
-                                                            name[temp] + "를 선택했습니다.",
-                                                            Toast.LENGTH_SHORT).show();
-                                                    schoolname.setText(name[temp]);
+                                                    etSchoolName.setText(name[temp]);
                                                     myschool = name[temp];
                                                 }
                                             })
@@ -171,28 +194,12 @@ public class SignInActivity extends AppCompatActivity {
                                 }
                             }
                             @Override
-                            public void onFail()
-                            {
-                                Log.d("TAG", "실패");
+                            public void onFail() {
+
                             }
                         });
                     }
                 });
-
-        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which){
-                etSchoolNameIn.setText(myschool);
-            }
-        });
-        builder.setNegativeButton("취소",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // negative button logic
-                    }
-                });
-        builder.setView(mView);
 
         ArrayAdapter<String> cityAdapter = new ArrayAdapter<String>(SignInActivity.this,
                 android.R.layout.simple_spinner_item,
@@ -260,8 +267,6 @@ public class SignInActivity extends AppCompatActivity {
                 // onNothingSelected logic
             }
         });
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
     @OnClick(R.id.etStudentInfoIn)
     void onClickEtStudentInfoUp(){
@@ -271,7 +276,6 @@ public class SignInActivity extends AppCompatActivity {
         final NumberPicker npAttendenceNum = ButterKnife.findById(mView, R.id.npAttendenceNum);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-        builder.setTitle("학년 / 반 / 이름을 선택해주세요.");
         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which){
@@ -302,7 +306,7 @@ public class SignInActivity extends AppCompatActivity {
     {
         myname = etStudentNameIn.getText().toString(); // 기재한 이름을 변수에 담음
         if(myname.isEmpty()|| myschool.isEmpty() || mygrade.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
+            TastyToast.makeText(getApplicationContext(), "정보를 전부 입력해주세요.", TastyToast.LENGTH_SHORT, TastyToast.CONFUSING);
         }
         else {
             Student.getInstance().setName(myname);
@@ -316,12 +320,12 @@ public class SignInActivity extends AppCompatActivity {
                 public void onSuccess(Student result) {
                     if(result == null)
                     {
-                        Toast.makeText(getApplicationContext(), "정보없어", Toast.LENGTH_SHORT).show();
+                        TastyToast.makeText(getApplicationContext(), "일치하는 정보가 존재하지 않습니다.", TastyToast.LENGTH_SHORT, TastyToast.CONFUSING);
                     }
                     else
                     {
                         Student.getInstance().setStudent(result);
-                        if(Auto_Login.isChecked()){
+                        if(true){
                             editor.putBoolean("Auto_Login_enabled", true);
                         }
                         editor.putString("myname", Student.getInstance().getName());
@@ -339,7 +343,6 @@ public class SignInActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onFail() {
-                    Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -350,8 +353,6 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
-
-        Auto_Login = (CheckBox) findViewById(R.id.cbAutoLogin);
         goSignUp.setPaintFlags(goSignUp.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         setting = getSharedPreferences("setting", 0);
@@ -370,7 +371,7 @@ public class SignInActivity extends AppCompatActivity {
                 public void onSuccess(Student result) {
                     if(result == null)
                     {
-                        Toast.makeText(getApplicationContext(), "사용자 정보가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                        TastyToast.makeText(getApplicationContext(), "사용자 정보가 존재하지 않습니다.", TastyToast.LENGTH_SHORT, TastyToast.CONFUSING);
                     }
                     else
                     {
@@ -381,7 +382,6 @@ public class SignInActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onFail() {
-                    Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT).show();
                 }
             });
         }

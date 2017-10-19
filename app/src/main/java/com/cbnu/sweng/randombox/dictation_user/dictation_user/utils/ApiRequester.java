@@ -1,12 +1,12 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.utils;
 
-import android.util.Log;
-
+import android.app.ProgressDialog;
 import android.util.Log;
 
 import java.io.IOException;
 import java.util.List;
 
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.MyApplication;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.EndedQuiz;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Quiz;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizHistory;
@@ -16,6 +16,8 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Teacher;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.service.DictationServerApi;
 import com.google.gson.*;
+import com.sdsmdg.tastytoast.TastyToast;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,9 +62,11 @@ public class ApiRequester {
 				System.out.println(response.message());
 				if( status == 404 ){
 					callback.onSuccess(null);
+					TastyToast.makeText(new MyApplication().getAppContext(), "해당 정보가 존재하지 않습니다.", TastyToast.LENGTH_SHORT, TastyToast.INFO);
 				}
 				else {
 					System.out.println("서버 실패");
+					TastyToast.makeText(new MyApplication().getAppContext(), "서버연결이 되지 않습니다. 문의바랍니다.", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
 					callback.onFail();
 				}
 			}
@@ -70,8 +74,8 @@ public class ApiRequester {
 		@Override
 		public void onFailure(Call<T> call, Throwable t) {
 			// TODO Auto-generated method stub
-
 			System.out.println(t.getMessage());
+			TastyToast.makeText(new MyApplication().getAppContext(), "서버연결이 되지 않습니다. 문의바랍니다.", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
 			callback.onFail();
 		}
 	}
@@ -103,10 +107,12 @@ public class ApiRequester {
 				int status = response.code();
 				System.out.println(response.message());
 				if( status == 404 ){
+					TastyToast.makeText(new MyApplication().getAppContext(), "해당 정보가 존재하지 않습니다.", TastyToast.LENGTH_SHORT, TastyToast.INFO);
 					callback.onSuccess(false);
 				}
 				else {
 					System.out.println("서버 실패");
+					TastyToast.makeText(new MyApplication().getAppContext(), "서버연결이 되지 않습니다. 문의바랍니다.", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
 					callback.onFail();
 				}
 			}
@@ -115,6 +121,7 @@ public class ApiRequester {
 		public void onFailure(Call<okhttp3.ResponseBody> call, Throwable t) {
 			// TODO Auto-generated method stub
 			System.out.println(t.getMessage());
+			TastyToast.makeText(new MyApplication().getAppContext(), "서버연결이 되지 않습니다. 문의바랍니다.", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
 			callback.onFail();
 		}
 	}

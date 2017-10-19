@@ -1,73 +1,100 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.exam;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ActivityInfo;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Handler;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.adapter.ReadyAdapter;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.adapter.RecordAdapter;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Teacher;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.service.MyFirebaseMessagingService;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BaseActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
-import com.dd.processbutton.iml.ActionProcessButton;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.CircleTransformation;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.RecyclerItemClickListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
+import com.sdsmdg.tastytoast.TastyToast;
+import com.skyfishjy.library.RippleBackground;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ReadyPage extends BaseActivity {
 
+    private Handler handler = new Handler();
     private Boolean isReceiveKey = false;
     private Boolean isTeacherInfo = false;
+    private Boolean isCancle = false;
     private ArrayList<Teacher> teachers;
     private Teacher selectedTeacher = null;
+    private AnimatorSet animatorSet;
+    private ReadyAdapter readyAdapter;
     @BindView(R.id.tvTeacherSchoolName) TextView tvTeacherSchoolName;
     @BindView(R.id.tvTeacherName) TextView tvTeacherName;
-    @BindView(R.id.btExamReady) ActionProcessButton btExamReady;
-    @BindView(R.id.spTeacherId) Spinner spTeacherId;
+    @BindView(R.id.ivStudentPhone) ImageView ivStudentPhone;
+    @BindView(R.id.ivTeacherPhone) ImageView ivTeacherPhone;
+    @BindView(R.id.rbRippleBackground) RippleBackground rbRippleBackground;
+    @BindDimen(R.dimen.global_menu_avatar_size) int avatarSize;
+    @BindView(R.id.rvReady) RecyclerView rvReady;
+    @BindView(R.id.ivTeacher) CircleImageView ivTeacher;
+    @BindView(R.id.ivStudent) CircleImageView ivStudent;
+
+
 
     @OnClick(R.id.btExamReady)
-    void onClickBtExamReady() {
-        if(isTeacherInfo){
-            if (btExamReady.getProgress() < 100) { // LOADING
-                btExamReady.setProgress(btExamReady.getProgress() + 25);
-                isReceiveKey = true;
-                subScribe(selectedTeacher.getLoginId());
-            }
-            else if (btExamReady.getProgress() == 100) { // SUCCESS
-
-            }
+    void btExamReady() {
+        if(isCancle){
+            //animatorSet.cancle();
+            unsubScribe(selectedTeacher.getLoginId());
+            isCancle = false;
         }
         else{
-            Toast.makeText(getApplicationContext(), "선생님 정보가 올바르지 않습니다.", Toast.LENGTH_LONG).show();
+            if(isTeacherInfo){
+                isReceiveKey = true;
+                isCancle = true;
+                subScribe(selectedTeacher.getLoginId());
+                rbRippleBackground.startRippleAnimation();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        foundDevice();
+                    }
+                },300);
+            }
+            else{
+                TastyToast.makeText(getApplicationContext(), "선생님 정보가 올바르지 않습니다.", TastyToast.LENGTH_SHORT, TastyToast.CONFUSING);
+            }
         }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_ready_page);
         ButterKnife.bind(this);
         FirebaseInstanceId.getInstance().getToken();
@@ -75,25 +102,20 @@ public class ReadyPage extends BaseActivity {
 
         getServerData();
 
-        spTeacherId.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                isTeacherInfo = true;
-                String selectedTeacherId = parent.getItemAtPosition(position).toString();
-                for(Teacher teacher : teachers){
-                    if(selectedTeacherId.equals(teacher.getLoginId())){
-                        tvTeacherSchoolName.setText(teacher.getSchool());
-                        tvTeacherName.setText(teacher.getName());
-                        selectedTeacher = teacher;
-                        break;
+        rvReady.addOnItemTouchListener(
+                new RecyclerItemClickListener(getApplicationContext(), rvReady, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        //teachers.get(position)
+                        ivTeacher.setVisibility();
                     }
-                }
 
-            } // to close the onItemSelected
-            public void onNothingSelected(AdapterView<?> parent)
-            {
+                    @Override
+                    public void onLongItemClick(View view, int position) {
 
-            }
-        });
+                    }
+                }));
+
     }
 
     @Override
@@ -108,7 +130,7 @@ public class ReadyPage extends BaseActivity {
             @Override
             public void onSuccess(List<Teacher> result) {
                 teachers = (ArrayList<Teacher>) result;
-                initTeacherId();
+                setupView();
             }
 
             @Override
@@ -118,35 +140,32 @@ public class ReadyPage extends BaseActivity {
         });
     }
 
-    private void initTeacherId(){
-        if(teachers != null){
-            String[] items = new String[teachers.size()];
-            for(int i = 0; i < teachers.size(); i++){
-                items[i] = teachers.get(i).getLoginId();
-            }
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-            spTeacherId.setAdapter(adapter);
-        }
-        else{
-            Toast.makeText(getApplicationContext(), "등록된 선생님이 없습니다.", Toast.LENGTH_SHORT).show();
-        }
+    private void setupView() {
+        rvReady.setHasFixedSize(true);
+        LinearLayoutManager MyLayoutManager = new LinearLayoutManager(this);
+        MyLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rvReady.setLayoutManager(MyLayoutManager);
 
+        readyAdapter = new ReadyAdapter(this, teachers);
+        rvReady.setAdapter(readyAdapter);
+        readyAdapter.notifyDataSetChanged();
     }
 
     private BroadcastReceiver myReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            ivTeacherPhone.setVisibility(View.VISIBLE);
 
             String historyId = intent.getStringExtra("quizHistoryId");
             String quizNumber = intent.getStringExtra("quizNumber");
 
             if(isReceiveKey){
-                btExamReady.setProgress(100);
                 Intent intent2 = new Intent(ReadyPage.this, ExamPage.class);
                 intent2.putExtra("quizHistoryId", historyId);
                 intent2.putExtra("quizNumber", quizNumber);
                 intent2.putExtra("Teacher", selectedTeacher);
                 startActivity(intent2);
+                animatorSet.end();
             }
         }
     };
@@ -172,4 +191,16 @@ public class ReadyPage extends BaseActivity {
         }
     }
 
+    private void foundDevice(){
+        animatorSet = new AnimatorSet();
+        animatorSet.setDuration(300);
+        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        ArrayList<Animator> animatorList=new ArrayList<Animator>();
+        ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(ivTeacherPhone, "ScaleX", 0f, 1.2f, 1f);
+        animatorList.add(scaleXAnimator);
+        ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(ivTeacherPhone, "ScaleY", 0f, 1.2f, 1f);
+        animatorList.add(scaleYAnimator);
+        animatorSet.playTogether(animatorList);
+        animatorSet.start();
+    }
 }

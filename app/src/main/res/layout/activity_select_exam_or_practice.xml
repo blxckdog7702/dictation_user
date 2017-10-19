@@ -9,20 +9,17 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btPractice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_margin="30dp"
-        android:text="연습"
-        android:textSize="50sp"/>
-    <Button
         android:id="@+id/btExam"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:layout_margin="30dp"
-        android:text="시험"
-        android:textSize="50sp"/>
+        android:background="@drawable/examination" />
+    <Button
+        android:id="@+id/btPractice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/study" />
+
 
 </LinearLayout>

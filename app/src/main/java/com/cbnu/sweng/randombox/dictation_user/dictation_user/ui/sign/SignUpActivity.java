@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +34,7 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.School;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 
+import com.sdsmdg.tastytoast.TastyToast;
 import com.shawnlin.numberpicker.NumberPicker;
 
 import java.util.List;
@@ -40,6 +43,7 @@ import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class SignUpActivity extends BaseActivity {
 
@@ -63,11 +67,11 @@ public class SignUpActivity extends BaseActivity {
     private String myteacher; // 실제 가입할 때 넘어가는 값들
 
     private String name[];
+    private SweetAlertDialog pDialog;
+    Spinner spState = null;
 
     Boolean isApplyMatching = false;
 
-    Spinner spState; // 도
-    Spinner spCity; // 시
     @BindArray(R.array.strArrayCity)
     String [] strArrayCity;
     @BindView(R.id.etSchoolNameUp) EditText etSchoolNameUp;
@@ -81,14 +85,53 @@ public class SignUpActivity extends BaseActivity {
 
     @OnClick(R.id.etSchoolNameUp)
     void onClickEtSchoolNameUp(){
-        View mView = getLayoutInflater().inflate(R.layout.dialog_select_school_name, null);
-        spCity = ButterKnife.findById(mView, R.id.spCity);
-        spState = ButterKnife.findById(mView, R.id.spState);
-        schoolsearch = ButterKnife.findById(mView, R.id.btSearchShool);
-        schoolname = ButterKnife.findById(mView, R.id.etSchoolName);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-        builder.setTitle("학교를 검색합니다.");
+        final Spinner spCity = new Spinner(this);
+        spState = new Spinner(this);
+
+        final Button btSearchShool = new Button(this);
+        btSearchShool.setBackground(this.getResources().getDrawable(R.drawable.ic_search));
+        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
+        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
+        btSearchShool.setLayoutParams(new LinearLayout.LayoutParams(width, height));
+
+        final EditText etSchoolName = new EditText(this);
+        etSchoolName.setHint("학교명을 입력해주세요.      ");
+        etSchoolName.setHintTextColor(Color.rgb(255,158,27));
+        etSchoolName.setTextColor(Color.rgb(255,158,27));
+        etSchoolName.setTextSize(16);
+        etSchoolName.setMaxLines(12);
+
+        LinearLayout l1 = new LinearLayout(getApplicationContext());
+        l1.setOrientation(LinearLayout.VERTICAL);
+
+        LinearLayout l2 = new LinearLayout(getApplicationContext());
+        l2.setOrientation(LinearLayout.HORIZONTAL);
+        l2.addView(spCity);
+        l2.addView(spState);
+
+        LinearLayout l3 = new LinearLayout(getApplicationContext());
+        l3.setOrientation(LinearLayout.HORIZONTAL);
+        l3.addView(etSchoolName);
+        l3.addView(btSearchShool);
+
+        l1.addView(l2);
+        l1.addView(l3);
+
+        pDialog = new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE);
+        pDialog.setCustomView(l1);
+        pDialog.setTitleText("학교를 검색합니다.");
+        pDialog.setCancelText("취소");
+        pDialog.setConfirmText("확인");
+        pDialog.showCancelButton(true);
+        pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sDialog) {
+                etSchoolNameUp.setText(myschool);
+                sDialog.dismiss();
+            }
+        });
+        pDialog.show();
 
         schoolsearch.setOnClickListener( // 검색하기 버튼 누르는 부분
                 new Button.OnClickListener() {
@@ -115,7 +158,7 @@ public class SignUpActivity extends BaseActivity {
                             {
                                 if(result==null)
                                 {
-                                    Toast.makeText(getApplicationContext(), "지역을 다시 입력해주세요", Toast.LENGTH_LONG).show();
+                                    TastyToast.makeText(getApplicationContext(), "해당학교가 존재하지 않습니다.", TastyToast.LENGTH_SHORT, TastyToast.CONFUSING);
                                 }
                                 else
                                 {
@@ -136,9 +179,6 @@ public class SignUpActivity extends BaseActivity {
                                     builder3.setTitle("학교를 선택해 주세요.")
                                             .setPositiveButton("선택완료", new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    Toast.makeText(getApplicationContext(),
-                                                            name[temp] + "를 선택했습니다.",
-                                                            Toast.LENGTH_SHORT).show();
                                                     schoolname.setText(name[temp]);
                                                     myschool = name[temp];
                                                 }
@@ -166,22 +206,6 @@ public class SignUpActivity extends BaseActivity {
                         });
                     }
                 });
-
-        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which){
-                etSchoolNameUp.setText(myschool);
-            }
-        });
-        builder.setNegativeButton("취소",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // negative button logic
-                    }
-                });
-        builder.setView(mView);
-
         ArrayAdapter<String> cityAdapter = new ArrayAdapter<String>(SignUpActivity.this,
                 android.R.layout.simple_spinner_item,
                 getResources().getStringArray(R.array.strArrayCity));
@@ -251,8 +275,6 @@ public class SignUpActivity extends BaseActivity {
             }
         });
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
 
     }
     @OnClick(R.id.etStudentInfoUp)
@@ -298,7 +320,7 @@ public class SignUpActivity extends BaseActivity {
 
         if(TextUtils.isEmpty(myname) || TextUtils.isEmpty(myschool) || TextUtils.isEmpty(mygrade))
         {
-            Toast.makeText(getApplicationContext(), "정보를 입력해주세요..", Toast.LENGTH_SHORT).show();
+            TastyToast.makeText(getApplicationContext(), "정보를 전부 입력해주세요.", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
         }
         else {
             Student.getInstance().setName(myname);
@@ -311,7 +333,7 @@ public class SignUpActivity extends BaseActivity {
                 @Override
                 public void onSuccess(Boolean result) {
                     if(result){
-                        Toast.makeText(getApplicationContext(), "중복 되는 정보가 있습니다.", Toast.LENGTH_SHORT).show();
+                        TastyToast.makeText(getApplicationContext(), "해당 정보는 이미 존재합니다.", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
                     }
                     else{
                         if(TextUtils.isEmpty(myteacher)){
@@ -322,11 +344,10 @@ public class SignUpActivity extends BaseActivity {
                                 @Override
                                 public void onSuccess(Boolean result) {
                                     if(result){
-                                        Toast.makeText(getApplicationContext(), "회원 가입 진행중..", Toast.LENGTH_SHORT).show();
                                         signUp();
                                     }
                                     else{
-                                        Toast.makeText(getApplicationContext(), "등록된 선생님이 없습니다.", Toast.LENGTH_SHORT).show();
+                                        TastyToast.makeText(getApplicationContext(), "등록된 선생님이 없습니다.", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
                                     }
                                 }
                                 @Override
@@ -339,7 +360,6 @@ public class SignUpActivity extends BaseActivity {
                 }
                 @Override
                 public void onFail() {
-                    Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
                 }
             });
         }
@@ -380,19 +400,17 @@ public class SignUpActivity extends BaseActivity {
                         editor.putBoolean("Auto_Login_enabled", true);
                         editor.commit();
 
-                        Toast.makeText(getApplicationContext(), "회원가입이 완료 되었습니다.", Toast.LENGTH_SHORT).show();
+                        TastyToast.makeText(getApplicationContext(), "회원가입이 완료되었습니다..", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
                         Intent e = new Intent(SignUpActivity.this, SelectExamOrPractice.class);
                         startActivity(e);
                     }
                     @Override
                     public void onFail() {
-                        Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
                     }
                 });
             }
             @Override
             public void onFail() {
-                Toast.makeText(getApplicationContext(), "서버와의 연결을 확인해주세요.", Toast.LENGTH_SHORT);
             }
         });
     }
@@ -400,7 +418,7 @@ public class SignUpActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
     }
 
     @Override

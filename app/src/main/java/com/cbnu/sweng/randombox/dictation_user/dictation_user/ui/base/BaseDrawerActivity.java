@@ -10,9 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.SelectExamOrPractice;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.exam.ReadyPage;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile.RecordManagerActivity;
@@ -37,6 +39,7 @@ public class BaseDrawerActivity extends BaseActivity {
 
     //Cannot be bound via Butterknife, hosting view is initialized later (see setupHeader() method)
     private ImageView ivMenuUserProfilePhoto;
+    private TextView tvStudentName;
 
     @Override
     public void setContentView(int layoutResID) {
@@ -98,6 +101,7 @@ public class BaseDrawerActivity extends BaseActivity {
     private void setupHeader() {
         View headerView = vNavigation.getHeaderView(0);
         ivMenuUserProfilePhoto = (ImageView) headerView.findViewById(R.id.ivMenuUserProfilePhoto);
+        tvStudentName = (TextView) headerView.findViewById(R.id.tvStudentName);
         headerView.findViewById(R.id.vGlobalMenuHeader).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +115,7 @@ public class BaseDrawerActivity extends BaseActivity {
                 .centerCrop()
                 .transform(new CircleTransformation())
                 .into(ivMenuUserProfilePhoto);
+        tvStudentName.setText(Student.getInstance().getName());
     }
 
     public void onGlobalMenuHeaderClick(final View v) {

@@ -25,6 +25,7 @@ public class SelectExamOrPractice extends BaseDrawerActivity {
     @OnClick(R.id.btExam)
     void onClickBtExam(){
         Util.getInstance().moveActivity(this, ReadyPage.class);
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
     }
 
     @Override
