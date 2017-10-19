@@ -14,21 +14,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.adapter.ReadyAdapter;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.adapter.RecordAdapter;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Teacher;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.service.MyFirebaseMessagingService;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BaseActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.CircleTransformation;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.RecyclerItemClickListener;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.FcmRequester;
 import com.dd.processbutton.iml.ActionProcessButton;
@@ -36,7 +31,6 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.sdsmdg.tastytoast.TastyToast;
 import com.skyfishjy.library.RippleBackground;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,40 +51,57 @@ public class ReadyPage extends BaseActivity {
     private Teacher selectedTeacher = null;
     private AnimatorSet animatorSet;
     private ReadyAdapter readyAdapter;
+
     @BindView(R.id.tvTeacherSchoolName) TextView tvTeacherSchoolName;
     @BindView(R.id.tvTeacherName) TextView tvTeacherName;
+    @BindView(R.id.tvTeacherInfo) TextView tvTeacherInfo;
+    @BindView(R.id.tvStudentName) TextView tvStudentName;
+    @BindView(R.id.tvStudentSchoolName) TextView tvStudentSchoolName;
+    @BindView(R.id.tvStudentInfo) TextView tvStudentInfo;
+
     @BindView(R.id.ivStudentPhone) ImageView ivStudentPhone;
     @BindView(R.id.ivTeacherPhone) ImageView ivTeacherPhone;
+
     @BindView(R.id.rbRippleBackground) RippleBackground rbRippleBackground;
     @BindDimen(R.dimen.global_menu_avatar_size) int avatarSize;
     @BindView(R.id.rvReady) RecyclerView rvReady;
     @BindView(R.id.ivTeacher) CircleImageView ivTeacher;
     @BindView(R.id.ivStudent) CircleImageView ivStudent;
-
-
+    @BindView(R.id.btExamReady) ActionProcessButton btExamReady;
 
     @OnClick(R.id.btExamReady)
     void btExamReady() {
         if(isCancle){
-            //animatorSet.cancle();
-            unsubScribe(selectedTeacher.getLoginId());
+            animatorSet.cancel();
+            unSubScribe(selectedTeacher.getLoginId());
             isCancle = false;
+            btExamReady.setText("준비하기");
+            btExamReady.setProgress(0);
         }
         else{
             if(isTeacherInfo){
-                isReceiveKey = true;
-                isCancle = true;
-                subScribe(selectedTeacher.getLoginId());
-                rbRippleBackground.startRippleAnimation();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        foundDevice();
-                    }
-                },300);
+                if (btExamReady.getProgress() < 100) { // LOADING
+                    btExamReady.setProgress(btExamReady.getProgress() + 25);
+                    btExamReady.setText("취소하기");
+                    isReceiveKey = true;
+                    isCancle = true;
+                    subScribe(selectedTeacher.getLoginId());
+                    ivStudentPhone.setVisibility(View.VISIBLE);
+                    rbRippleBackground.startRippleAnimation();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            foundDevice();
+                        }
+                    },300);
+                }
+                else if (btExamReady.getProgress() == 100) { // SUCCESS
+
+                }
+
             }
             else{
-                TastyToast.makeText(getApplicationContext(), "선생님 정보가 올바르지 않습니다.", TastyToast.LENGTH_SHORT, TastyToast.CONFUSING);
+                TastyToast.makeText(getApplicationContext(), "선생님을 선택해주세요.", TastyToast.LENGTH_SHORT, TastyToast.INFO);
             }
         }
     }
@@ -98,6 +109,7 @@ public class ReadyPage extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_ready_page);
         ButterKnife.bind(this);
         FirebaseInstanceId.getInstance().getToken();
@@ -109,8 +121,15 @@ public class ReadyPage extends BaseActivity {
                 new RecyclerItemClickListener(getApplicationContext(), rvReady, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        //teachers.get(position)
-                        ivTeacher.setVisibility();
+                        if(!isCancle){
+                            selectedTeacher = teachers.get(position);
+                            tvTeacherSchoolName.setText(selectedTeacher.getSchool());
+                            tvTeacherName.setText(selectedTeacher.getName());
+                            tvTeacherInfo.setText(selectedTeacher.getGrade() + "학년 "
+                                    + selectedTeacher.getClass_() + "반 " + "선생님");
+                            ivTeacher.setVisibility(View.VISIBLE);
+                            isTeacherInfo = true;
+                        }
                     }
 
                     @Override
@@ -152,6 +171,12 @@ public class ReadyPage extends BaseActivity {
         readyAdapter = new ReadyAdapter(this, teachers);
         rvReady.setAdapter(readyAdapter);
         readyAdapter.notifyDataSetChanged();
+
+        tvStudentName.setText(Student.getInstance().getName());
+        tvStudentSchoolName.setText(Student.getInstance().getSchool());
+        tvStudentInfo.setText(Student.getInstance().getGrade() + "학년 "
+                                    + Student.getInstance().getClass_() + "반 "
+                                    + Student.getInstance().getStudentId() + "번");
     }
 
     private BroadcastReceiver myReceiver = new BroadcastReceiver() {
