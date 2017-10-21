@@ -113,7 +113,7 @@ public class TeacherList extends AppCompatActivity{
                     }
                     @Override
                     public void onFail() {
-                        Toast.makeText(getApplicationContext(), "매칭실패ㅠㅠ", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "매칭실패", Toast.LENGTH_LONG).show();
                     }
                 });
             }
