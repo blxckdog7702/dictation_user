@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BaseActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BaseDrawerActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.Util;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.Help;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuErrorWord;
@@ -29,7 +31,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ExamResultDetailedPage extends AppCompatActivity {
+public class ExamResultDetailedPage extends BaseActivity{
 
     QuizResult quizResult;
     ArrayList<Question> questions;

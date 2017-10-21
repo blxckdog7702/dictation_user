@@ -1,39 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.exam.ExamResultDetailedPage">
+    tools:context="com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.exam.ExamResultDetailedPage"
+    android:orientation="vertical">
+    <include layout="@layout/toolbar"/>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="10"
-        android:background="#FFFFFF">
+        android:background="@drawable/result_detailed">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
             android:orientation="vertical"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/rounded_line_dark_gray">
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="120dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="나의 작성 답안"
-                android:textColor="#000000"
-                android:textSize="25sp"
+                android:text="내 답안"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"/>
 
             <View
-                android:layout_width="200dp"
+                android:layout_width="150dp"
                 android:layout_height="3dp"
-                android:background="#000000"
+                android:background="#FFFFFF"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"/>
 
@@ -46,15 +48,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
-                    android:textSize="30sp"
-                    android:layout_marginTop="20dp"
+                    android:textSize="20sp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginLeft="20dp"/>
                 <TextView
                     android:id="@+id/tvStudentAnswer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#000000"
-                    android:textSize="30sp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
                     android:layout_marginLeft="30dp"/>
 
             </LinearLayout>
@@ -64,53 +66,40 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
             android:orientation="vertical"
-            android:background="@drawable/rounded_line_dark_gray"
-            android:layout_marginTop="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="120dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="모범 답안"
-                android:textColor="#000000"
-                android:textSize="25sp"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"/>
             <View
                 android:layout_width="150dp"
                 android:layout_height="3dp"
-                android:background="#000000"
+                android:background="#FFFFFF"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"/>
             <TextView
                 android:id="@+id/tvCorrectAnswer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:textSize="30sp"
-                android:layout_marginTop="20dp"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:layout_marginTop="5dp"
                 android:layout_marginLeft="30dp"/>
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:background="#AAAAAA"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"/>
-
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:background="@drawable/rounded_grader_table"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="2dp">
+            android:layout_marginBottom="10dp">
             <TextView
                 android:id="@+id/tvTable1"
                 android:layout_width="wrap_content"
@@ -119,7 +108,7 @@
                 android:textColor="#FF0000"
                 android:textSize="20sp"
                 android:layout_marginLeft="20dp"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="bottom"/>
 
             <TextView
                 android:id="@+id/tvTable2"
@@ -129,7 +118,7 @@
                 android:textColor="#1DDB16"
                 android:textSize="20sp"
                 android:layout_marginLeft="20dp"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="bottom"/>
 
             <TextView
                 android:id="@+id/tvTable3"
@@ -139,15 +128,16 @@
                 android:textColor="#5F00FF"
                 android:textSize="20sp"
                 android:layout_marginLeft="20dp"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="bottom"
                 android:layout_marginRight="20dp"/>
         </LinearLayout>
     </LinearLayout>
     <ImageView
         android:id="@+id/ivRedCircle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:src="@drawable/red_circle"
         android:layout_gravity="center"
         android:visibility="invisible"/>
-</FrameLayout>
+    </FrameLayout>
+</LinearLayout>

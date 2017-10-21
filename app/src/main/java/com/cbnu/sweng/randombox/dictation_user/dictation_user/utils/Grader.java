@@ -8,10 +8,6 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.PusanSpellCh
 
 import java.util.ArrayList;
 
-/**
- * Created by user on 2017-08-21.
- */
-
 public class Grader {
 
     ArrayList<GradeModel> gradeModels;

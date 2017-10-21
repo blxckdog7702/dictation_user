@@ -370,12 +370,10 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
                                 rectifyCount.setProperty8(rectifyCount.getProperty8() + 1);
                             }
                             else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 9){
-                                rectifyCount.setProperty9(rectifyCount.getProperty9()
-                                        + 1);
+                                rectifyCount.setProperty9(rectifyCount.getProperty9() + 1);
                             }
                             else if(pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod() == 10){
-                                rectifyCount.setProperty10(rectifyCount.getProperty10()
-                                        + pnuErrorWordList.getPnuErrorWord()[i].getHelp().getNCorrectMethod());
+                                rectifyCount.setProperty10(rectifyCount.getProperty10() + 1);
                             }
                         }
                     }

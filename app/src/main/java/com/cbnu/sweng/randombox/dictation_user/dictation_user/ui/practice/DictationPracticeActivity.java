@@ -307,9 +307,6 @@ public class DictationPracticeActivity extends AppCompatActivity implements Sing
                     }
                 }
             }
-            else{
-                continue;
-            }
             QuestionResult questionResult = new QuestionResult();
             questionResult.setCorrect(gradeModel.getCorrect());
             questionResult.setRectify(gradeModel.getRectify());

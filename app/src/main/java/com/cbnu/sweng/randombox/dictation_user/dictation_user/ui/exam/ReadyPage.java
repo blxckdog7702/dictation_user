@@ -191,12 +191,12 @@ public class ReadyPage extends BaseActivity {
                 String historyId = intent.getStringExtra("quizHistoryId");
                 String quizNumber = intent.getStringExtra("quizNumber");
                 ivTeacherPhone.setVisibility(View.VISIBLE);
-                rbRippleBackground.stopRippleAnimation();
                 Intent intent2 = new Intent(ReadyPage.this, ExamPage.class);
                 intent2.putExtra("quizHistoryId", historyId);
                 intent2.putExtra("quizNumber", quizNumber);
                 intent2.putExtra("Teacher", selectedTeacher);
                 startActivity(intent2);
+                rbRippleBackground.stopRippleAnimation();
             }
         }
     };

@@ -92,11 +92,6 @@ public class ExamResultPage extends BaseDrawerActivity {
                                             questions, 10);
     }
 
-    @OnClick(R.id.btInResultPage)
-    void onClickBtInResultPage(){
-        //메인페이지 이동
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,37 +104,57 @@ public class ExamResultPage extends BaseDrawerActivity {
         questions = (ArrayList<Question>) intent.getSerializableExtra("questionsList");
 
         if(quizResult.getScore() == 0){
-            ivScore.setImageResource(R.drawable.score0);
+            ivScore.setImageResource(R.drawable.score_00);
         }
         else if(quizResult.getScore() == 10){
-            ivScore.setImageResource(R.drawable.score10);
+            ivScore.setImageResource(R.drawable.score_10);
         }
         else if(quizResult.getScore() == 20){
-            ivScore.setImageResource(R.drawable.score10);
+            ivScore.setImageResource(R.drawable.score_20);
         }
         else if(quizResult.getScore() == 30){
-            ivScore.setImageResource(R.drawable.score10);
+            ivScore.setImageResource(R.drawable.score_30);
         }
         else if(quizResult.getScore() == 40){
-            ivScore.setImageResource(R.drawable.score10);
+            ivScore.setImageResource(R.drawable.score_40);
         }
         else if(quizResult.getScore() == 50){
-            ivScore.setImageResource(R.drawable.score10);
+            ivScore.setImageResource(R.drawable.score_50);
         }
         else if(quizResult.getScore() == 60){
-            ivScore.setImageResource(R.drawable.score10);
+            ivScore.setImageResource(R.drawable.score_60);
         }
         else if(quizResult.getScore() == 70){
-            ivScore.setImageResource(R.drawable.score10);
+            ivScore.setImageResource(R.drawable.score_70);
         }
         else if(quizResult.getScore() == 80){
-            ivScore.setImageResource(R.drawable.score10);
+            ivScore.setImageResource(R.drawable.score_80);
+            konfettiView.build()
+                    .addColors(Color.rgb(241, 95, 95), Color.rgb(165, 102, 255), Color.rgb(250, 237, 125))
+                    .setDirection(0.0, 359.0)
+                    .setSpeed(3f, 5f)
+                    .setFadeOutEnabled(true)
+                    .setTimeToLive(1500L)
+                    .addShapes(Shape.RECT)
+                    .addSizes(new Size(12, 5f))
+                    .setPosition(0f, Util.getInstance().getDisplayWidth(this), 0f, 50f)
+                    .stream(300, 3000L);
         }
         else if(quizResult.getScore() == 90){
-            ivScore.setImageResource(R.drawable.score10);
+            ivScore.setImageResource(R.drawable.score_90);
+            konfettiView.build()
+                    .addColors(Color.rgb(241, 95, 95), Color.rgb(165, 102, 255), Color.rgb(250, 237, 125))
+                    .setDirection(0.0, 359.0)
+                    .setSpeed(3f, 5f)
+                    .setFadeOutEnabled(true)
+                    .setTimeToLive(1500L)
+                    .addShapes(Shape.RECT)
+                    .addSizes(new Size(12, 5f))
+                    .setPosition(0f, Util.getInstance().getDisplayWidth(this), 0f, 50f)
+                    .stream(300, 3000L);
         }
         else if(quizResult.getScore() == 100){
-            ivScore.setImageResource(R.drawable.score100);
+            ivScore.setImageResource(R.drawable.score_100);
             konfettiView.build()
                     .addColors(Color.rgb(241, 95, 95), Color.rgb(165, 102, 255), Color.rgb(250, 237, 125))
                     .setDirection(0.0, 359.0)
