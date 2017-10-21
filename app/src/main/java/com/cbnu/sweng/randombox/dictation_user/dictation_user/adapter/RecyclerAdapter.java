@@ -21,7 +21,7 @@ import java.util.List;
  * Created by SM on 2017-10-13.
  */
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> implements ItemTouchHelperListener
+public class  RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> implements ItemTouchHelperListener
 
 {
     List<Teacher> teacher;
@@ -45,11 +45,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView studentname;
+        public TextView schoolname;
+        public TextView teachergrade;
+        public TextView teacherclass;
+        public TextView teachername;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            studentname = (TextView) itemView.findViewById(R.id.name);
+            schoolname = (TextView) itemView.findViewById(R.id.tschool);
+            teachergrade = (TextView) itemView.findViewById(R.id.tgrade);
+            teacherclass = (TextView) itemView.findViewById(R.id.tclass);
+            teachername = (TextView) itemView.findViewById(R.id.tname);
         }
     }
     // 새로운 뷰 홀더 생성
@@ -60,10 +66,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return vh;
     }
 
+
     // View 의 내용을 해당 포지션의 데이터로 바꿉니다.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.studentname.setText(teacher.get(position).getName());
+        holder.schoolname.setText(teacher.get(position).getSchool());
+        holder.teachergrade.setText(teacher.get(position).getGrade());
+        holder.teacherclass.setText(teacher.get(position).getClass_());
+        holder.teachername.setText(teacher.get(position).getName());
     }
 
     // 데이터 셋의 크기를 리턴해줍니다.

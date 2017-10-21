@@ -133,7 +133,7 @@ public class SignUpActivity extends BaseActivity {
         });
         pDialog.show();
 
-        schoolsearch.setOnClickListener( // 검색하기 버튼 누르는 부분
+        btSearchShool.setOnClickListener( // 검색하기 버튼 누르는 부분
                 new Button.OnClickListener() {
                     public void onClick(View v) {
 
