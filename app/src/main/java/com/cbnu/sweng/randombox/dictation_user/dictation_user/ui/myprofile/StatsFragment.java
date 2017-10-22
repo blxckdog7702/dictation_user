@@ -47,8 +47,7 @@ public class StatsFragment extends BaseChartFragment {
     ArrayList<Integer> groupProperty = new ArrayList<>();
     ArrayList<Integer> myScore = new ArrayList<>();
     ArrayList<Double> groupAverage = new ArrayList<>();
-    String[] marker = {"맞춤법","띄어쓰기","붙여쓰기","4번","5번",
-                        "6번","7번","8번","9번","10번",};
+    String[] marker = {"띄어쓰기","맞춤법","붙여쓰기"};
 
     @Nullable
     @Override
@@ -67,7 +66,7 @@ public class StatsFragment extends BaseChartFragment {
         myScore.clear();
         groupAverage.clear();
         if(quizHistories != null){
-            for(int i = 0; i < 10; i++){
+            for(int i = 0; i < 3; i++){
                 myProperty.add(i, 0);
                 groupProperty.add(i, 0);
             }
@@ -79,26 +78,26 @@ public class StatsFragment extends BaseChartFragment {
                 groupProperty.set(0, groupProperty.get(0) + quizHistory.getRectifyCount().getProperty1());
                 groupProperty.set(1, groupProperty.get(1) + quizHistory.getRectifyCount().getProperty2());
                 groupProperty.set(2, groupProperty.get(2) + quizHistory.getRectifyCount().getProperty3());
-                groupProperty.set(3, groupProperty.get(3) + quizHistory.getRectifyCount().getProperty4());
-                groupProperty.set(4, groupProperty.get(4) + quizHistory.getRectifyCount().getProperty5());
-                groupProperty.set(5, groupProperty.get(5) + quizHistory.getRectifyCount().getProperty6());
-                groupProperty.set(6, groupProperty.get(6) + quizHistory.getRectifyCount().getProperty7());
-                groupProperty.set(7, groupProperty.get(7) + quizHistory.getRectifyCount().getProperty8());
-                groupProperty.set(8, groupProperty.get(8) + quizHistory.getRectifyCount().getProperty9());
-                groupProperty.set(9, groupProperty.get(9) + quizHistory.getRectifyCount().getProperty10());
+//                groupProperty.set(3, groupProperty.get(3) + quizHistory.getRectifyCount().getProperty4());
+//                groupProperty.set(4, groupProperty.get(4) + quizHistory.getRectifyCount().getProperty5());
+//                groupProperty.set(5, groupProperty.get(5) + quizHistory.getRectifyCount().getProperty6());
+//                groupProperty.set(6, groupProperty.get(6) + quizHistory.getRectifyCount().getProperty7());
+//                groupProperty.set(7, groupProperty.get(7) + quizHistory.getRectifyCount().getProperty8());
+//                groupProperty.set(8, groupProperty.get(8) + quizHistory.getRectifyCount().getProperty9());
+//                groupProperty.set(9, groupProperty.get(9) + quizHistory.getRectifyCount().getProperty10());
                 for(QuizResult quizResult : quizHistory.getQuizResults()){
                     if(quizResult.getStudentName().equals(Student.getInstance().getName())){
                         myScore.add(quizResult.getScore());
                         myProperty.set(0, myProperty.get(0) + quizResult.getRectifyCount().getProperty1());
                         myProperty.set(1, myProperty.get(1) + quizResult.getRectifyCount().getProperty2());
                         myProperty.set(2, myProperty.get(2) + quizResult.getRectifyCount().getProperty3());
-                        myProperty.set(3, myProperty.get(3) + quizResult.getRectifyCount().getProperty4());
-                        myProperty.set(4, myProperty.get(4) + quizResult.getRectifyCount().getProperty5());
-                        myProperty.set(5, myProperty.get(5) + quizResult.getRectifyCount().getProperty6());
-                        myProperty.set(6, myProperty.get(6) + quizResult.getRectifyCount().getProperty7());
-                        myProperty.set(7, myProperty.get(7) + quizResult.getRectifyCount().getProperty8());
-                        myProperty.set(8, myProperty.get(8) + quizResult.getRectifyCount().getProperty9());
-                        myProperty.set(9, myProperty.get(9) + quizResult.getRectifyCount().getProperty10());
+//                        myProperty.set(3, myProperty.get(3) + quizResult.getRectifyCount().getProperty4());
+//                        myProperty.set(4, myProperty.get(4) + quizResult.getRectifyCount().getProperty5());
+//                        myProperty.set(5, myProperty.get(5) + quizResult.getRectifyCount().getProperty6());
+//                        myProperty.set(6, myProperty.get(6) + quizResult.getRectifyCount().getProperty7());
+//                        myProperty.set(7, myProperty.get(7) + quizResult.getRectifyCount().getProperty8());
+//                        myProperty.set(8, myProperty.get(8) + quizResult.getRectifyCount().getProperty9());
+//                        myProperty.set(9, myProperty.get(9) + quizResult.getRectifyCount().getProperty10());
                     }
                 }
             }
@@ -112,8 +111,9 @@ public class StatsFragment extends BaseChartFragment {
     private void setupView() {
         chartItems = new ArrayList<>();
         chartItems.add(new PieChartItem(generatePieData(myProperty, marker), getActivity()));
-        chartItems.add(new CombinedChartItem(generateCombinedData(generateLineData(myScore), generateBarData(groupAverage)), getActivity()));
         chartItems.add(new BubbleChartItem(generateBubbleata(groupProperty), getActivity()));
+        chartItems.add(new CombinedChartItem(generateCombinedData(generateLineData(myScore), generateBarData(groupAverage)), getActivity()));
+
 
         ChartDataAdapter cda = new ChartDataAdapter(getActivity(), chartItems);
         lvStats.setAdapter(cda);

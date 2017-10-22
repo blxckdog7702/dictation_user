@@ -10,13 +10,14 @@
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_grader_table"
         android:textSize="@dimen/text_size"
-        android:text="개인 맞춤법 현황"
+        android:text="전체 개인 맞춤법 현황"
         android:textColor="#000000"
         android:padding="10dp"/>
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/chart"
         android:layout_width="match_parent"
-        android:layout_height="330dp" />
+        android:layout_height="330dp"
+        android:layout_gravity="center"/>
 
 </LinearLayout>

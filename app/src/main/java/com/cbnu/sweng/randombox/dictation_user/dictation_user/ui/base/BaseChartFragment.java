@@ -107,7 +107,7 @@ public abstract class BaseChartFragment extends Fragment {
 
         BubbleDataSet d = new BubbleDataSet(entries, "Bubble DataSet");
 
-        d.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        d.setColors(ColorTemplate.COLORFUL_COLORS);
         d.setValueTextSize(10f);
         d.setValueTextColor(Color.WHITE);
         d.setHighlightCircleWidth(1.5f);

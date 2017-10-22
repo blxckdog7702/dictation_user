@@ -311,15 +311,15 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
 //        9. 항아리가 깨졌습니다.
 //        10. 다람쥐가 도와줍니다.
         SubmittedAnswers[0] = "아버지가 방에 들어가쉰다.";
-        SubmittedAnswers[1] = "잠을 잡니다.";
-        SubmittedAnswers[2] = "책을";
-        SubmittedAnswers[3] = "꼬리를 흔듬니다.";
-        SubmittedAnswers[4] = "시소 미끄럼틀";
-        SubmittedAnswers[5] = "노리터에서 노라요";
-        SubmittedAnswers[6] = "다람쥐";
-        SubmittedAnswers[7] = "다람쥐";
-        SubmittedAnswers[8] = "다람쥐";
-        SubmittedAnswers[9] = "다람지가 도아줌니다.";
+        SubmittedAnswers[1] = "틀린 곳이 만으면";
+        SubmittedAnswers[2] = "컴퓨터을 빠르게 삿다.";
+        SubmittedAnswers[3] = "아쉬운점이 있다면 아쉽다.";
+        SubmittedAnswers[4] = "익숙치 않으신분들은";
+        SubmittedAnswers[5] = "정말로 힘드실꺼에요. 안그레요?";
+        SubmittedAnswers[6] = "아픈건 다 낳았어?";
+        SubmittedAnswers[7] = "왠지 나도 몰르겠다.";
+        SubmittedAnswers[8] = "틈틈이 글이 쓰고 있다.";
+        SubmittedAnswers[9] = "일도 해야되서 힘들다.";
 //        SubmittedAnswers[0] = "세수를 합니다.";
 //        SubmittedAnswers[1] = "잠을 잡니다.";
 //        SubmittedAnswers[2] = "책을 읽습니다.";

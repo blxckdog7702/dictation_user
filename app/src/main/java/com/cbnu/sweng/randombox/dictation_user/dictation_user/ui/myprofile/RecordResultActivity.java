@@ -50,8 +50,7 @@ public class RecordResultActivity extends BaseChartActivity implements OnChartVa
     @BindView(R.id.pieChart) PieChart pieChart;
     private Typeface tf;
     private ArrayList<Integer> myProperty = new ArrayList<>();
-    String[] marker = {"맞춤법","띄어쓰기","붙여쓰기","4번","5번",
-            "6번","7번","8번","9번","10번"};
+    String[] marker = {"띄어쓰기","맞춤법","붙여쓰기"};
     String quizHistoryId;
     QuizHistory quizHistory;
 
@@ -160,17 +159,17 @@ public class RecordResultActivity extends BaseChartActivity implements OnChartVa
     }
     private void initModel(){
         if(quizHistory != null){
-            for(int i = 0; i < 10; i++){
+            for(int i = 0; i < 3; i++){
                 myProperty.add(quizHistory.getRectifyCount().getProperty1());
                 myProperty.add(quizHistory.getRectifyCount().getProperty2());
                 myProperty.add(quizHistory.getRectifyCount().getProperty3());
-                myProperty.add(quizHistory.getRectifyCount().getProperty4());
-                myProperty.add(quizHistory.getRectifyCount().getProperty5());
-                myProperty.add(quizHistory.getRectifyCount().getProperty6());
-                myProperty.add(quizHistory.getRectifyCount().getProperty7());
-                myProperty.add(quizHistory.getRectifyCount().getProperty8());
-                myProperty.add(quizHistory.getRectifyCount().getProperty9());
-                myProperty.add(quizHistory.getRectifyCount().getProperty10());
+//                myProperty.add(quizHistory.getRectifyCount().getProperty4());
+//                myProperty.add(quizHistory.getRectifyCount().getProperty5());
+//                myProperty.add(quizHistory.getRectifyCount().getProperty6());
+//                myProperty.add(quizHistory.getRectifyCount().getProperty7());
+//                myProperty.add(quizHistory.getRectifyCount().getProperty8());
+//                myProperty.add(quizHistory.getRectifyCount().getProperty9());
+//                myProperty.add(quizHistory.getRectifyCount().getProperty10());
             }
         }
     }

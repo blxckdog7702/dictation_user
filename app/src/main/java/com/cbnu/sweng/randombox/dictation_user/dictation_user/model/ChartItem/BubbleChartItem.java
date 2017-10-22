@@ -65,9 +65,9 @@ public class BubbleChartItem extends ChartItem {
         Legend l = holder.chart.getLegend();
         l.setEnabled(false);
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setDrawInside(false);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        l.setDrawInside(true);
         l.setTypeface(mTf);
 
         YAxis yl = holder.chart.getAxisLeft();

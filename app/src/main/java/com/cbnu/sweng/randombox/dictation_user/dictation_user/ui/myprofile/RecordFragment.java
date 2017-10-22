@@ -53,7 +53,7 @@ public class RecordFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_record, container, false);
         ButterKnife.bind(this, view);
-
+        TastyToast.makeText(getActivity(), "데이터를 불러오고 있습니다.", TastyToast.LENGTH_LONG, TastyToast.WARNING);
         getServerData();
         return view;
     }
@@ -99,7 +99,7 @@ public class RecordFragment extends Fragment {
                             initModels();
                             setupView();
                         }
-                    }, 500);
+                    }, 1500);
                 }
                 else{
                     TastyToast.makeText(getActivity(), "등록된 선생님이 없습니다.", TastyToast.LENGTH_LONG, TastyToast.INFO);

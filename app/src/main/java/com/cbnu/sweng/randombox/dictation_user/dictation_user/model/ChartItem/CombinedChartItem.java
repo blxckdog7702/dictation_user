@@ -75,8 +75,8 @@ public class CombinedChartItem extends ChartItem {
         l.setWordWrapEnabled(true);
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setDrawInside(false);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        l.setDrawInside(true);
 
         holder.chart.setPinchZoom(false);
         YAxis leftAxis = holder.chart.getAxisLeft();
