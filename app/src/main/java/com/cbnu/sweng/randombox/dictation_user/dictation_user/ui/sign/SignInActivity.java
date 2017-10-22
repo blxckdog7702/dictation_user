@@ -45,7 +45,7 @@ public class SignInActivity extends AppCompatActivity {
     SharedPreferences setting;
     SharedPreferences.Editor editor;
 
-    private String selectedschool; // 학교검색 API 로 넘어가는 학교 값
+    private String selectedschool; // 학교검색 API word_35 넘어가는 학교 값
     private int temp;
 
     private String myname; // 실제 로그인 때 넘어가는 값들
@@ -210,7 +210,7 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 ((TextView)adapterView.getChildAt(0)).setTextColor(Color.BLACK);
-                if(spCity.getSelectedItem().toString().equals("시/도")){
+                if(spCity.getSelectedItem().toString().equals("word_72/word_25")){
                     spState.setClickable(false);
                     spState.setSelection(0);
                 }
@@ -357,34 +357,6 @@ public class SignInActivity extends AppCompatActivity {
 
         setting = getSharedPreferences("setting", 0);
         editor= setting.edit();
-
-        Log.e("auto_login : ", "" + setting.getBoolean("Auto_Login_enabled", false));
-        if(setting.getBoolean("Auto_Login_enabled", false)){
-            Student.getInstance().setName(setting.getString("myname", ""));
-            Student.getInstance().setSchool(setting.getString("myschool", ""));
-            Student.getInstance().setGrade(setting.getString("mygrade", ""));
-            Student.getInstance().setClass_(setting.getString("myclass", ""));
-            Student.getInstance().setStudentId(Integer.parseInt(setting.getString("myStudentId", "")));
-
-            ApiRequester.getInstance().loginStudent(Student.getInstance(), new ApiRequester.UserCallback<Student>() {
-                @Override
-                public void onSuccess(Student result) {
-                    if(result == null)
-                    {
-                        TastyToast.makeText(getApplicationContext(), "사용자 정보가 존재하지 않습니다.", TastyToast.LENGTH_SHORT, TastyToast.CONFUSING);
-                    }
-                    else
-                    {
-                        Student.getInstance().setStudent(result);
-                        Util.getInstance().moveActivity(SignInActivity.this, SelectExamOrPractice.class);
-                        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
-                    }
-                }
-                @Override
-                public void onFail() {
-                }
-            });
-        }
     }
 
     private void setStateApdapter(int state){

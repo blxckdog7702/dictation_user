@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.SelectGradeActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.Util;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PracticeTypeModel;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.DictationPracticeActivity;
@@ -46,15 +47,13 @@ public class PracticeTypeAdapter extends RecyclerView.Adapter<PracticeTypeAdapte
     public void onBindViewHolder(final PracTypeViewHolder holder, final int position) {
         final PracticeTypeModel practiceTypeModel = practiceTypeModels.get(position);
 
-        float imageWidth = ((Util.getInstance().getDisplayWidth(context)
-                                - (Util.getInstance().getDisplayHeigth(context))) / 2);
-        float imageHeight = ((Util.getInstance().getDisplayHeigth(context) / 4)
+        float imageWidth = ((Util.getInstance().getDisplayWidth(context) / 2)
+                                - (Util.getInstance().getMargin(context)));
+        float imageHeight = ((Util.getInstance().getDisplayHeigth(context) / 7 * 2)
                                 - Util.getInstance().getMargin(context));
 
         Bitmap image = BitmapFactory.decodeResource(context.getResources(), practiceTypeModel.getImage());
         holder.ivPractice.setImageBitmap(Bitmap.createScaledBitmap(image, (int) imageWidth, (int) imageHeight, false));
-
-        holder.tvPracticeType.setText(practiceTypeModel.getPraticeType());
         holder.tvTitle.setText(practiceTypeModel.getTitle());
     }
 
@@ -65,7 +64,6 @@ public class PracticeTypeAdapter extends RecyclerView.Adapter<PracticeTypeAdapte
 
     public class PracTypeViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.tvPracticeType) TextView tvPracticeType;
         @BindView(R.id.ivPractice) ImageView ivPractice;
         @BindView(R.id.tvTitle) TextView tvTitle;
         @BindView(R.id.lrPractice) LinearLayout lrPractice;
@@ -88,7 +86,7 @@ public class PracticeTypeAdapter extends RecyclerView.Adapter<PracticeTypeAdapte
                 Util.getInstance().moveActivity(context, WordPracticeActivity.class);
             }
             else if(postion == 3){
-                Util.getInstance().moveActivity(context, DictationPracticeActivity.class);
+                Util.getInstance().moveActivity(context, SelectGradeActivity.class);
             }
         }
 

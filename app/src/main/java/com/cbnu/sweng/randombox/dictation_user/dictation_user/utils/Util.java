@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Question;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizResult;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -78,7 +79,7 @@ public class Util {
         }
         return str2.substring(at);
     }
-    //TODO []로 바꿔서 틀린 부분 여러개로 수정해야함
+    //TODO []word_35 바꿔서 틀린 부분 여러개로 수정해야함
     public int getIndexOfDifference(String str1, String str2) {
         if (str1 == str2) {
             return -1;
@@ -166,8 +167,7 @@ public class Util {
 
         if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
             backKeyPressedTime = System.currentTimeMillis();
-            toast = Toast.makeText(activity, "\'뒤로\'버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
-            toast.show();
+            TastyToast.makeText(activity, "\'뒤로\'버튼을 한번 더 누르시면 종료됩니다.", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
             return;
         }
         if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {

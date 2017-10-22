@@ -53,9 +53,8 @@ public class SignUpActivity extends BaseActivity {
     private Handler mHandler;
     private Runnable mRunnable;
 
-    private Button schoolsearch; // 다이얼로그 학교검색 버튼
     private EditText schoolname; // 다이얼로그에 있는 학교이름 란
-    private String selectedschool; // 학교검색 API 로 넘어가는 학교 값
+    private String selectedschool; // 학교검색 API word_35 넘어가는 학교 값
     private int temp;
 
     private String myname; // 실제 가입할 때 넘어가는 값들
@@ -133,7 +132,7 @@ public class SignUpActivity extends BaseActivity {
         });
         pDialog.show();
 
-        schoolsearch.setOnClickListener( // 검색하기 버튼 누르는 부분
+        btSearchShool.setOnClickListener( // 검색하기 버튼 누르는 부분
                 new Button.OnClickListener() {
                     public void onClick(View v) {
 
@@ -149,7 +148,7 @@ public class SignUpActivity extends BaseActivity {
                             strState = null;
                         }
 
-                        selectedschool = schoolname.getText().toString();
+                        selectedschool = etSchoolName.getText().toString();
                         Log.d("TAG", selectedschool);
 
                         ApiRequester.getInstance().searchSchools(strCity, strState, selectedschool, new ApiRequester.UserCallback<List<School>>() {
@@ -179,7 +178,7 @@ public class SignUpActivity extends BaseActivity {
                                     builder3.setTitle("학교를 선택해 주세요.")
                                             .setPositiveButton("선택완료", new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    schoolname.setText(name[temp]);
+                                                    etSchoolName.setText(name[temp]);
                                                     myschool = name[temp];
                                                 }
                                             })
@@ -215,7 +214,7 @@ public class SignUpActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 ((TextView)adapterView.getChildAt(0)).setTextColor(Color.BLACK);
-                if(spCity.getSelectedItem().toString().equals("시/도")){
+                if(spCity.getSelectedItem().toString().equals("word_72/word_25")){
                     spState.setClickable(false);
                     spState.setSelection(0);
                 }

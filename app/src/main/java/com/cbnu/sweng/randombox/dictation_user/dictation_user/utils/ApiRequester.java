@@ -62,7 +62,6 @@ public class ApiRequester {
 				System.out.println(response.message());
 				if( status == 404 ){
 					callback.onSuccess(null);
-					TastyToast.makeText(new MyApplication().getAppContext(), "해당 정보가 존재하지 않습니다.", TastyToast.LENGTH_SHORT, TastyToast.INFO);
 				}
 				else {
 					System.out.println("서버 실패");
@@ -107,7 +106,7 @@ public class ApiRequester {
 				int status = response.code();
 				System.out.println(response.message());
 				if( status == 404 ){
-					TastyToast.makeText(new MyApplication().getAppContext(), "해당 정보가 존재하지 않습니다.", TastyToast.LENGTH_SHORT, TastyToast.INFO);
+
 					callback.onSuccess(false);
 				}
 				else {

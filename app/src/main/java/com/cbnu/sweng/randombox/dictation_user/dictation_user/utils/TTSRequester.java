@@ -25,7 +25,7 @@ public class TTSRequester extends AsyncTask<String, Void, Boolean> {
     private static final String clientId = "IzFoSpvKFOdTIJ9VkHCG";//애플리케이션 클라이언트 아이디값";
     private static final String clientSecret = "DFghKnA7uE";//애플리케이션 클라이언트 시크릿값";
     private static final String apiURL = "https://openapi.naver.com/v1/voice/tts.bin";
-    private static final int SPEED = 2;
+    private static final int SPEED = 0;
     //음성 재생 속도. -5에서 5 사이의 정수 값이며, -5이면 0.5배 빠른 속도이고 5이면 0.5배 느린 속도입니다. \
     //0이면 정상 속도의 목소리로 음성을 합성합니다.
     private static final String TAG = "TTSRequester.java";
@@ -53,6 +53,7 @@ public class TTSRequester extends AsyncTask<String, Void, Boolean> {
             // post request
             String postParams = "speaker=mijin&speed=" + SPEED + "&text=" + text;
             con.setDoOutput(true);
+            con.setDoInput(true);
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());
             wr.writeBytes(postParams);
             wr.flush();

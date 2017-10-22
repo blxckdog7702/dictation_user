@@ -60,7 +60,7 @@ public class CheckMyInfo extends BaseActivity {
 
     private Button schoolsearch; // 학교 검색 버튼
     private EditText schoolname; // 다이얼로그에 있는 학교이름 란
-    private String selectedschool; // 학교검색 API 로 넘어가는 학교 값
+    private String selectedschool; // 학교검색 API word_35 넘어가는 학교 값
     private String name[];
     private int temp;
 
@@ -130,13 +130,13 @@ public class CheckMyInfo extends BaseActivity {
                     public void onClick(View v) {
 
                         String strCity = spCity.getSelectedItem().toString();
-                        if(strCity.equals("시/도"))
+                        if(strCity.equals("word_72/word_25"))
                         {
                             strCity = null;
                         }
 
                         String strState = spState.getSelectedItem().toString();
-                        if(strState.equals("시/군/구"))
+                        if(strState.equals("word_72/군/word_7"))
                         {
                             strState = null;
                         }
@@ -219,7 +219,7 @@ public class CheckMyInfo extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 ((TextView)adapterView.getChildAt(0)).setTextColor(Color.BLACK);
-                if(spCity.getSelectedItem().toString().equals("시/도")){
+                if(spCity.getSelectedItem().toString().equals("word_72/word_25")){
                     spState.setClickable(false);
                     spState.setSelection(0);
                 }

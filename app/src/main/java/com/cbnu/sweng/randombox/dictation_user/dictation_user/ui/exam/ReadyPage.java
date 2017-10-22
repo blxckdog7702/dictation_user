@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
@@ -76,6 +77,7 @@ public class ReadyPage extends BaseActivity {
             rbRippleBackground.stopRippleAnimation();
             unSubScribe(selectedTeacher.getLoginId());
             isCancle = false;
+            ivStudentPhone.setVisibility(View.INVISIBLE);
             btExamReady.setText("준비하기");
             btExamReady.setProgress(0);
         }
@@ -102,7 +104,7 @@ public class ReadyPage extends BaseActivity {
 
             }
             else{
-                TastyToast.makeText(getApplicationContext(), "선생님을 선택해주세요.", TastyToast.LENGTH_SHORT, TastyToast.INFO);
+                TastyToast.makeText(getApplicationContext(), "선생님을 선택해주세요.", TastyToast.LENGTH_LONG, TastyToast.INFO);
             }
         }
     }
@@ -156,7 +158,14 @@ public class ReadyPage extends BaseActivity {
             @Override
             public void onSuccess(List<Teacher> result) {
                 teachers = (ArrayList<Teacher>) result;
+                System.out.print(teachers);
                 setupView();
+                if(teachers.size() != 0){
+                    TastyToast.makeText(getApplicationContext(), "우측 목록에서 선생님을 선택하세요.", TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+                }
+                else{
+                    TastyToast.makeText(getApplicationContext(), "등록된 선생님이 없습니다.\n선생님을 추가해주세요.", TastyToast.LENGTH_LONG, TastyToast.WARNING);
+                }
             }
 
             @Override

@@ -8,7 +8,7 @@
     android:clipToPadding="false"
     app:edPosition="1"
     app:edMenuSize="260dp"
-    app:edMenuBackground="#DDDDDD">
+    app:edMenuBackground="#AAFFFFFF">
 
     <!--content-->
     <android.support.design.widget.CoordinatorLayout
@@ -30,7 +30,7 @@
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="#B2CCFF"
+                    android:background="#ff9e1b"
                     android:layout_gravity="bottom"
                     app:tabIndicatorColor="#AAAAAA"
                     app:tabSelectedTextColor="#000000"
@@ -67,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="@android:color/transparent"
+            android:background="#AAFFFFFF"
             android:divider="@android:color/transparent"
             app:headerLayout="@layout/view_global_menu_header"
             app:itemIconTint="#8b8b8b"

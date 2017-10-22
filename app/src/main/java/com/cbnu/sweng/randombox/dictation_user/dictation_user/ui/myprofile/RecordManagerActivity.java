@@ -18,7 +18,7 @@ public class RecordManagerActivity extends BaseTabLayoutActivity {
     @Override
     protected void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new RecordFragment(), "성 적 표");
+        adapter.addFrag(new RecordFragment(), "내 성 적");
         adapter.addFrag(new StatsFragment(), "취 약 점");
 
         viewPager.setAdapter(adapter);

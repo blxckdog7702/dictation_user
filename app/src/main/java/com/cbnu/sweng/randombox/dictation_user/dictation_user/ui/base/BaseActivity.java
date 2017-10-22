@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +32,7 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.Select
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign.SignInActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.sign.SignUpActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.Util;
+import com.sdsmdg.tastytoast.TastyToast;
 import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
 import com.yalantis.contextmenu.lib.MenuObject;
 import com.yalantis.contextmenu.lib.MenuParams;
@@ -184,8 +186,8 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
             setting = getSharedPreferences("setting", MODE_PRIVATE);
             editor = setting.edit();// editor가져오기
 
-            if(setting.getString("myStudentId", "") == null || setting.getString("myStudentId", "").trim().equals("")){
-                Toast.makeText(getApplicationContext(), "로그인을 해주세요", Toast.LENGTH_LONG).show();
+            if(TextUtils.isEmpty(setting.getString("myStudentId", ""))){
+                TastyToast.makeText(getApplicationContext(), "로그인을 해야 합니다.", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
             }
             else
             {
@@ -198,8 +200,8 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
             setting = getSharedPreferences("setting", MODE_PRIVATE);
             editor = setting.edit();// editor가져오기
 
-            if(setting.getString("myStudentId", "") == null || setting.getString("myStudentId", "").trim().equals("")){
-                Toast.makeText(getApplicationContext(), "로그인을 해주세요", Toast.LENGTH_LONG).show();
+            if(TextUtils.isEmpty(setting.getString("myStudentId", ""))){
+                TastyToast.makeText(getApplicationContext(), "로그인을 해야 합니다.", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
             }
             else
             {
@@ -213,8 +215,8 @@ public class BaseActivity extends AppCompatActivity implements OnMenuItemClickLi
             setting = getSharedPreferences("setting", MODE_PRIVATE);
             editor = setting.edit();// editor가져오기
 
-            if(setting.getString("myStudentId", "") == null || setting.getString("myStudentId", "").trim().equals("")){
-                Toast.makeText(getApplicationContext(), "로그인을 해주세요", Toast.LENGTH_LONG).show();
+            if(TextUtils.isEmpty(setting.getString("myStudentId", ""))){
+                TastyToast.makeText(getApplicationContext(), "로그인을 해야 합니다.", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
             }
             else
             {

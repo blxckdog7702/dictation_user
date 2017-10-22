@@ -18,22 +18,53 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:minHeight="?attr/actionBarSize"
-            android:background="#B2CCFF"
+            android:background="#ff9e1b"
             app:layout_collapseMode="parallax">
-            <Button
-                android:id="@+id/btPrev"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#AAAAAA"
-                android:text="이전"
-                android:layout_gravity="left"/>
-            <Button
-                android:id="@+id/btNext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#AAAAAA"
-                android:text="다음"
-                android:layout_gravity="right"/>
+                android:orientation="horizontal"
+                android:layout_gravity="center">
+                <Button
+                    android:id="@+id/btPrev"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ic_prev"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"/>
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/space"
+                    android:onClick="onSpaceButtonClick"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"/>
+                <Button
+                    android:id="@+id/btSpeaker"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ic_speaker"
+                    android:onClick="readSentenceClick"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"/>
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/erase"
+                    android:onClick="onDeleteButtonClick"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"/>
+
+                <Button
+                    android:id="@+id/btNext"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ic_next"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"/>
+            </LinearLayout>
         </android.support.v7.widget.Toolbar>
 
     </LinearLayout>
@@ -45,14 +76,6 @@
         android:layout_below="@+id/lrToolbarHeader"
         android:orientation="horizontal"
         android:background="#FFFFFF">
-        <at.markushi.ui.CircleButton
-            android:id="@+id/btSpeaker"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:onClick="readSentenceClick"
-            android:src="@drawable/ic_volume_up_black_24dp"
-            app:cb_color="@color/colorAccent"
-            app:cb_pressedRingWidth="8dip" />
         <com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.CustomEditText
             android:id="@+id/textField"
             android:text="@string/input_text"
@@ -63,46 +86,6 @@
             android:textColor="#000000"
             android:background="#e0e0e0"
             android:lines="@integer/text_field_lines" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/buttons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#808080"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onSpaceButtonClick"
-            android:text="띄어쓰기"
-            android:textColor="#000000"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onDeleteButtonClick"
-            android:text="지우기"
-            android:textColor="#000000"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/button5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:onClick="onCheckButtonClick"
-            android:text="test"
-            android:textColor="#000000"
-            android:textSize="20sp" />
-
     </LinearLayout>
 
     <com.myscript.atk.sltw.SingleLineWidget

@@ -304,7 +304,7 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
 //        8. 콩쥐가 울고
 //        9. 항아리가 깨졌습니다.
 //        10. 다람쥐가 도와줍니다.
-        SubmittedAnswers[0] = "아 버지가 방에 들어가쉰다.";
+        SubmittedAnswers[0] = "word_73 버지가 방에 들어가쉰다.";
         SubmittedAnswers[1] = "잠을 잡니다.";
         SubmittedAnswers[2] = "책을";
         SubmittedAnswers[3] = "꼬리를 흔듬니다.";

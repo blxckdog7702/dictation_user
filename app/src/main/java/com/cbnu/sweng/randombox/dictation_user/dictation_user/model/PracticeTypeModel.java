@@ -7,7 +7,6 @@ public class PracticeTypeModel {
 
     private String title;
     private int image;
-    private String praticeType;
 
     public String getTitle() {
         return title;
@@ -25,11 +24,4 @@ public class PracticeTypeModel {
         this.image = image;
     }
 
-    public String getPraticeType() {
-        return praticeType;
-    }
-
-    public void setPraticeType(String praticeType) {
-        this.praticeType = praticeType;
-    }
 }

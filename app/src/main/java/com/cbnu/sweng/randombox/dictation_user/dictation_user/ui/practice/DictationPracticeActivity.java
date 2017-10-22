@@ -12,21 +12,18 @@ import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.BuildConfig;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.GradeModel;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.LocalQuestions;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.PnuNlpSpeller.PnuErrorWordList;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Question;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuestionResult;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizHistory;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizResult;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.RectifyCount;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.exam.ExamResultPage;
-import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.CustomEditText;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.Grader;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.TTSRequester;
@@ -35,11 +32,10 @@ import com.myscript.atk.sltw.SingleLineWidget;
 import com.myscript.atk.sltw.SingleLineWidgetApi;
 import com.myscript.atk.text.CandidateInfo;
 import com.myscript.certificate.MyCertificate;
+import com.sdsmdg.tastytoast.TastyToast;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -72,9 +68,7 @@ public class DictationPracticeActivity extends AppCompatActivity implements Sing
             SubmittedAnswers[(questionNumber--) - 1] = SubmittedAnswer;
 
             widget.clear();
-            Toast.makeText(getApplicationContext(),
-                    Integer.toString(questionNumber) + "번 문제입니다.",
-                    Toast.LENGTH_SHORT).show();
+            TastyToast.makeText(getApplicationContext(), Integer.toString(questionNumber) + "번 문제입니다.", TastyToast.LENGTH_SHORT, TastyToast.DEFAULT);
 
             if(!TextUtils.isEmpty(SubmittedAnswers[questionNumber - 1]) && questionNumber > 0){
                 mTextField.postDelayed(new Runnable()
@@ -88,7 +82,7 @@ public class DictationPracticeActivity extends AppCompatActivity implements Sing
             }
         }
         else{
-            Toast.makeText(getApplicationContext(), "이전 문제가 없습니다.", Toast.LENGTH_LONG).show();
+            TastyToast.makeText(getApplicationContext(), "이전 문제가 없습니다.", TastyToast.LENGTH_SHORT, TastyToast.INFO);
         }
     }
     @OnClick(R.id.btNext)
@@ -98,9 +92,7 @@ public class DictationPracticeActivity extends AppCompatActivity implements Sing
             SubmittedAnswers[(questionNumber++) - 1] = SubmittedAnswer;
 
             widget.clear();
-            Toast.makeText(getApplicationContext(),
-                    Integer.toString(questionNumber) + "번 문제입니다.",
-                    Toast.LENGTH_SHORT).show();
+            TastyToast.makeText(getApplicationContext(), Integer.toString(questionNumber) + "번 문제입니다.", TastyToast.LENGTH_SHORT, TastyToast.DEFAULT);
 
             if(!TextUtils.isEmpty(SubmittedAnswers[questionNumber - 1])){
                 mTextField.postDelayed(new Runnable()
@@ -125,23 +117,23 @@ public class DictationPracticeActivity extends AppCompatActivity implements Sing
         }
         mLastClickTime = SystemClock.elapsedRealtime();
         //null check
-        if (questions.get(questionNumber) == null) {
+        if (questions.get(questionNumber-1) == null) {
             return;
         }
 
         //초기 1회
         if (mTTSRequester == null) {
             mTTSRequester = new TTSRequester();
-            mTTSRequester.execute(questions.get(questionNumber).getSentence());
+            mTTSRequester.execute(questions.get(questionNumber-1).getSentence());
         }
-        //그 외 버튼 눌렀을 때
+        //word_9 외 버튼 눌렀을 때
         else {
             if (mTTSRequester.getMp() == null) {
                 return;
             }
             if (!mTTSRequester.getMp().isPlaying()) {
                 mTTSRequester = new TTSRequester();
-                mTTSRequester.execute(questions.get(questionNumber).getSentence());
+                mTTSRequester.execute(questions.get(questionNumber-1).getSentence());
             }
         }
     }
@@ -200,21 +192,12 @@ public class DictationPracticeActivity extends AppCompatActivity implements Sing
     }
 
     private void initModel() {
-        ArrayMap<Integer, String> qs = new ArrayMap<>();
-        qs.put(1, "세수를 합니다.");
-        qs.put(2, "잠을 잡니다.");
-        qs.put(3, "책을 읽습니다.");
-        qs.put(4, "꼬리를 흔듭니다.");
-        qs.put(5, "시소 미끄럼틀");
-        qs.put(6, "놀이터에서 놀아요.");
-        qs.put(7, "그네를 타요.");
-        qs.put(8, "콩쥐가 울고");
-        qs.put(9, "항아리가 깨졌습니다.");
-        qs.put(10, "다람쥐가 도와줍니다.");
+        LocalQuestions localQuestions = new LocalQuestions();
+        ArrayMap<Integer, String> qs = localQuestions.getQuestion(questionType);
         for(int i = 1; i < 11; i++){
             Question question = new Question();
             question.setNumber(i);
-            question.setSentence(qs.get(i));
+            question.setSentence(qs.get(i-1));
             questions.add(question);
         }
     }
@@ -223,7 +206,7 @@ public class DictationPracticeActivity extends AppCompatActivity implements Sing
         SubmittedAnswer = mTextField.getText().toString();
         SubmittedAnswers[(questionNumber) - 1] = SubmittedAnswer;
 
-        SubmittedAnswers[0] = "아 버지가 방에 들어가쉰다.";
+        SubmittedAnswers[0] = "아버지가 방에 들어가쉰다.";
         SubmittedAnswers[1] = "잠을 잡니다.";
         SubmittedAnswers[2] = "책을";
         SubmittedAnswers[3] = "꼬리를 흔듬니다.";
@@ -245,16 +228,14 @@ public class DictationPracticeActivity extends AppCompatActivity implements Sing
 //        SubmittedAnswers[8] = "항아리가 깨졌습니다.";
 //        SubmittedAnswers[9] = "다람쥐가 도와줍니다.";
 
-        Toast.makeText(getApplicationContext(),
-                "시험이 종료되었습니다.",
-                Toast.LENGTH_SHORT).show();
+        TastyToast.makeText(getApplicationContext(), "연습이 종료되었습니다.", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
 
         for(int i=0; i<10; i++) {
             ArrayMap<String, String> qna = new ArrayMap<>();
             qna.put("questionNumber", Integer.toString(questions.get(i).getNumber()));
             qna.put("question", questions.get(i).getSentence());
             qna.put("SubmittedAnswer", SubmittedAnswers[i]);
-            System.out.println(qna.get("questionNumber") + "  " + qna.get("question") + "  " + qna.get("SubmittedAnswer") );
+            System.out.println(qna.get("questionNumber") + "  " + qna.get("question") + "  " + qna.get("SubmittedAnswer"));
             qnas.add(qna);
         }
 
@@ -357,7 +338,7 @@ public class DictationPracticeActivity extends AppCompatActivity implements Sing
     @Override
     public void onConfigured(SingleLineWidgetApi widget, boolean success) {
         if (!success) {
-            Toast.makeText(getApplicationContext(), widget.getErrorString(), Toast.LENGTH_LONG).show();
+            TastyToast.makeText(getApplicationContext(), widget.getErrorString(), TastyToast.LENGTH_SHORT, TastyToast.ERROR);
             Log.e(TAG, "Unable to configure the Single Line Widget: " + widget.getErrorString());
             return;
         }

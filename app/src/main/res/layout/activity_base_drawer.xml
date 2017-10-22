@@ -8,7 +8,7 @@
     android:clipToPadding="false"
     app:edPosition="1"
     app:edMenuSize="260dp"
-    app:edMenuBackground="#FFFFFF">
+    app:edMenuBackground="#AAFFFFFF">
 
     <!--content-->
     <android.support.design.widget.CoordinatorLayout
@@ -45,10 +45,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="@android:color/transparent"
+            android:background="#AAFFFFFF"
             android:divider="@android:color/transparent"
             app:headerLayout="@layout/view_global_menu_header"
-            app:itemIconTint="#8b8b8b"
+            app:itemIconTint="@color/float_transparent"
             app:itemTextColor="#666666"
             app:menu="@menu/drawer_menu"/>
 

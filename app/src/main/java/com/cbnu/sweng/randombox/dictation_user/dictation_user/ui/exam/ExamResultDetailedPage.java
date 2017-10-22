@@ -113,7 +113,7 @@ public class ExamResultDetailedPage extends BaseActivity{
                                                 new ForegroundColorSpan(Color.parseColor("#1DDB16")), pnuErrorWord.getM_nStart(),
                                                 pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                     }
-                                    //TODO 틀린곳이 1개만 색칠되서 getIndexOfDifference 고쳐야함 []로 반환으로 여러개 체크
+                                    //TODO 틀린곳이 1개만 색칠되서 getIndexOfDifference 고쳐야함 []word_35 반환으로 여러개 체크
                                     else if(help.getNCorrectMethod() == 2){
                                         int replaceIndex = Util.getInstance().getIndexOfDifference(pnuErrorWord.getCandWordList().getCandWord()[0],
                                                 pnuErrorWord.getOrgStr());
@@ -184,7 +184,7 @@ public class ExamResultDetailedPage extends BaseActivity{
                         Log.e("getRectify()", "NULL");
                     }
                 }
-                //채점 결과 -> 학생 답안과 실제 답안이 내용상 일치율이 70%가 안될 경우
+                //채점 결과 -> 학생 답안과 실제 답안이 내용상 일치율이 70%word_1 안될 경우
                 else{
                     tvStudentAnswer.setText(studentAnswerBuilder);
                     tvStudentAnswer.setBackground(getResources().getDrawable(R.drawable.red_strike_line));

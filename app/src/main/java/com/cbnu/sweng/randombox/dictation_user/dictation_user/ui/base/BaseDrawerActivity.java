@@ -1,9 +1,11 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -16,13 +18,19 @@ import android.widget.Toast;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.SelectExamOrPractice;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.exam.ExamPage;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.exam.ReadyPage;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile.RecordManagerActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.DictationPracticeActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.SelectPracticeTypeActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.VowelAndConsonantPracticeActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.VowelOrConsonantPracticeActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.WordPracticeActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.CircleTransformation;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.Util;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
+import com.sdsmdg.tastytoast.TastyToast;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindDimen;
@@ -63,31 +71,88 @@ public class BaseDrawerActivity extends BaseActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 if(menuItem.getTitle().equals("홈")){
-                    drawerlayout.closeMenu();
                     if(!getLocalClassName().toString().equals("ui.SelectExamOrPractice")){
-                        Util.getInstance().moveActivity(context, SelectExamOrPractice.class);
+                        Intent intent = new Intent(context, SelectExamOrPractice.class);
+                        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        context.startActivity(intent);
                         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
                     }
+                    drawerlayout.closeMenu();
                 }
                 else if(menuItem.getTitle().equals("시험보기")){
                     drawerlayout.closeMenu();
-                    if(!getLocalClassName().toString().equals("ui.exam.SelectExamOrPractice")){
-                        Util.getInstance().moveActivity(context, ReadyPage.class);
-                        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+                    if(!getLocalClassName().toString().equals("ui.exam.ReadyPage")){
+                        setting = getSharedPreferences("setting", MODE_PRIVATE);
+                        editor = setting.edit();// editor가져오기
+
+                        if(TextUtils.isEmpty(setting.getString("myStudentId", ""))){
+                            TastyToast.makeText(getApplicationContext(), "로그인을 해야 합니다.", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+                        }
+                        else
+                        {
+                            Util.getInstance().moveActivity(context, ReadyPage.class);
+                            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_left_out);
+                        }
                     }
                 }
                 else if(menuItem.getTitle().equals("공부하기")){
+
+                    if(!getLocalClassName().toString().equals("ui.practice.SelectPracticeTypeActivity")){
+                        Intent intent = new Intent(context, SelectPracticeTypeActivity.class);
+                        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        context.startActivity(intent);
+                        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+                    }
+                    drawerlayout.closeMenu();
+                }
+                else if(menuItem.getTitle().equals("        자음 / 모음")){
+                    drawerlayout.closeMenu();
+                    if(!getLocalClassName().toString().equals("ui.practice.VowelOrConsonantPracticeActivity")){
+                        Intent intent = new Intent(context, VowelOrConsonantPracticeActivity.class);
+                        context.startActivity(intent);
+                        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+                    }
+                }
+                else if(menuItem.getTitle().equals("        자음 + 모음")){
+                    drawerlayout.closeMenu();
+                    if(!getLocalClassName().toString().equals("ui.practice.VowelAndConsonantPracticeActivity")){
+                        Intent intent = new Intent(context, VowelAndConsonantPracticeActivity.class);
+                        context.startActivity(intent);
+                        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+                    }
+                }
+                else if(menuItem.getTitle().equals("        낱말 카드")){
+                    drawerlayout.closeMenu();
+                    if(!getLocalClassName().toString().equals("ui.practice.WordPracticeActivity")){
+                        Intent intent = new Intent(context, WordPracticeActivity.class);
+                        context.startActivity(intent);
+                        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+                    }
+                }
+                else if(menuItem.getTitle().equals("        급수표 받아쓰기")){
                     drawerlayout.closeMenu();
                     if(!getLocalClassName().toString().equals("ui.practice.SelectPracticeTypeActivity")){
-                        Util.getInstance().moveActivity(context, SelectPracticeTypeActivity.class);
+                        Intent intent = new Intent(context, DictationPracticeActivity.class);
+                        context.startActivity(intent);
                         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
                     }
                 }
                 else if(menuItem.getTitle().equals("내성적 열람")){
                     drawerlayout.closeMenu();
                     if(!getLocalClassName().toString().equals("ui..myprofile.RecordManagerActivity")){
-                        Util.getInstance().moveActivity(context, RecordManagerActivity.class);
-                        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+                        setting = getSharedPreferences("setting", MODE_PRIVATE);
+                        editor = setting.edit();// editor가져오기
+
+                        if(TextUtils.isEmpty(setting.getString("myStudentId", ""))){
+                            TastyToast.makeText(getApplicationContext(), "로그인을 해야 합니다.", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+                        }
+                        else
+                        {
+                            Intent intent = new Intent(context, RecordManagerActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            context.startActivity(intent);
+                            overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+                        }
                     }
                 }
                 else{
@@ -96,6 +161,7 @@ public class BaseDrawerActivity extends BaseActivity {
                 return false;
             }
         }) ;
+        vNavigation.setItemIconTintList(null);
     }
 
     private void setupHeader() {

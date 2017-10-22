@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:allowBackup,android:icon,android:label,android:supportsRtl,android:theme">
+        tools:replace="android:allowBackup,android:icon,android:label,android:supportsRtl,android:theme"
+        android:largeHeap="true">
 
         <!-- ACTIVITY -->
 
@@ -53,7 +54,8 @@
             android:screenOrientation="landscape" />
 
         <activity android:name=".ui.base.BaseActivity" />
-        <activity android:name=".ui.base.BaseDrawerActivity" />
+        <activity android:name=".ui.base.BaseDrawerActivity"
+                    android:noHistory="true"/>
 
         <activity android:name=".ui.practice.SelectClassActivity">
 
