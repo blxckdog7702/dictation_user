@@ -35,6 +35,6 @@
         <item
             android:id="@+id/menu_about"
             android:icon="@drawable/about"
-            android:title="이 앱에 대하여..." />
+            android:title="도움을 주신 분" />
    </group>
 </menu>

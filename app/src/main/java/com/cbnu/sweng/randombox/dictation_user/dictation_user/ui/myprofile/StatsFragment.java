@@ -25,6 +25,7 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Teacher;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BaseChartFragment;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,10 +39,9 @@ public class StatsFragment extends BaseChartFragment {
 
     @BindView(R.id.lvStats) ListView lvStats;
     @BindView(R.id.tvStats) TextView tvStats;
-    @BindView(R.id.spTeacherId) Spinner spTeacherId;
     private ArrayList<ChartItem> chartItems;
     private ArrayList<Teacher> teachers;
-    private ArrayList<QuizHistory> quizHistories;
+    private ArrayList<QuizHistory> quizHistories = new ArrayList<>();
 
     ArrayList<Integer> myProperty = new ArrayList<>();
     ArrayList<Integer> groupProperty = new ArrayList<>();
@@ -54,43 +54,9 @@ public class StatsFragment extends BaseChartFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
-        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ButterKnife.bind(this, view);
 
         getServerData();
-
-        spTeacherId.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedTeacherId = parent.getItemAtPosition(position).toString();
-                for(Teacher teacher : teachers){
-                    if(teacher.getLoginId().equals(selectedTeacherId)){
-                        try {
-                            ApiRequester.getInstance().getTeachersQuizHistories(teacher.getId(), new ApiRequester.UserCallback<List<QuizHistory>>() {
-                                @Override
-                                public void onSuccess(List<QuizHistory> result) {
-                                    quizHistories = (ArrayList<QuizHistory>) result;
-                                    initModels();
-                                }
-
-                                @Override
-                                public void onFail() {
-
-                                }
-                            });
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    }
-                }
-
-            } // to close the onItemSelected
-            public void onNothingSelected(AdapterView<?> parent)
-            {
-
-            }
-        });
 
         return view;
     }
@@ -137,7 +103,6 @@ public class StatsFragment extends BaseChartFragment {
                 }
             }
             tvStats.setText("");
-            setupView();
         }
         else{
             tvStats.setText("시험 결과가 없습니다.");
@@ -158,29 +123,34 @@ public class StatsFragment extends BaseChartFragment {
         ApiRequester.getInstance().getStudentsTeachers(Student.getInstance().getId(), new ApiRequester.UserCallback<List<Teacher>>() {
             @Override
             public void onSuccess(List<Teacher> result) {
-                teachers = (ArrayList<Teacher>) result;
-                initTeacherId();
+                if(result != null && !result.isEmpty()){
+                    teachers = (ArrayList<Teacher>) result;
+                    for(Teacher teacher : teachers){
+                        try {
+                            ApiRequester.getInstance().getTeachersQuizHistories(teacher.getId(), new ApiRequester.UserCallback<List<QuizHistory>>() {
+                                @Override
+                                public void onSuccess(List<QuizHistory> result) {
+                                    if(result != null && !result.isEmpty()){
+                                        quizHistories.addAll(result);
+                                        initModels();
+                                        setupView();
+                                    }
+                                }
+                                @Override
+                                public void onFail() {
+                                    TastyToast.makeText(getActivity(), "서버와의 연결이 원활하지 않습니다.", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
             }
-
             @Override
             public void onFail() {
-                Log.e("RecordFragment", "Server Error");
+                TastyToast.makeText(getActivity(), "서버와의 연결이 원활하지 않습니다.", TastyToast.LENGTH_LONG, TastyToast.ERROR);
             }
         });
-    }
-
-    private void initTeacherId(){
-        if(teachers != null){
-            String[] items = new String[teachers.size()];
-            for(int i = 0; i < teachers.size(); i++){
-                items[i] = teachers.get(i).getLoginId();
-            }
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
-            spTeacherId.setAdapter(adapter);
-        }
-        else{
-            tvStats.setText("등록된 쌘쌔가 없습니다.");
-            Log.v("RecordFragment", "initTeacherId NULL");
-        }
     }
 }

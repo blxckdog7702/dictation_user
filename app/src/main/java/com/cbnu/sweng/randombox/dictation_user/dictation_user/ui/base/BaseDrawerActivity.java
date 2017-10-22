@@ -22,6 +22,7 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.exam.ExamPage;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.exam.ReadyPage;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile.RecordManagerActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.DictationPracticeActivity;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.SelectGradeActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.SelectPracticeTypeActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.VowelAndConsonantPracticeActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.VowelOrConsonantPracticeActivity;
@@ -131,8 +132,8 @@ public class BaseDrawerActivity extends BaseActivity {
                 }
                 else if(menuItem.getTitle().equals("        급수표 받아쓰기")){
                     drawerlayout.closeMenu();
-                    if(!getLocalClassName().toString().equals("ui.practice.SelectPracticeTypeActivity")){
-                        Intent intent = new Intent(context, DictationPracticeActivity.class);
+                    if(!getLocalClassName().toString().equals("ui.practice.SelectGradeActivity")){
+                        Intent intent = new Intent(context, SelectGradeActivity.class);
                         context.startActivity(intent);
                         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
                     }
@@ -154,6 +155,9 @@ public class BaseDrawerActivity extends BaseActivity {
                             overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
                         }
                     }
+                }
+                else if(menuItem.getTitle().equals("도움을 주신 분")){
+
                 }
                 else{
                     //

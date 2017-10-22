@@ -83,7 +83,7 @@ public abstract class BaseChartFragment extends Fragment {
 
         // space between slices
         d.setSliceSpace(10f);
-        d.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        d.setColors(ColorTemplate.COLORFUL_COLORS);
 
         d.setValueLinePart1OffsetPercentage(80.f);
         d.setValueLinePart1Length(0.2f);

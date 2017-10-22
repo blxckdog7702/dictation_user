@@ -1,9 +1,13 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile;
 
 import android.os.Bundle;
+import android.widget.ProgressBar;
 
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.base.BaseTabLayoutActivity;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class RecordManagerActivity extends BaseTabLayoutActivity {

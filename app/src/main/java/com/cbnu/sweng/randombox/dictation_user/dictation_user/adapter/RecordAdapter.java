@@ -14,6 +14,7 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.RecordModel;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile.RecordResultActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.Util;
+import com.sdsmdg.tastytoast.TastyToast;
 
 
 import java.util.ArrayList;
@@ -59,7 +60,12 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordView
         holder.lrRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Util.getInstance().moveActivity(context, RecordResultActivity.class, recordModel.getQuizhistoryId());
+                if(recordModel.getRank() == 0){
+                    TastyToast.makeText(context, "해당 기록은 존재하지 않습니다.", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                }
+                else{
+                    Util.getInstance().moveActivity(context, RecordResultActivity.class, recordModel.getQuizhistoryId());
+                }
             }
         });
 

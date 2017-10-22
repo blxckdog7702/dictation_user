@@ -47,7 +47,7 @@
                     android:id="@+id/tvCandWord"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#38614e"
                     android:textSize="20sp"
                     android:layout_marginTop="5dp"
                     android:layout_marginLeft="20dp"/>

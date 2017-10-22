@@ -34,8 +34,7 @@
                 android:id="@+id/ivScore"
                 android:layout_width="300dp"
                 android:layout_height="200dp"
-                android:layout_gravity="center|bottom"
-                android:src="@drawable/score_100"/>
+                android:layout_gravity="center|bottom" />
         </FrameLayout>
 
         <LinearLayout

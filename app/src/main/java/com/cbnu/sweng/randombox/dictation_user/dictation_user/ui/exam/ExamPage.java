@@ -21,6 +21,7 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.QuizHistory;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.RectifyCount;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Teacher;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.practice.SelectPracticeTypeActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.BuildConfig;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.CustomEditText;
@@ -117,14 +118,22 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
             ApiRequester.getInstance().getTeachersQuizzes(teacher.getId(), new ApiRequester.UserCallback<List<Quiz>>() {
                 @Override
                 public void onSuccess(List<Quiz> quizs) {
-                    for(Quiz temp : quizs)
-                    {
-                        if(quizNumber.equals(temp.getNumber().toString()))
-                        {
-                            quiz = temp;
-                            questions = quiz.getQuestions();
+                    if(quizs != null){
+                        for(Quiz temp : quizs) {
+                            if(quizNumber.equals(temp.getNumber().toString())) {
+                                quiz = temp;
+                                questions = quiz.getQuestions();
+                            }
                         }
                     }
+                    else{
+                        Intent intent = new Intent(ExamPage.this, ReadyPage.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        ExamPage.this.startActivity(intent);
+                        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+                        TastyToast.makeText(getApplicationContext(), "일시적인 오류가 발생하였습니다.", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                    }
+
                 }
                 @Override
                 public void onFail() {
@@ -141,6 +150,7 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
         widget.setOnTextChangedListener(null);
         widget.setOnConfiguredListener(null);
         super.onDestroy();
+        unregisterReceiver(myReceiver);
     }
 
     public void onSpaceButtonClick(View v) {
@@ -160,10 +170,6 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
             widget.setCursorIndex(index - (info.getEnd() - info.getStart()));
             isCorrectionMode++;
         }
-    }
-
-    public void onCheckButtonClick(View v) {
-        //
     }
 
     @Override
@@ -304,7 +310,7 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
 //        8. 콩쥐가 울고
 //        9. 항아리가 깨졌습니다.
 //        10. 다람쥐가 도와줍니다.
-        SubmittedAnswers[0] = "word_73 버지가 방에 들어가쉰다.";
+        SubmittedAnswers[0] = "아버지가 방에 들어가쉰다.";
         SubmittedAnswers[1] = "잠을 잡니다.";
         SubmittedAnswers[2] = "책을";
         SubmittedAnswers[3] = "꼬리를 흔듬니다.";

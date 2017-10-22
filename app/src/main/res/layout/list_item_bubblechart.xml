@@ -4,9 +4,18 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_grader_table"
+        android:textSize="@dimen/text_size"
+        android:text="우리 반 맞춤법 현황"
+        android:textColor="#000000"
+        android:padding="10dp"/>
+
     <com.github.mikephil.charting.charts.BubbleChart
         android:id="@+id/chart"
         android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        android:layout_height="200dp" />
 
 </LinearLayout>

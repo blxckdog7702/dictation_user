@@ -66,7 +66,7 @@ public class TeacherList extends BaseActivity{
         btSearchTeacher.setLayoutParams(new LinearLayout.LayoutParams(width, height));
 
         final EditText etTeacherLoginId = new EditText(this);
-        etTeacherLoginId.setHint("선생님ID를 입력해주세요.    ");
+        etTeacherLoginId.setHint("선생님ID를 입력해주세요.");
         etTeacherLoginId.setHintTextColor(Color.rgb(255,158,27));
         etTeacherLoginId.setTextColor(Color.rgb(255,158,27));
         etTeacherLoginId.setTextSize(16);
@@ -83,6 +83,7 @@ public class TeacherList extends BaseActivity{
         l1.addView(l3);
 
         pDialog = new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE);
+        pDialog.setTitle("선생님 등록을 신청합니다.");
         pDialog.setCustomView(l1);
         pDialog.setCancelText("취소");
         pDialog.setConfirmText("신청");
@@ -90,17 +91,26 @@ public class TeacherList extends BaseActivity{
         pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
             @Override
             public void onClick(SweetAlertDialog sDialog) {
-                ApiRequester.getInstance().applyMatching(teacher.getLoginId(), Student.getInstance().getId(), new ApiRequester.UserCallback<Boolean>() {
-                    @Override
-                    public void onSuccess(Boolean result) {
-                        TastyToast.makeText(getApplicationContext(), "등록 신청이 되었습니다.", TastyToast.LENGTH_SHORT, TastyToast.CONFUSING);
-                    }
-                    @Override
-                    public void onFail() {
-                        TastyToast.makeText(getApplicationContext(), "서버와 연결이 원활하지 않습니다.", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
-                    }
-                });
-                sDialog.dismiss();
+                if(isTeacher){
+                    sDialog.dismiss();
+                    ApiRequester.getInstance().applyMatching(teacher.getLoginId(), Student.getInstance().getId(), new ApiRequester.UserCallback<Boolean>() {
+                        @Override
+                        public void onSuccess(Boolean result) {
+                            new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+                                    .setTitleText("신청 완료!")
+                                    .setContentText("신청이 완료되었습니다.")
+                                    .show();
+                        }
+                        @Override
+                        public void onFail() {
+                            TastyToast.makeText(getApplicationContext(), "서버와 연결이 원활하지 않습니다.", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                        }
+                    });
+                    sDialog.dismiss();
+                }
+                else{
+                    TastyToast.makeText(getApplicationContext(), "선생님ID를 확인해주세요.", TastyToast.LENGTH_SHORT, TastyToast.INFO);
+                }
             }
         });
         pDialog.show();
@@ -120,7 +130,7 @@ public class TeacherList extends BaseActivity{
                                     isTeacher = true;
                                     new SweetAlertDialog(context)
                                             .setContentText(teacher.getSchool() + "\n" + teacher.getGrade() + "학년 " + teacher.getClass_() + "반 "
-                                                            + teacher.getInstance().getName() + " 선생님" + "\n" + "맞으신가요?" )
+                                                            + teacher.getName() + " 선생님" + "\n" + "맞으신가요?" )
                                             .setCancelText("아니오")
                                             .setConfirmText("네")
                                             .showCancelButton(true)
@@ -128,7 +138,7 @@ public class TeacherList extends BaseActivity{
                                                 @Override
                                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
                                                     if(isTeacher){
-                                                        //
+                                                        sweetAlertDialog.dismiss();
                                                     }
                                                     else{
                                                         TastyToast.makeText(getApplicationContext(), "선생님ID를 확인해주세요.", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
@@ -187,28 +197,43 @@ public class TeacherList extends BaseActivity{
                         @Override
                         public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                             final int deletedIndex = viewHolder.getAdapterPosition();
-                            new SweetAlertDialog(context)
-                                    .setContentText("선택한 선생님을 삭제하시겠습니까?")
-                                    .setCancelText("아니오")
+                            new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                                    .setContentText("삭제하시겠습니까?")
                                     .setConfirmText("네")
-                                    .showCancelButton(true)
+                                    .setCancelText("아니오")
                                     .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @Override
                                         public void onClick(SweetAlertDialog sweetAlertDialog) {
                                             mAdapter.notifyDataSetChanged();
+                                            sweetAlertDialog.dismiss();
                                         }
                                     })
                                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @Override
                                         public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                            sweetAlertDialog.dismiss();
                                             ApiRequester.getInstance().unConnectedMatching(Student.getInstance().getId(), myDataset.get(deletedIndex).getId(), new ApiRequester.UserCallback<Boolean>() {
                                                 @Override
                                                 public void onSuccess(Boolean result)
                                                 {
                                                     myDataset.remove(deletedIndex);
                                                     mAdapter.notifyDataSetChanged();
-
-                                                    TastyToast.makeText(getApplicationContext(), "삭제되었습니다.", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+                                                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+                                                            .setTitleText("삭제!")
+                                                            .setContentText("삭제가 완료되었습니다.")
+                                                            .show();
+                                                    ApiRequester.getInstance().getStudentsTeachers(Student.getInstance().getId(), new ApiRequester.UserCallback<List<Teacher>>() {
+                                                        @Override
+                                                        public void onSuccess(List<Teacher> result) {
+                                                            if(result.size() == 0){
+                                                                lrNotUser.setVisibility(View.VISIBLE);
+                                                            }
+                                                        }
+                                                        @Override
+                                                        public void onFail() {
+                                                            TastyToast.makeText(getApplicationContext(), "서버와 연결이 원활하지 않습니다..", TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                                                        }
+                                                    });
                                                 }
 
                                                 @Override

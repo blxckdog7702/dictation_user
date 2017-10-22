@@ -22,7 +22,8 @@
     <dimen name="title_text_size">26sp</dimen>
     <dimen name="tool_bar_height">56dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="design_navigation_icon_size" tools:override="true">40dp</dimen>
+    <dimen name="design_navigation_icon_size" tools:override="true">30dp</dimen>
+    <dimen tools:override="true" name="design_navigation_icon_padding">5dp</dimen>
 
 
 </resources>

@@ -63,12 +63,12 @@ public class PieChartItem extends ChartItem {
         holder.chart.setCenterTextSize(9f);
         holder.chart.setUsePercentValues(true);
         holder.chart.setExtraOffsets(5, 10, 50, 10);
-        holder.chart.setEntryLabelColor(Color.BLACK);
+        holder.chart.setEntryLabelColor(Color.WHITE);
 
         mChartData.setValueFormatter(new PercentFormatter());
         mChartData.setValueTypeface(mTf);
         mChartData.setValueTextSize(11f);
-        mChartData.setValueTextColor(Color.WHITE);
+        mChartData.setValueTextColor(Color.BLACK);
         // set data
         holder.chart.setData((PieData) mChartData);
 
@@ -89,13 +89,13 @@ public class PieChartItem extends ChartItem {
     }
 
     private SpannableString generateCenterText() {
-        SpannableString s = new SpannableString("MPAndroidChart\ncreated by\nPhilipp Jahoda");
-        s.setSpan(new RelativeSizeSpan(1.6f), 0, 14, 0);
-        s.setSpan(new ForegroundColorSpan(ColorTemplate.VORDIPLOM_COLORS[0]), 0, 14, 0);
-        s.setSpan(new RelativeSizeSpan(.9f), 14, 25, 0);
-        s.setSpan(new ForegroundColorSpan(Color.GRAY), 14, 25, 0);
-        s.setSpan(new RelativeSizeSpan(1.4f), 25, s.length(), 0);
-        s.setSpan(new ForegroundColorSpan(ColorTemplate.getHoloBlue()), 25, s.length(), 0);
+        SpannableString s = new SpannableString("어떤 맞춤법이 많이\n틀렸는지 확인해보세요.");
+//        s.setSpan(new RelativeSizeSpan(1.6f), 0, 14, 0);
+//        s.setSpan(new ForegroundColorSpan(ColorTemplate.VORDIPLOM_COLORS[0]), 0, 14, 0);
+//        s.setSpan(new RelativeSizeSpan(.9f), 14, 25, 0);
+//        s.setSpan(new ForegroundColorSpan(Color.GRAY), 14, 25, 0);
+//        s.setSpan(new RelativeSizeSpan(1.4f), 25, s.length(), 0);
+//        s.setSpan(new ForegroundColorSpan(ColorTemplate.getHoloBlue()), 25, s.length(), 0);
         return s;
     }
 

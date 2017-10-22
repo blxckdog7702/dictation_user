@@ -196,6 +196,7 @@ public class ReadyPage extends BaseActivity {
     private BroadcastReceiver myReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.e("asdasd", ""+isReceiveKey);
             if(isReceiveKey){
                 String historyId = intent.getStringExtra("quizHistoryId");
                 String quizNumber = intent.getStringExtra("quizNumber");

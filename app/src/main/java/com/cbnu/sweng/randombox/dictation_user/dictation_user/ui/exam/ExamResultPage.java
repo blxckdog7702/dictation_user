@@ -27,7 +27,6 @@ public class ExamResultPage extends BaseDrawerActivity {
 
     QuizResult quizResult;
     ArrayList<Question> questions;
-    PnuNlpSpeller rectifies;
     @BindView(R.id.ivGradeOne) ImageView ivGradeOne;
     @BindView(R.id.ivGradeTwo) ImageView ivGradeTwo;
     @BindView(R.id.ivGradeThree) ImageView ivGradeThree;

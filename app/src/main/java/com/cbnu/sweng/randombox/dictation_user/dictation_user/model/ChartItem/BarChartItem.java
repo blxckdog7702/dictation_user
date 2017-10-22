@@ -56,7 +56,7 @@ public class BarChartItem extends ChartItem {
         xAxis.setPosition(XAxisPosition.BOTTOM);
         xAxis.setTypeface(mTf);
         xAxis.setDrawGridLines(false);
-        xAxis.setDrawAxisLine(true);
+        xAxis.setDrawAxisLine(false);
         
         YAxis leftAxis = holder.chart.getAxisLeft();
         leftAxis.setTypeface(mTf);
@@ -68,8 +68,8 @@ public class BarChartItem extends ChartItem {
         
         // set data
         holder.chart.setData((BarData) mChartData);
-        holder.chart.setFitBars(true);
-        
+        holder.chart.setFitBars(false);
+        holder.chart.setPinchZoom(false);
         // do not forget to refresh the chart
 //        holder.chart.invalidate();
         holder.chart.animateX(750);

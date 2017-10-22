@@ -1,6 +1,8 @@
 package com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -22,9 +25,13 @@ import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.RecordModel;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Teacher;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.ApiRequester;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.utils.Util;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,11 +42,11 @@ public class RecordFragment extends Fragment {
     private RecordAdapter recordAdapter;
     private ArrayList<RecordModel> recordModels = new ArrayList<>();
     private ArrayList<Teacher> teachers;
-    private ArrayList<QuizHistory> quizHistories;
+    private List<QuizHistory> quizHistories = Collections.synchronizedList(new ArrayList<QuizHistory>());
 
     @BindView(R.id.rvRecord) RecyclerView rvRecord;
     @BindView(R.id.tvRecord) TextView tvRecord;
-    @BindView(R.id.spTeacherId) Spinner spTeacherId;
+    @BindView(R.id.progress) ProgressBar progress;
 
     @Nullable
     @Override
@@ -48,39 +55,6 @@ public class RecordFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         getServerData();
-
-        spTeacherId.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedTeacherId = parent.getItemAtPosition(position).toString();
-                for(Teacher teacher : teachers){
-                    if(teacher.getLoginId().equals(selectedTeacherId)){
-                        try {
-                            ApiRequester.getInstance().getTeachersQuizHistories(teacher.getId(), new ApiRequester.UserCallback<List<QuizHistory>>() {
-                                @Override
-                                public void onSuccess(List<QuizHistory> result) {
-                                    quizHistories = (ArrayList<QuizHistory>) result;
-                                    initModels();
-                                    setupView();
-                                }
-
-                                @Override
-                                public void onFail() {
-
-                                }
-                            });
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    }
-                }
-
-            } // to close the onItemSelected
-            public void onNothingSelected(AdapterView<?> parent)
-            {
-
-            }
-        });
         return view;
     }
 
@@ -100,22 +74,51 @@ public class RecordFragment extends Fragment {
             @Override
             public void onSuccess(List<Teacher> result) {
                 teachers = (ArrayList<Teacher>) result;
-                initTeacherId();
+                if(teachers != null && !teachers.isEmpty()){
+                    for(Teacher teacher : teachers){
+                        try {
+                            ApiRequester.getInstance().getTeachersQuizHistories(teacher.getId(), new ApiRequester.UserCallback<List<QuizHistory>>() {
+                                @Override
+                                public void onSuccess(List<QuizHistory> result) {
+                                    if(result != null && !result.isEmpty()){
+                                        quizHistories.addAll(result);
+                                    }
+                                }
+                                @Override
+                                public void onFail() {
+                                    TastyToast.makeText(getActivity(), "서버와의 연결이 원활하지 않습니다.", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            initModels();
+                            setupView();
+                        }
+                    }, 500);
+                }
+                else{
+                    TastyToast.makeText(getActivity(), "등록된 선생님이 없습니다.", TastyToast.LENGTH_LONG, TastyToast.INFO);
+                }
             }
 
             @Override
             public void onFail() {
-                Log.e("RecordFragment", "Server Error");
+                TastyToast.makeText(getActivity(), "서버와의 연결이 원활하지 않습니다.", TastyToast.LENGTH_LONG, TastyToast.ERROR);
             }
         });
     }
 
     private void initModels() {
         recordModels.clear();
-        if(quizHistories != null){
+        if(quizHistories != null && !quizHistories.isEmpty()){
             for(QuizHistory quizHistory : quizHistories){
                 RecordModel recordModel = new RecordModel();
-                if(quizHistory.getQuizResults() != null){
+                if(quizHistory.getQuizResults() != null && !quizHistory.getQuizResults().isEmpty()){
                     for(QuizResult quizResult :quizHistory.getQuizResults()){
                         if(Student.getInstance().getName().equals(quizResult.getStudentName())){
                             recordModel.setRank(quizResult.getRank());
@@ -134,32 +137,19 @@ public class RecordFragment extends Fragment {
                     }
                     recordModel.setDate(quizHistory.getDate());
                     recordModel.setQuizhistoryId(quizHistory.getId());
-                    recordModels.add(recordModel);
+                    if(recordModel.getRank() != 0){
+                        recordModels.add(recordModel);
+                    }
                 }
                 else{
                     tvRecord.setText("시험 결과가 없습니다!.");
-                    Log.v("RecordFragment", "initModel NULL");
+                    Log.v("RecordFragment", "quizHistory NULL");
                 }
             }
         }
         else{
             tvRecord.setText("시험 결과가 없습니다!.");
-            Log.v("RecordFragment", "initModel NULL");
-        }
-    }
-
-    private void initTeacherId(){
-        if(teachers != null){
-            String[] items = new String[teachers.size()];
-            for(int i = 0; i < teachers.size(); i++){
-                items[i] = teachers.get(i).getLoginId();
-            }
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
-            spTeacherId.setAdapter(adapter);
-        }
-        else{
-            tvRecord.setText("등록된 쌘쌔가 없습니다.");
-            Log.v("RecordFragment", "initTeacherId NULL");
+            Log.v("RecordFragment", "quizHistories NULL");
         }
     }
 }
