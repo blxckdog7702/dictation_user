@@ -206,16 +206,16 @@ public class DictationPracticeActivity extends AppCompatActivity implements Sing
         SubmittedAnswer = mTextField.getText().toString();
         SubmittedAnswers[(questionNumber) - 1] = SubmittedAnswer;
 
-        SubmittedAnswers[0] = "아버지가 방에 들어가쉰다.";
-        SubmittedAnswers[1] = "잠을 잡니다.";
-        SubmittedAnswers[2] = "책을";
-        SubmittedAnswers[3] = "꼬리를 흔듬니다.";
-        SubmittedAnswers[4] = "시소 미끄럼틀";
-        SubmittedAnswers[5] = "노리터에서 노라요";
-        SubmittedAnswers[6] = "다람쥐";
-        SubmittedAnswers[7] = "다람쥐";
-        SubmittedAnswers[8] = "다람쥐";
-        SubmittedAnswers[9] = "다람지가 도아줌니다.";
+//        SubmittedAnswers[0] = "아버지가 방에 들어가쉰다.";
+//        SubmittedAnswers[1] = "잠을 잡니다.";
+//        SubmittedAnswers[2] = "책을";
+//        SubmittedAnswers[3] = "꼬리를 흔듬니다.";
+//        SubmittedAnswers[4] = "시소 미끄럼틀";
+//        SubmittedAnswers[5] = "노리터에서 노라요";
+//        SubmittedAnswers[6] = "다람쥐";
+//        SubmittedAnswers[7] = "다람쥐";
+//        SubmittedAnswers[8] = "다람쥐";
+//        SubmittedAnswers[9] = "다람지가 도아줌니다.";
 
 //        SubmittedAnswers[0] = "세수를 합니다.";
 //        SubmittedAnswers[1] = "잠을 잡니다.";

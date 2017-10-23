@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context="com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.ThanksToActivity"
+    android:orientation="vertical">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="License"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#000000" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Copyrightⓒ2001 AI Lab, Narainfotech.
+                All Rights Reserved 맞춤법/문법 검사기 문의한국어 맞춤법/문법 검사기는
+                부산대학교 인공지능연구실과 (주)나라인포테크가 함께 만들고 있습니다.
+                이 검사기는 개인이나 학생만 무료로 사용할 수 있습니다."
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#000000"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="/*
+            * Copyright (C) 2007 The Android Open Source Project
+            *
+            * Licensed under the Apache License, Version 2.0 (the 'License');
+            * you may not use this file except in compliance with the License.
+            * You may obtain a copy of the License at
+            *
+            *      http://www.apache.org/licenses/LICENSE-2.0
+            *
+            * Unless required by applicable law or agreed to in writing, software
+            * distributed under the License is distributed on an 'AS IS'' BASIS,
+            * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+            * See the License for the specific language governing permissions and
+            * limitations under the License.
+            */"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#000000"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="---이미지---"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#000000"/>
+
+        <TextView
+            android:id="@+id/tvImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:text="123123123"
+            android:layout_gravity="left"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

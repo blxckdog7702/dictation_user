@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.R;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.model.Student;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.SelectExamOrPractice;
+import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.ThanksToActivity;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.exam.ExamPage;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.exam.ReadyPage;
 import com.cbnu.sweng.randombox.dictation_user.dictation_user.ui.myprofile.RecordManagerActivity;
@@ -157,7 +158,12 @@ public class BaseDrawerActivity extends BaseActivity {
                     }
                 }
                 else if(menuItem.getTitle().equals("도움을 주신 분")){
-
+                    drawerlayout.closeMenu();
+                    if(!getLocalClassName().toString().equals("ui.ThanksToActivity")){
+                        Intent intent = new Intent(context, ThanksToActivity.class);
+                        context.startActivity(intent);
+                        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_right_out);
+                    }
                 }
                 else{
                     //
