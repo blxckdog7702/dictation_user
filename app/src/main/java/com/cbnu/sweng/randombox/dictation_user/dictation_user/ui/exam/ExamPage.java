@@ -299,19 +299,8 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
         SubmittedAnswer = mTextField.getText().toString();
         SubmittedAnswers[(questionNumber) - 1] = SubmittedAnswer;
 
-//        TEST CASE
-//        1. 세수를 합니다.
-//        2. 잠을 잡니다.
-//        3. 책을 읽습니다.
-//        4. 꼬리를 흔듭니다.
-//        5. 시소 미끄럼틀
-//        6. 놀이터에서 놀아요.
-//        7. 그네를 타요.
-//        8. 콩쥐가 울고
-//        9. 항아리가 깨졌습니다.
-//        10. 다람쥐가 도와줍니다.
-//        SubmittedAnswers[0] = "아버지가 방에 들어가쉰다.";
-//        SubmittedAnswers[1] = "틀린 곳이 만으면";
+//        SubmittedAnswers[0] = "직접 따 먹기도 했었지";
+//        SubmittedAnswers[1] = "나이를 많이 먹었구나";
 //        SubmittedAnswers[2] = "컴퓨터을 빠르게 삿다.";
 //        SubmittedAnswers[3] = "아쉬운점이 있다면 아쉽다.";
 //        SubmittedAnswers[4] = "익숙치 않으신분들은";
@@ -320,16 +309,6 @@ public class ExamPage extends AppCompatActivity implements SingleLineWidgetApi.O
 //        SubmittedAnswers[7] = "왠지 나도 몰르겠다.";
 //        SubmittedAnswers[8] = "틈틈이 글이 쓰고 있다.";
 //        SubmittedAnswers[9] = "일도 해야되서 힘들다.";
-//        SubmittedAnswers[0] = "세수를 합니다.";
-//        SubmittedAnswers[1] = "잠을 잡니다.";
-//        SubmittedAnswers[2] = "책을 읽습니다.";
-//        SubmittedAnswers[3] = "꼬리를 흔듭니다.";
-//        SubmittedAnswers[4] = "시소 미끄럼틀";
-//        SubmittedAnswers[5] = "놀이터에서 놀아요.";
-//        SubmittedAnswers[6] = "그네를 타요.";
-//        SubmittedAnswers[7] = "콩쥐가 울고";
-//        SubmittedAnswers[8] = "항아리가 깨졌습니다.";
-//        SubmittedAnswers[9] = "다람쥐가 도와줍니다.";
 
         TastyToast.makeText(getApplicationContext(), "시험이 종료되었습니다.", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
 

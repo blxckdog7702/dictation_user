@@ -217,17 +217,6 @@ public class DictationPracticeActivity extends AppCompatActivity implements Sing
 //        SubmittedAnswers[8] = "다람쥐";
 //        SubmittedAnswers[9] = "다람지가 도아줌니다.";
 
-//        SubmittedAnswers[0] = "세수를 합니다.";
-//        SubmittedAnswers[1] = "잠을 잡니다.";
-//        SubmittedAnswers[2] = "책을 읽습니다.";
-//        SubmittedAnswers[3] = "꼬리를 흔듭니다.";
-//        SubmittedAnswers[4] = "시소 미끄럼틀";
-//        SubmittedAnswers[5] = "놀이터에서 놀아요.";
-//        SubmittedAnswers[6] = "그네를 타요.";
-//        SubmittedAnswers[7] = "콩쥐가 울고";
-//        SubmittedAnswers[8] = "항아리가 깨졌습니다.";
-//        SubmittedAnswers[9] = "다람쥐가 도와줍니다.";
-
         TastyToast.makeText(getApplicationContext(), "연습이 종료되었습니다.", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
 
         for(int i=0; i<10; i++) {

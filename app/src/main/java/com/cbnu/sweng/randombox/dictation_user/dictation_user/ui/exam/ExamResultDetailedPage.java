@@ -103,6 +103,15 @@ public class ExamResultDetailedPage extends BaseActivity{
                                     else if(help.getNCorrectMethod() == 1){
                                         int replaceIndex = Util.getInstance().getIndexOfDifference(pnuErrorWord.getCandWordList().getCandWord()[0],
                                                 pnuErrorWord.getOrgStr());
+                                        studentAnswerBuilder.setSpan(
+                                                new ForegroundColorSpan(Color.parseColor("#FF0000")), pnuErrorWord.getM_nStart() + replaceIndex,
+                                                pnuErrorWord.getM_nStart() + replaceIndex + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                                    }
+                                    //TODO 틀린곳이 1개만 색칠되서 getIndexOfDifference 고쳐야함 []word_35 반환으로 여러개 체크
+                                    else if(help.getNCorrectMethod() == 2){
+                                        int replaceIndex = Util.getInstance().getIndexOfDifference(pnuErrorWord.getCandWordList().getCandWord()[0],
+                                                pnuErrorWord.getOrgStr());
                                         candWordBuilder.replace(pnuErrorWord.getM_nStart() + replaceIndex,
                                                 pnuErrorWord.getM_nStart() + replaceIndex + 1,
                                                 "V");
@@ -112,14 +121,6 @@ public class ExamResultDetailedPage extends BaseActivity{
                                         studentAnswerBuilder.setSpan(
                                                 new ForegroundColorSpan(Color.parseColor("#1DDB16")), pnuErrorWord.getM_nStart(),
                                                 pnuErrorWord.getM_nEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                    }
-                                    //TODO 틀린곳이 1개만 색칠되서 getIndexOfDifference 고쳐야함 []word_35 반환으로 여러개 체크
-                                    else if(help.getNCorrectMethod() == 2){
-                                        int replaceIndex = Util.getInstance().getIndexOfDifference(pnuErrorWord.getCandWordList().getCandWord()[0],
-                                                pnuErrorWord.getOrgStr());
-                                        studentAnswerBuilder.setSpan(
-                                                new ForegroundColorSpan(Color.parseColor("#FF0000")), pnuErrorWord.getM_nStart() + replaceIndex,
-                                                pnuErrorWord.getM_nStart() + replaceIndex + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                     }
                                     // 붙여쓰기
                                     else if(help.getNCorrectMethod() == 3){
